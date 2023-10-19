@@ -10,7 +10,40 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_19_163629) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_19_180613) do
+  create_table "additions", force: :cascade do |t|
+    t.string "addition_name"
+    t.float "cost"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "customers", force: :cascade do |t|
+    t.string "first_name"
+    t.string "last_name"
+    t.string "phone_number"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "employees", force: :cascade do |t|
+    t.string "username"
+    t.string "password"
+    t.string "phone_number"
+    t.integer "authorization_key"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "foods", force: :cascade do |t|
+    t.string "food_name"
+    t.string "food_additions"
+    t.string "food_modifiables"
+    t.float "inital_cost"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "orders", force: :cascade do |t|
     t.integer "customer_id"
     t.integer "order_id"
@@ -18,6 +51,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_19_163629) do
     t.text "list_food_notes"
     t.float "total_cost"
     t.integer "completed_order"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "temp_orders", force: :cascade do |t|
+    t.integer "customer_id"
+    t.integer "food_id"
+    t.text "food_modifications"
+    t.float "total_cost"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
