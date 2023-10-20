@@ -1,0 +1,2 @@
+class TempOrdersController < ApplicationController
+end
