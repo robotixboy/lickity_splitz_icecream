@@ -1,24 +1,31 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This README is meant to document to users how to get our app up and running.
 
-Things you may want to cover:
+Currently, our app is up an running on a Ubuntu server using NGINX. 
 
-* Ruby version
+This was built by: Leo Carten, Charles Cross, Samuel Faucher, and Christopher Costigan
 
-* System dependencies
+**Ruby version**
 
-* Configuration
+* Requires ruby version 3.2.2
 
-* Database creation
+**Rails version**
 
-* Database initialization
+* Requires rails >= 7.0.8
 
-* How to run the test suite
+**Instructions to test locally**
 
-* Services (job queues, cache servers, search engines, etc.)
+1. Clone repository.
 
-* Deployment instructions
+2. Run `rails server` in the directory of the project.
 
-* ...
+3. View on `localhost:3000`.
+
+**Database creation**
+
+* Sqlite3
+
+**To Do**
+
+* We are using capistrano and passenger.
