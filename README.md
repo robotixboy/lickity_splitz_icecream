@@ -18,7 +18,7 @@ This was built by: Leo Carten, Charles Cross, Samuel Faucher, and Christopher Co
 
 1. Clone repository.
 
-2. Run `rails server` in the directory of the project.
+2. Run `bin/dev` in the directory of the project. The reason for this command instead of `rails server` is because we are using Tailwind CSS.
 
 3. View on `localhost:3000`.
 
@@ -26,6 +26,6 @@ This was built by: Leo Carten, Charles Cross, Samuel Faucher, and Christopher Co
 
 * Sqlite3
 
-**To Do**
+**CSS Framework**
 
-* We are using capistrano and passenger.
+* A great video to integrate Tailwind CSS with Rails is here: https://www.youtube.com/watch?v=GGpt2TEkDqo

@@ -1,8 +1,9 @@
 <style> 
     .smalltext{
-        font-size: 16px; 
+        font-size: 14px; 
         color: #636060; 
         vertical-align: middle;
+        font-family: Arial;
     }
     .emojis{
         margin-left: 10px;
@@ -11,5 +12,24 @@
     }
 </style>
 
-<h2 class="mt-4">Welcome to the Lickity Spliz! <span class="smalltext"> Made with <i class="fa fa-heart-o" style="font-size: 14px; color:red"></i> by Team Rails <i class="fa fa-diamond" style="font-size:15px;color:red"></i></span> </h2>
-<h5 class="mt-4">Lickity Splitz is a delightful ice cream haven known for its creative and ever-changing array of flavors, with options ranging from classic favorites to unique, seasonal concoctions. The cheerful atmosphere and generous portions make it a top choice for ice cream enthusiasts of all ages.</h5>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lilita+One&display=swap">
+  <style>
+    /* .custom-text {
+      font-family: 'Lilita One', sans-serif;
+      font-weight: normal !important; /* Set the font weight to normal (not bold) */
+    } */
+  </style>
+
+<div class="mt-6 max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl">
+  <div class="md:flex">
+    <div class="md:shrink-0">
+  <%= image_tag("test2.png", class: "h-48 w-full object-cover md:h-full md:w-48", alt: "Modern building architecture") %>
+    </div>
+    <div class="p-8">
+      <div class="uppercase tracking-wide text-lg font-semibold" style="color: #0CC0DF">Lickity Splitz</div>
+      <a href="#" class="block mt-1 text-lg leading-tight font-medium text-black hover:underline">Discover culinary delight here</a>
+      <p class="mt-2 text-slate-500">At Lickity Splitz, you'll find the perfect place for any time of day. Enjoy a hearty breakfast, savor a tasty lunch, and when summer's in full swing, don't miss our irresistible ice cream treats. It's the ultimate spot for all your cravings.</p>
+    </div>
+  </div>
+</div>
+

@@ -5,17 +5,113 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
+    <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lilita+One&display=swap">
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
   </head>
 
-  <body>
-  <div class="container">
-    <%= yield %>
+
+  
+  <%# navbar %>
+
+  <nav class="bg-gray-100" style="">
+    <div class="max-w-5xl mx-auto px-4">
+      <div class="flex justify-between">
+
+  
+      <%# logo %>
+      <div class="flex space-x-4">
+        <div>
+        <a href="#" class="flex items-center py-5 px-2 text-gray-800">
+          <svg class="h-6 w-6 mr-1" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512" fill="#0CC0DF"> 
+            <path d="M368 160h-.94a144 144 0 1 0-286.12 0H80a48 48 0 0 0 0 96h288a48 48 0 0 0 0-96zM195.38 493.69a31.52 31.52 0 0 0 57.24 0L352 288H96z"/>
+          </svg>
+          <span class="font-bold">Lickity Splitz</span>
+
+        </a>
+        </div>
+    
+        <%# primary nav %>
+        <div class="flex items-center space-x-1 hidden md:flex">
+          <a href="" class="py-4 px-3 text-gray-700 hover:text-gray-900 ">Menu</a>
+          <a href="" class="py-4 px-3 text-gray-700 hover:text-gray-900">Ice Cream Flavors</a>
+        </div>
+      </div>
+  
+      <%# secondary nav %>
+      <div class="flex items-center space-x-1 hidden md:flex">
+          <a href="" class="py-4 px-3 text-gray-700 hover:text-gray-900">Get Directions</a>
+          <a href="" class="py-2 px-3 text-gray-700 hover:text-gray-900 text-black rounded" style="background-color: #0CC0DF">Order</a>
+      </div>
+
+      <%# mobile button goes here %>
+      <div class="flex items-center md:hidden">
+        <button id="toggleButton" class="mobile-menu-button">
+          <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="#0CC0DF" class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5" />
+          </svg>
+        </button>
+      </div>
+
+      </div>
+  
+    </div>
+
+
+  
+  <%# mobile view %>
+  <div class="mobile-menu hidden">
+    <a href="" class="block py-2 px-4 text-sm hover:bg-gray-200">Get Directions</a>
+    <a href="" class="block py-2 px-4 text-sm hover:bg-gray-200">Order</a>
   </div>
+
+    <script>
+    const btn = document.querySelector('button.mobile-menu-button');
+    const menu = document.querySelector('.mobile-menu');
+    btn.addEventListener('click', () => {
+      menu.classList.toggle('hidden');
+    })
+
+    $(document).ready(function() {
+    let isMenuOpen = false;
+    
+    // Reference to the button and its SVG
+    const button = $("#toggleButton");
+    const svg = button.find("svg");
+    
+    // Define the SVG for the open and closed states
+    const svgClosed = '<path stroke-linecap="round" stroke-linejoin="round" d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5" />';
+    const svgOpen = '  <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />';
+
+    // Function to toggle the button's state and change the SVG
+    function toggleButton() {
+      isMenuOpen = !isMenuOpen;
+      if (isMenuOpen) {
+        svg.html(svgOpen);
+      } else {
+        svg.html(svgClosed);
+      }
+    }
+    
+    // Add a click event listener to the button
+    button.on("click", toggleButton);
+  });
+  </script>
+  
+  </nav>
+  
+  <%# content %>
+  
+  <body class="">
+    <div class="prose mx-auto">
+      <%= yield %>
+    </div>
   </body>
-</html>
+  </html>
+  
