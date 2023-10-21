@@ -7,8 +7,8 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "articles#index"
-  #root 'pages#home'
-  root 'menu#login'
+  root 'pages#home'
+  # root 'menu#login'
 
   get 'HotCrossBuns', to: 'testing#HotCrossBuns', as: 'hot_cross_buns'
   get 'order', to: 'menu#order', as: 'menu_order'
