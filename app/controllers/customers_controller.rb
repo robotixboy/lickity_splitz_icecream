@@ -7,19 +7,15 @@ class CustomersController < ApplicationController
 
     if customerFound.blank?
       if @customer.save
-        redirect_to menu_order_path # Redirect to HotCrossBuns_url upon successful registration
-        puts "WELCOME !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
-        session[:phoneNumber] = phoneNumber
-        session[:firstName] = firstName
+        redirect_to menu_order_path
       else
-        render 'home' # Render the 'home' template if saving fails
+        render 'home'
       end
     else
-      redirect_to menu_order_path # Redirect to HotCrossBuns_url upon successful registration
-      puts "WELCOME BACK!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
-      session[:phoneNumber] = phoneNumber
-      session[:firstName] = firstName
+      redirect_to menu_order_path
     end
+    session[:phoneNumber] = phoneNumber
+    session[:firstName] = firstName
   end
 
   private
