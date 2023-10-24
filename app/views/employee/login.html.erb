@@ -1,0 +1,64 @@
+<%= form_for Addition.new, url: additions_path do |f| %>
+  <div class="field">
+    <%= f.label :addition_name, "Addition Name" %>
+    <%= f.text_field :addition_name, placeholder: "Enter the addition name" %>
+  </div>
+
+  <div class="field">
+    <%= f.label :cost, "Cost" %>
+    <%= f.number_field :cost, step: 0.01, placeholder: "Enter the cost" %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit "Add Addition" %>
+  </div>
+<% end %>
+
+
+<table>
+  <tr>
+    <th>Food Addition</th>
+    <th>Cost</th>
+    <th>Action</th>
+  </tr>
+<% if @additions.any? %>
+  <% @additions.each do |addition| %>
+    <tr>
+      <td><%= addition.addition_name %></td>
+      <td><%= addition.cost %></td>
+      <td>
+        <%= form_tag storing_additions_path, method: :post do %>
+          <%= label_tag :your_variable, "Your Variable:" %>
+          <%= hidden_field_tag :your_variable, addition.to_json %>
+          <%= submit_tag "Store Variable" %>
+        <% end %>
+      </td>
+    </tr>
+  <% end %>
+<% else %>
+  <tr>
+    <td colspan="3">No additions available.</td>
+  </tr>
+<% end %>
+</table>
+
+<% if !session[:addition].blank? %>
+  <% session[:addition].each do |x| %>
+    <% object = JSON.parse(x) %>
+    <%= object.inspect %>
+  <% end %>
+<% end %>
+
+
+<%= form_tag addingNewFood_path, method: :post do %>
+  <%= submit_tag "Store Variable" %>
+<% end %>
+
+<%= form_with(model: @food, url: addingNewFood_path, method: :post) do |form| %>
+  <%= form.text_field :food_name %>
+  <%= form.hidden_field :food_additions, value: session[:addition] %>
+  <%= form.hidden_field :food_modifiables, value: "" %>
+  <%= form.number_field :inital_cost %>
+  <%= form.submit "Add", class: "btn btn-primary" %>
+<% end %>
+
