@@ -1,4 +1,3 @@
-<!-- Form for adding a new addition -->
 <%= form_for Addition.new, url: additions_path do |f| %>
   <div class="field">
     <%= f.label :addition_name, "Addition Name" %>
@@ -15,7 +14,6 @@
   </div>
 <% end %>
 
-<!-- List of existing additions -->
 <table>
   <tr>
     <th>Food Addition</th>
@@ -42,7 +40,6 @@
   <% end %>
 </table>
 
-<!-- Display stored variables -->
 <% if !session[:addition].blank? %>
   <% session[:addition].each do |x| %>
     <% object = JSON.parse(x) %>
@@ -51,7 +48,6 @@
   <% end %>
 <% end %>
 
-<!-- Form for adding food with stored variables -->
 <%= form_with(model: @food, url: addingNewFood_path, method: :post) do |form| %>
   <%= form.text_field :food_name %>
   <%= form.hidden_field :food_additions, value: session[:addition] %>
@@ -59,7 +55,6 @@
   <%= form.number_field :inital_cost, step: 0.01 %>
   <%= form.submit "Add Food", class: "btn btn-primary" %>
 <% end %>
-
 
 <% if !@foods.blank? %>
   <% @foods.each do |fooditem| %>

@@ -1,7 +1,7 @@
 class FoodsController < ApplicationController
     def create
         @food = Food.new(food_params)
-        puts "EHO{UEBWGJBEJBFLBWEJBFWIEJBLFJIBWELIJHFLWEIJHFLIJWE}"
+        
         if @food.save
             redirect_to employee_index_url
         else
