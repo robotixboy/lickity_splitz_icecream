@@ -6,11 +6,6 @@ Rails.application.routes.draw do
   resources :foods
   resources :temp_orders
 
-
-
-
-
-
   # Defines the root path route ("/")
   # root "articles#index"
   root 'pages#home'

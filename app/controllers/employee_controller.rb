@@ -1,7 +1,5 @@
 class EmployeeController < ApplicationController
 
-    @my_array = []
-
     def login
         @employee = Employee.new
         @addition = Addition.new
@@ -9,21 +7,16 @@ class EmployeeController < ApplicationController
         @foods = Food.all
         @temp_order = TempOrder.new
         @temp_orders = TempOrder.all
-        #reset_session
+        #reset_session #This can be used to completly reset the session// This can fix cookie errors
     end
 
-    def addition
+    def addition #This is how we are storing each addition into an array before we add it to the food item
         session[:addition] ||= []
-
         session[:addition] << params[:your_variable]
-        
-        puts session[:addition]
-        puts "==============================================="
-
         redirect_to employee_index_url
     end
 
-    def addingFood
+    def addingFood #Adding a food to the Food DB table: This will reset the session array 
         @food = Food.new
         @food.food_additions = (session[:addition] || []).map { |json_str| JSON.parse(json_str) }
         @food.food_modifiables = ""
@@ -35,8 +28,7 @@ class EmployeeController < ApplicationController
         if @food.save
             redirect_to employee_index_url
         else
-            puts @food.errors.full_messages
-            render root_url # Render the 'home' template if saving fails
+            render root_url
         end
     end
     
