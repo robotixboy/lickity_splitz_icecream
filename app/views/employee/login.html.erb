@@ -1,3 +1,4 @@
+<!-- Form for adding a new addition -->
 <%= form_for Addition.new, url: additions_path do |f| %>
   <div class="field">
     <%= f.label :addition_name, "Addition Name" %>
@@ -14,51 +15,60 @@
   </div>
 <% end %>
 
-
+<!-- List of existing additions -->
 <table>
   <tr>
     <th>Food Addition</th>
     <th>Cost</th>
     <th>Action</th>
   </tr>
-<% if @additions.any? %>
-  <% @additions.each do |addition| %>
+  <% if @additions.any? %>
+    <% @additions.each do |addition| %>
+      <tr>
+        <td><%= addition.addition_name %></td>
+        <td><%= addition.cost %></td>
+        <td>
+          <%= form_tag storing_additions_path, method: :post do %>
+            <%= hidden_field_tag :your_variable, addition.to_json %>
+            <%= submit_tag "Store Variable" %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  <% else %>
     <tr>
-      <td><%= addition.addition_name %></td>
-      <td><%= addition.cost %></td>
-      <td>
-        <%= form_tag storing_additions_path, method: :post do %>
-          <%= label_tag :your_variable, "Your Variable:" %>
-          <%= hidden_field_tag :your_variable, addition.to_json %>
-          <%= submit_tag "Store Variable" %>
-        <% end %>
-      </td>
+      <td colspan="3">No additions available.</td>
     </tr>
   <% end %>
-<% else %>
-  <tr>
-    <td colspan="3">No additions available.</td>
-  </tr>
-<% end %>
 </table>
 
+<!-- Display stored variables -->
 <% if !session[:addition].blank? %>
   <% session[:addition].each do |x| %>
     <% object = JSON.parse(x) %>
     <%= object.inspect %>
+    <h4> ITS WORKING: <%= object["id"] %> </h4>
   <% end %>
 <% end %>
 
-
-<%= form_tag addingNewFood_path, method: :post do %>
-  <%= submit_tag "Store Variable" %>
-<% end %>
-
+<!-- Form for adding food with stored variables -->
 <%= form_with(model: @food, url: addingNewFood_path, method: :post) do |form| %>
   <%= form.text_field :food_name %>
   <%= form.hidden_field :food_additions, value: session[:addition] %>
   <%= form.hidden_field :food_modifiables, value: "" %>
-  <%= form.number_field :inital_cost %>
-  <%= form.submit "Add", class: "btn btn-primary" %>
+  <%= form.number_field :inital_cost, step: 0.01 %>
+  <%= form.submit "Add Food", class: "btn btn-primary" %>
 <% end %>
 
+
+<% if !@foods.blank? %>
+  <% @foods.each do |fooditem| %>
+    <%= fooditem.food_name %>
+
+    <% data = eval(fooditem.food_additions) rescue [] %>
+    <% additions = data.is_a?(Array) ? data : [data] %>
+    <% additions.each do |addition| %>
+      <h4>ID: <%= addition['id'] %>, Name: <%= addition['addition_name'] %>, Cost: <%= addition['cost'] %></h4>
+    <% end %>
+  <% end %>
+<% end %>

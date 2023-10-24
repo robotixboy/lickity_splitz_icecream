@@ -1,1 +1,13 @@
 <h1> Welcome <%= session[:customer].first_name %>!! </h1>
+
+<% if !@foods.blank? %>
+  <% @foods.each do |fooditem| %>
+    <%= fooditem.food_name %>
+
+    <% data = eval(fooditem.food_additions) rescue [] %>
+    <% additions = data.is_a?(Array) ? data : [data] %>
+    <% additions.each do |addition| %>
+      <h4>ID: <%= addition['id'] %>, Name: <%= addition['addition_name'] %>, Cost: <%= addition['cost'] %></h4>
+    <% end %>
+  <% end %>
+<% end %>

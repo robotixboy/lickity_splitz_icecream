@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   resources :employee
   resources :additions
   resources :foods
+  resources :temp_order
 
 
 
