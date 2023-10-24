@@ -3,7 +3,13 @@
 <% if !@foods.blank? %>
   <% @foods.each do |fooditem| %>
     <%= fooditem.food_name %>
-
+    <%= form_with(model: TempOrder.new, method: :post) do |form| %>
+            <%= form.hidden_field :customer_id, value: session[:customer].id %>
+            <%= form.hidden_field :food_id, value: fooditem.id %>
+            <%= form.hidden_field :total_cost, value: fooditem.inital_cost %>
+            <%= form.text_field :food_modifications, value: fooditem %>
+            <%= form.submit "Add", class: "btn btn-primary" %>
+    <% end %>
     <% data = eval(fooditem.food_additions) rescue [] %>
     <% additions = data.is_a?(Array) ? data : [data] %>
     <% additions.each do |addition| %>
@@ -11,3 +17,26 @@
     <% end %>
   <% end %>
 <% end %>
+
+
+<table>
+<tr>
+    <th>Customer id</th>
+    <th>Food id</th>
+    <th>Food Mods</th>
+    <th>Total cost</th>
+</tr>
+<h1>customer ORDERS</h1>
+<% if !@temp_order.blank? %>
+  <% @customers_temp_orders.each do |orderedItme| %>
+    <tr>
+      <th><%= orderedItme.customer_id%></th>
+      <th><%= orderedItme.food_id%></th>
+      <th>
+        <%= orderedItme.food_modifications%>
+      </th>
+      <th><%= orderedItme.total_cost%></th>
+    </tr>
+  <% end %>
+<% end %>
+</table>

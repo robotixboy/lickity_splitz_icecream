@@ -7,6 +7,8 @@ class EmployeeController < ApplicationController
         @addition = Addition.new
         @additions = Addition.all
         @foods = Food.all
+        @temp_order = TempOrder.new
+        @temp_orders = TempOrder.all
         #reset_session
     end
 
