@@ -1,0 +1,19 @@
+<table>
+<tr>
+    <th>Customer id</th>
+    <th>Food id</th>
+    <th>Food Mods</th>
+    <th>Total cost</th>
+</tr>
+<h1>customer TEMP ORDERS</h1>
+  <% @customers_temp_orders.each do |orderedItme| %>
+    <tr>
+      <th><%= orderedItme.customer_id%></th>
+      <th><%= orderedItme.food_id%></th>
+      <th>
+        <%= orderedItme.food_modifications%>
+      </th>
+      <th><%= orderedItme.total_cost%></th>
+    </tr>
+  <% end %>
+</table>
