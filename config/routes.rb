@@ -15,10 +15,9 @@ Rails.application.routes.draw do
   get 'order', to: 'menu#order', as: 'menu_order'
   get 'login', to: 'menu#login'
   get 'employees', to: 'employee#login', as: 'employee_login'
-
-
   post 'storing_additions', to: 'employee#addition'
   post 'addingNewFood', to: 'employee#addingFood'
+  get 'confirmation', to: 'menu#confirmation', as: 'order_confirmation'
 
 
 

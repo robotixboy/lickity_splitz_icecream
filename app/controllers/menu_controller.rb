@@ -3,6 +3,15 @@ class MenuController < ApplicationController
         
     end
 
+    def confirmation
+        session[:customer] = Customer.find_by(first_name: session[:firstName],phone_number: session[:phoneNumber])
+        puts "------------------------------------------"
+        puts session[:customer]
+        puts "------------------------------------------"
+        @customers_temp_orders = TempOrder.where(customer_id: session[:customer].id)
+        puts @customers_temp_orders
+    end
+
     def order
         @temp_order = TempOrder.new
         @temp_orders = TempOrder.all
