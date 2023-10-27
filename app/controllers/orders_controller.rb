@@ -4,7 +4,7 @@ class OrdersController < ApplicationController
         @order.list_food_id = order_params[:list_food_id].to_json
         @order.list_food_notes = order_params[:list_food_notes].to_json
         @order.order_id = rand(1000000..9999999)
-        @order.customer_id = session[:user_id]
+        @order.customer_id = session[:customer]["id"]
         @order.completed_order = 0
         if @order.save
           @customersFoodItems = TempOrder.where(customer_id: session[:customer]["id"])

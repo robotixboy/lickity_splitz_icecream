@@ -20,6 +20,7 @@
       <th><%= orderedItme.total_cost%></th>
       <% foodIds.append(orderedItme.food_id) %>
       <% foodNotes.append(orderedItme.food_modifications) %>
+      <% total +=  orderedItme.total_cost%>
     </tr>
   <% end %>
 </table>
