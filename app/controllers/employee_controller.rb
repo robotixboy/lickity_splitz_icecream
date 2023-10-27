@@ -7,6 +7,8 @@ class EmployeeController < ApplicationController
         @foods = Food.all
         @temp_order = TempOrder.new
         @temp_orders = TempOrder.all
+        @orders = Order.all
+        @order = Order.new
         #reset_session #This can be used to completly reset the session// This can fix cookie errors
     end
 

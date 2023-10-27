@@ -1,3 +1,7 @@
+<% total = 0 %>
+  <% foodIds = [] %>
+  <% foodNotes = [] %>
+
 <table>
 <tr>
     <th>Customer id</th>
@@ -14,6 +18,15 @@
         <%= orderedItme.food_modifications%>
       </th>
       <th><%= orderedItme.total_cost%></th>
+      <% foodIds.append(orderedItme.food_id) %>
+      <% foodNotes.append(orderedItme.food_modifications) %>
+      <% total +=  orderedItme.total_cost%>
     </tr>
   <% end %>
 </table>
+<%= form_with(model: Order.new, method: :post) do |form| %>
+  <%= form.hidden_field :list_food_id, value: foodIds.to_json %>
+  <%= form.hidden_field :list_food_notes, value: foodNotes.to_json %>
+  <%= form.hidden_field :total_cost, value: total %>
+  <%= form.submit "Add", class: "btn btn-primary" %>
+<% end %>

@@ -67,3 +67,27 @@
     <% end %>
   <% end %>
 <% end %>
+
+
+<h1>Order Database</h1>
+<table>
+<tr>
+    <th>Customer Id</th>
+    <th>Order Id</th>
+    <th>Food Ids</th>
+    <th>Food Mods</th>
+    <th>Total Cost</th>
+</tr>
+<% if !@order.blank? %>
+  <% @orders.each do |order| %>
+    <tr>
+      <th><%= order.customer_id %></th>
+      <th><%= order.order_id %></th>
+      <th><%= order.list_food_id %></th>
+      <th><%= order.list_food_notes %></th>
+      <th><%= order.total_cost %></th>
+      <th><%= order.completed_order %></th>
+    </tr>
+  <% end %>
+<% end %>
+</table>
