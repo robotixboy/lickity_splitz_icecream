@@ -1,8 +1,21 @@
+<div class="mt-4 mb-4">
+  <div class="bg-gray-100 border-t-4  rounded-b text-gray-600 shadow-md" role="alert" style="border-color: #0CC0DF">
+    <div class="flex">
+      <div class="py-1"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+</div>
+      <div>
+        <p class="font-bold">Logged in as: <%= session[:customer].first_name %></p>
+      </div>
+    </div>
+  </div>
+</div>
+
 <%
 =begin%>
- <h1> Welcome <%= session[:customer].first_name %>!! </h1> 
+ <h1>Welcome <%= session[:customer].first_name %>!!</h1> 
 <%
 =end%>
+
 
 <% if !@foods.blank? %>
   <% @foods.each do |fooditem| %>

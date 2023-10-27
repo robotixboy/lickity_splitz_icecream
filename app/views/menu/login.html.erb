@@ -1,9 +1,49 @@
-<h1>Login</h1>
+<h2 class="mt-6">Hello Again! <span class="block text-sm mb-2" style="color:#0CC0DF"> We're glad to see you back</span></h2>
 
-<%= form_for Customer.new do |f| %>
+<style>
+/* app/assets/stylesheets/custom.css.scss */
+
+.custom-bg-color {
+  background-color: #0CC0DF;
+  transition: background-color 0.3s ease; /* Add a smooth transition effect */
+}
+
+.custom-bg-color:hover {
+  background-color: #687EFF; /* Change to the hover color you want */
+}
+
+</style>
+
+<%= form_for Customer.new, html: { class: 'bg-white rounded' } do |f| %>
+  <div class="py-1">
+    <%= f.label :first_name, class: 'block text-gray-600 text-sm font-bold mb-2' %>
+    <%= f.text_field :first_name, class: 'w-full p-2 rounded border focus:outline-none focus:ring focus:border-blue-300' %>
+  </div>
+
+  <div class="py-1">
+    <%= f.label :last_name, class: 'block text-gray-600 text-sm font-bold mb-2' %>
+    <%= f.text_field :last_name, class: 'w-full p-2 rounded border focus:outline-none focus:ring focus:border-blue-300' %>
+  </div>
+
+  <div class="py-1">
+    <%= f.label :phone_number, class: 'block text-gray-600 text-sm font-bold mb-2' %>
+    <%= f.text_field :phone_number, class: 'w-full p-2 rounded border focus:outline-none focus:ring focus:border-blue-300' %>
+  </div>
+
+<div class="py-4">
+<%= f.submit 'Login', class: 'text-white font-bold py-2 px-4 rounded custom-bg-color' %>
+  </div>
+<% end %>
+
+
+<%
+=begin%>
+ <%= form_for Customer.new do |f| %>
     <%= f.text_field :first_name %>
     <%= f.text_field :last_name %>
     <%= f.text_field :phone_number %>
 
     <%= f.submit 'Login' %>
-<% end %>
+<% end %> 
+<%
+=end%>
