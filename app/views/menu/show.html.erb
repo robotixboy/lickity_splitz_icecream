@@ -1,0 +1,18 @@
+<h1>Food Details</h1>
+<p><strong>Food Name:</strong> <%= @food.food_name %></p>
+
+<%= form_with(model: TempOrder.new, method: :post) do |form| %>
+        <%= form.hidden_field :customer_id, value: session[:customer]['id'] %>
+        <%= form.hidden_field :food_id, value: @food.id %>
+        <%= form.hidden_field :total_cost, value: @food.inital_cost %>
+
+        <label for="food_modifications">Food Modifications:</label>
+        <%= form.text_field :food_modifications, id: "food_modifications_#{@food.id}" %>
+        <%= form.submit "Add to Order", class: "btn btn-primary" %>
+<% end %>
+      
+<% data = eval(fooditem.food_additions) rescue [] %>
+<% additions = data.is_a?(Array) ? data : [data] %>
+<% additions.each do |addition| %>
+    <h4>ID: <%= addition['id'] %>, Name: <%= addition['addition_name'] %>, Cost: <%= addition['cost'] %></h4>
+<% end %>

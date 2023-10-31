@@ -19,7 +19,10 @@ Rails.application.routes.draw do
   post 'storing_additions', to: 'employee#addition'
   post 'addingNewFood', to: 'employee#addingFood'
   get 'confirmation', to: 'menu#confirmation', as: 'order_confirmation'
+  get 'orderingMenu', to: 'menu#orderingMenu', as: 'ordering_menu'
 
-
+  Rails.application.routes.draw do
+    get 'menu/show/:id', to: 'menu#show', as: 'menu_show' # Define a route for showing food details
+  end
 
 end

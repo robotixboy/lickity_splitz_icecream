@@ -3,6 +3,16 @@ class MenuController < ApplicationController
         
     end
 
+    def show
+        session[:customer]
+        @food = Food.find(params[:id])
+    end
+
+    def orderingMenu
+        @lunchAndDinnerMenu = Food.where(breakfastOrDinner: "0")
+        @breakfastMenu = Food.where(breakfastOrDinner: "1")
+    end
+
     def confirmation
         session[:customer] = Customer.find_by(first_name: session[:firstName],phone_number: session[:phoneNumber])
         puts "------------------------------------------"
