@@ -1,0 +1,55 @@
+<h1>Lunch / Dinner Menu</h1>
+<h1>Breakfast Menu</h1>
+<table>
+  <tr>
+      <th>Food Name</th>
+      <th>Food Mods</th>
+      <th>Total Cost</th>
+      <th>Order Item</th>
+  </tr>
+<% if !@lunchAndDinnerMenu.blank?%>
+    <% @lunchAndDinnerMenu.each  do |lunchItem| %>
+        <tr>
+            <th><%= lunchItem.food_name %></th>
+            <% data = eval(lunchItem.food_additions) rescue [] %>
+            <% additions = data.is_a?(Array) ? data : [data] %>
+            <th>
+            <% additions.each do |addition| %>
+                <h4>ID: <%= addition['id'] %>, Name: <%= addition['addition_name'] %>, Cost: <%= addition['cost'] %></h4>
+            <% end %>
+            </th>
+            <th><%= lunchItem.inital_cost %></th>
+            <th><%= link_to "View Details", menu_show_path(lunchItem), class: "btn btn-primary" %></th>
+        <tr>
+    <% end%>
+<% end %>
+</table>
+
+
+<h1>Breakfast Menu</h1>
+<table>
+  <tr>
+      <th>Food Name</th>
+      <th>Food Mods</th>
+      <th>Total Cost</th>
+      <th>Order Item</th>
+  </tr>
+<% if !@breakfastMenu.blank?%>
+    <% @breakfastMenu.each  do |breakfastItem| %>
+        <tr>
+            <th><%= breakfastItem.food_name %></th>
+            <% data = eval(breakfastItem.food_additions) rescue [] %>
+            <% additions = data.is_a?(Array) ? data : [data] %>
+            <th>
+            <% additions.each do |addition| %>
+                <h4>ID: <%= addition['id'] %>, Name: <%= addition['addition_name'] %>, Cost: <%= addition['cost'] %></h4>
+            <% end %>
+            </th>
+            <th><%= breakfastItem.inital_cost %></th>
+            <th><%= link_to "View Details", menu_show_path(breakfastItem), class: "btn btn-primary" %></th>
+        <tr>
+    <% end%>
+<% end %>
+</table>
+
+<%= link_to "Show Results", order_confirmation_path, class: "btn btn-primary" %>
