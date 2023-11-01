@@ -1,18 +1,45 @@
-<h1>Food Details</h1>
-<p><strong>Food Name:</strong> <%= @food.food_name %></p>
+<h1 class="text-2xl font-bold">Food Details</h1>
+<p><strong><%= @food.food_name %></strong></p>
 
 <%= form_with(model: TempOrder.new, method: :post) do |form| %>
-        <%= form.hidden_field :customer_id, value: session[:customer]['id'] %>
-        <%= form.hidden_field :food_id, value: @food.id %>
-        <%= form.hidden_field :total_cost, value: @food.inital_cost %>
+  <%= form.hidden_field :customer_id, value: session[:customer]['id'] %>
+  <%= form.hidden_field :food_id, value: @food.id %>
+  <%= form.hidden_field :total_cost, value: @food.inital_cost %>
 
-        <label for="food_modifications">Food Modifications:</label>
-        <%= form.text_field :food_modifications, id: "food_modifications_#{@food.id}" %>
-        <%= form.submit "Add to Order", class: "btn btn-primary" %>
+  <label for="food_modifications" class="block mt-4">Food Modifications:</label>
+  <%= form.text_field :food_modifications, id: "food_modifications_#{@food.id}", class: "w-full px-3 py-2 mt-1 border rounded-md shadow-sm focus:outline-none focus:ring focus:ring-indigo-400" %>
+
+  <% data = eval(@food.food_additions) rescue [] %>
+  <% additions = data.is_a?(Array) ? data : [data] %>
+  <% additions.each do |addition| %>
+    <div id = "checkboxes">
+    <h4 class="mt-4">
+        <%= check_box_tag addition['addition_name'], addition['cost'] %>
+        <%= label_tag addition['addition_name'] + " $" + addition['cost'].to_s %>
+    </h4>
+  <div>
+  <% end %>
+
+  <%= form.submit "Add to Order" %>
 <% end %>
-      
-<% data = eval(fooditem.food_additions) rescue [] %>
-<% additions = data.is_a?(Array) ? data : [data] %>
-<% additions.each do |addition| %>
-    <h4>ID: <%= addition['id'] %>, Name: <%= addition['addition_name'] %>, Cost: <%= addition['cost'] %></h4>
-<% end %>
+
+<script>
+  // Add an event listener to all checkboxes with a specific class
+  const label = document.querySelectorAll("input[type=textbox]");
+  label.value = 'HELLO';
+  console.log(label);
+  const checkboxes = document.querySelectorAll("input[type=checkbox]");
+  var totalCostOfAdditions = 0;
+  checkboxes.forEach(function(checkbox) {
+    checkbox.addEventListener("change", function() {
+      if (checkbox.checked) {
+        console.log('Checkbox checked: ' + checkbox.value);
+        totalCostOfAdditions += parseFloat(checkbox.value);
+      } else {
+        console.log('Checkbox unchecked: ' + checkbox.value);
+        totalCostOfAdditions -= parseFloat(checkbox.value);
+      }
+      console.log('Total value: ' + totalCostOfAdditions);
+    });
+  });
+</script>
