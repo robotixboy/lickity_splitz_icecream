@@ -80,7 +80,7 @@
         </td>
         <td class="px-4 py-2"><%= fooditem.inital_cost %></td>
         <td class="px-4 py-2">
-          <% if fooditem.breakfastOrDinner == "1" %>
+          <% if fooditem.breakfastOrDinner %>
             Breakfast
           <% else %>
             Lunch
