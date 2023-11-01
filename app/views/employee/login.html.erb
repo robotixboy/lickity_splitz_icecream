@@ -53,9 +53,9 @@
   <%= form.number_field :inital_cost, step: 0.01, class: "border p-2 w-full" %>
   <div class="mt-4">
     <%= form.label :autolyse, "Breakfast", class: "block font-bold" %>
-    <%= form.radio_button :breakfastOrDinner, 0, class: "mr-2" %>
+    <%= form.radio_button :isBreakfast, true, class: "mr-2" %>
     <%= form.label :autolyse, "Lunch/Dinner", class: "block font-bold" %>
-    <%= form.radio_button :breakfastOrDinner, 1, class: "mr-2" %>
+    <%= form.radio_button :isBreakfast, false, class: "mr-2" %>
   </div>
   <%= form.submit "Add Food", class: "bg-blue-500 text-white p-2 rounded mt-4" %>
 <% end %>

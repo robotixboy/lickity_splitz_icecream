@@ -9,8 +9,8 @@ class MenuController < ApplicationController
     end
 
     def orderingMenu
-        @lunchAndDinnerMenu = Food.where(breakfastOrDinner: "0")
-        @breakfastMenu = Food.where(breakfastOrDinner: "1")
+        @lunchAndDinnerMenu = Food.where(isBreakfast: TRUE)
+        @breakfastMenu = Food.where(breakfastOrDinner: FALSE)
     end
 
     def confirmation

@@ -24,7 +24,7 @@ class EmployeeController < ApplicationController
         @food.food_modifiables = ""
         @food.food_name = params[:food_name]
         @food.inital_cost = params[:inital_cost]
-        @food.breakfastOrDinner = params[:breakfastOrDinner]
+        @food.isBreakfast = params[:isBreakfast]
     
         session[:addition] = []
     
