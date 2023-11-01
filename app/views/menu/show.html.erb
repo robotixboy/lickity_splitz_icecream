@@ -28,8 +28,9 @@
   const label = document.querySelectorAll("input[type=textbox]");
   label.value = 'HELLO';
   console.log(label);
+  const totalCostField = document.getElementById("temp_order_total_cost");
   const checkboxes = document.querySelectorAll("input[type=checkbox]");
-  var totalCostOfAdditions = 0;
+  var totalCostOfAdditions = parseFloat(totalCostField.value);
   checkboxes.forEach(function(checkbox) {
     checkbox.addEventListener("change", function() {
       if (checkbox.checked) {
