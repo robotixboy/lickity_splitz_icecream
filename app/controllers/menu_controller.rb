@@ -2,16 +2,13 @@ class MenuController < ApplicationController
     def login
     end
 
-    def show
+    def show #shows the menu item clicked on
         session[:customer]
         @food = Food.find(params[:id])
     end
 
-    def orderingMenu
+    def orderingMenu #Grabs value from previous page and Adds logged in customer information to the session
         session[:customer] = Customer.find_by(first_name: session[:firstName],phone_number: session[:phoneNumber])
-        puts "------------------------------------------"
-        puts session[:customer]
-        puts "------------------------------------------"
         @viewableMenu = params[:value]
         @lunchAndDinnerMenu = Food.where(isBreakfast: true)
         @breakfastMenu = Food.where(isBreakfast: false)
