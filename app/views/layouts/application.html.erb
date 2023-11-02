@@ -49,8 +49,9 @@
       <%# secondary nav %>
       <div class="flex items-center space-x-1 hidden md:flex">
           <a href="" class="py-4 px-3 text-gray-700 hover:text-gray-900">Get Directions</a>
-          <%= link_to "Login", login_path, class: "py-2 px-3 text-gray-700 hover:text-gray-900 text-black rounded", style: "background-color: #0CC0DF" %>
-
+          <% if session[:customer] == nil%>
+            <%= link_to "Login", login_path, class: "py-2 px-3 text-gray-700 hover:text-gray-900 text-black rounded", style: "background-color: #0CC0DF" %>
+          <% end %>
       </div>
 
       <%# mobile button goes here %>
