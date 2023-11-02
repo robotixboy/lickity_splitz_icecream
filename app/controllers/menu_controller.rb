@@ -1,6 +1,5 @@
 class MenuController < ApplicationController
     def login
-        
     end
 
     def show
@@ -9,16 +8,17 @@ class MenuController < ApplicationController
     end
 
     def orderingMenu
+        session[:customer] = Customer.find_by(first_name: session[:firstName],phone_number: session[:phoneNumber])
+        puts "------------------------------------------"
+        puts session[:customer]
+        puts "------------------------------------------"
+        @viewableMenu = params[:value]
         @lunchAndDinnerMenu = Food.where(isBreakfast: true)
         @breakfastMenu = Food.where(isBreakfast: false)
     end
 
     def confirmation
-        session[:customer] = Customer.find_by(first_name: session[:firstName],phone_number: session[:phoneNumber])
-        puts "------------------------------------------"
-        puts session[:customer]
-        puts "------------------------------------------"
-        @customers_temp_orders = TempOrder.where(customer_id: session[:customer].id)
+        @customers_temp_orders = TempOrder.where(customer_id: session[:customer]["id"])
         puts @customers_temp_orders
     end
 
@@ -28,6 +28,7 @@ class MenuController < ApplicationController
 
         @foods = Food.all
         session[:customer] = Customer.find_by(first_name: session[:firstName],phone_number: session[:phoneNumber])
+        puts session[:customer]
         @customers_temp_orders = TempOrder.where(customer_id: session[:customer].id)
     end
 end
