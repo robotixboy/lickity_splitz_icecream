@@ -7,7 +7,7 @@
   <%= form.hidden_field :total_cost, value: @food.inital_cost %>
 
   <label for="food_modifications" class="block mt-4">Food Modifications:</label>
-  <%= form.text_field :food_modifications, id: "food_modifications_#{@food.id}", class: "w-full px-3 py-2 mt-1 border rounded-md shadow-sm focus:outline-none focus:ring focus:ring-indigo-400" %>
+  <%= form.text_field :food_modifications, id: "food_modifications_textbox", class: "w-full px-3 py-2 mt-1 border rounded-md shadow-sm focus:outline-none focus:ring focus:ring-indigo-400" %>
 
   <% data = eval(@food.food_additions) rescue [] %>
   <% additions = data.is_a?(Array) ? data : [data] %>
@@ -25,22 +25,23 @@
 
 <script>
   // Add an event listener to all checkboxes with a specific class
-  const label = document.querySelectorAll("input[type=textbox]");
-  label.value = 'HELLO';
-  console.log(label);
+  //const label = document.querySelectorAll("input[type=text]");
+  const label = document.getElementById("food_modifications_textbox");
   const totalCostField = document.getElementById("temp_order_total_cost");
   const checkboxes = document.querySelectorAll("input[type=checkbox]");
   var totalCostOfAdditions = parseFloat(totalCostField.value);
+  var additions = [];
   checkboxes.forEach(function(checkbox) {
     checkbox.addEventListener("change", function() {
       if (checkbox.checked) {
-        console.log('Checkbox checked: ' + checkbox.value);
         totalCostOfAdditions += parseFloat(checkbox.value);
+        additions.push(checkbox.name);
       } else {
-        console.log('Checkbox unchecked: ' + checkbox.value);
         totalCostOfAdditions -= parseFloat(checkbox.value);
+        additions.splice(additions.indexOf(checkbox.name),1);
       }
-      console.log('Total value: ' + totalCostOfAdditions);
+      label.value = additions.toString();
+      totalCostField.value = totalCostOfAdditions.toString();
     });
   });
 </script>
