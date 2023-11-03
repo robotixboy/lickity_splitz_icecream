@@ -1,4 +1,9 @@
-<h2 class="mt-6">Hello Again! <span class="block text-sm mb-2" style="color:#0CC0DF"> We're glad to see you back</span></h2>
+<div class="mt-5 ml-2 mb-5">
+  <h1 class="text-2xl md:text-3xl pl-2 my-2 border-l-4 font-sans font-bold dark:text-gray-800" style="border-color:#0CC0DF">
+    Hello
+  </h1>
+   <span class="block text-sm mb-2" style="color:#0CC0DF"> We're glad to see you back</span>
+</div>
 
 <style>
 /* app/assets/stylesheets/custom.css.scss */
@@ -14,7 +19,46 @@
 
 </style>
 
-<%= form_for Customer.new, html: { class: 'bg-white rounded' } do |f| %>
+
+<div class="relative py-3 sm:max-w-xl sm:mx-auto">
+  <div class="absolute inset-0 bg-gradient-to-r from-cyan-400 to-sky-500 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl"></div>
+  <div class="relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-20">
+
+    <div class="max-w-md mx-auto">
+      <div>
+        <h1 class="text-2xl font-semibold">We need some quick information from you</h1>
+      </div>
+      <div class="divide-y divide-gray-200">
+        <%= form_for Customer.new, html: { class: 'py-8 text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7' } do |f| %>
+          <div class="relative">
+            <%= f.label :first_name, class: 'block text-gray-600 text-sm font-bold mb-2' %>
+            <%= f.text_field :first_name, class: 'w-full p-2 rounded border focus:outline-none focus:ring focus:border-blue-300' %>
+          </div>
+
+          <div class="py-0">
+            <%= f.label :last_name, class: 'block text-gray-600 text-sm font-bold mb-2' %>
+            <%= f.text_field :last_name, class: 'w-full p-2 rounded border focus:outline-none focus:ring focus:border-blue-300' %>
+          </div>
+
+          <div class="py-0">
+            <%= f.label :phone_number, class: 'block text-gray-600 text-sm font-bold mb-2' %>
+            <%= f.text_field :phone_number, class: 'w-full p-2 rounded border focus:outline-none focus:ring focus:border-blue-300' %>
+          </div>
+
+          <div class="py-4">
+            <%= f.submit 'Login', class: 'text-white font-bold py-2 px-4 rounded custom-bg-color' %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<%
+=begin%>
+ <%= form_for Customer.new, html: { class: 'bg-white rounded' } do |f| %>
   <div class="py-1">
     <%= f.label :first_name, class: 'block text-gray-600 text-sm font-bold mb-2' %>
     <%= f.text_field :first_name, class: 'w-full p-2 rounded border focus:outline-none focus:ring focus:border-blue-300' %>
@@ -33,7 +77,9 @@
 <div class="py-4">
 <%= f.submit 'Login', class: 'text-white font-bold py-2 px-4 rounded custom-bg-color' %>
   </div>
-<% end %>
+<% end %> 
+<%
+=end%>
 
 
 <%
