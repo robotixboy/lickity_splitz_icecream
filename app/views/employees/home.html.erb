@@ -91,25 +91,4 @@
   <% end %>
 </table>
 
-<h1 class="mt-8">Order Database</h1>
-<table class="mt-4">
-  <tr>
-    <th class="px-4 py-2">Customer Id</th>
-    <th class="px-4 py-2">Order Id</th>
-    <th class="px-4 py-2">Food Ids</th>
-    <th class="px-4 py-2">Food Mods</th>
-    <th class="px-4 py-2">Total Cost</th>
-  </tr>
-  <% if !@orders.blank? %>
-    <% @orders.each do |order| %>
-      <tr>
-        <td class="px-4 py-2"><%= order.customer_id %></td>
-        <td class="px-4 py-2"><%= order.order_id %></td>
-        <td class="px-4 py-2"><%= order.list_food_id %></td>
-        <td class="px-4 py-2"><%= order.list_food_notes %></td>
-        <td class="px-4 py-2"><%= order.total_cost %></td>
-        <td class="px-4 py-2"><%= order.completed_order %></td>
-      </tr>
-    <% end %>
-  <% end %>
-</table>
+<%= link_to "View Orders", customer_orders_path, class: "btn btn-primary" %>
