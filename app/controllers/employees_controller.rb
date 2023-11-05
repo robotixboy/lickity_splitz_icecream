@@ -35,7 +35,24 @@ class EmployeesController < ApplicationController
     end
 
     def admin
+        session[:isCompleted] ||= true
         @employee = Employee.new
+    end
+
+    def orders
+        puts session[:isCompleted]
+        @orders = Order.all
+        @order = Order.new
+    end
+
+    def completingOrder
+        @order = Order.find(params[:id])
+        @order.completed_order = (@order.completed_order == 0) ? 1 : 0
+        if @order.save
+            redirect_to orders_path, notice: "Order updated successfully."
+        else
+            render :edit
+        end
     end
     
     def create
@@ -45,11 +62,15 @@ class EmployeesController < ApplicationController
         else
           render 'home'
         end
-      end
+    end
       
-      private
-      
-      def employee_params
+    private
+    def employee_params
         params.require(:employee).permit(:username, :password, :phone_number, :authorization_key)
-      end      
+    end   
+
+    private
+    def order_params
+        params.require(:order).permit(:completed_order)
+    end
 end

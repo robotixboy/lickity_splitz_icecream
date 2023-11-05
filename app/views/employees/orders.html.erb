@@ -1,0 +1,33 @@
+<% isCompleted = false %>
+<div class="container mt-4">
+    <h1 class="text-2xl font-bold mb-4">Order</h1>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <% if !@orders.blank? %>
+            <% @orders.each do |order| %>
+                <% if order.completed_order == ((isCompleted == false) ? 0 : 1) %>
+                    <div class="bg-white shadow-md rounded-lg p-4 mx-4 my-4 overflow-hidden">
+                        <h2 class="text-lg font-bold mb-2">Order ID: <%= order.order_id %></h2>
+                        <p class="text-sm">Customer ID: <%= order.customer_id %></p>
+                        <p class="text-sm">Food IDs: <%= order.list_food_id %></p>
+                        <p class="text-sm">Food Modifications: <%= order.list_food_notes %></p>
+                        <p class="text-sm">Total Cost: $<%= order.total_cost %></p>
+                        
+                        <p class="text-sm"><%= order.completed_order == 1 ? "Completed" : "Not Completed" %></p>
+
+                        <%= form_tag completingOrder_path, method: :post do %>
+                            <%= hidden_field_tag :id, order.id%>
+                            <%= submit_tag order.completed_order == 1 ? "Undo" : "Complete Order", class: "bg-blue-500 text-white p-2 rounded" %>
+                        <% end %>
+                    </div>
+                <% end %>
+            <% end %>
+        <% else %>
+            <p>No orders available.</p>
+        <% end %>
+    </div>
+</div>
+
+
+
+
+
