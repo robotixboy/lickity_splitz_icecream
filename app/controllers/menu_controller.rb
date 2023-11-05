@@ -27,6 +27,8 @@ class MenuController < ApplicationController
         @foods = Food.all
         session[:customer] = Customer.find_by(first_name: session[:firstName],phone_number: session[:phoneNumber])
         puts session[:customer]
-        @customers_temp_orders = TempOrder.where(customer_id: session[:customer].id)
+        if session[:customer] != nil
+            @customers_temp_orders = TempOrder.where(customer_id: session[:customer].id)
+        end
     end
 end
