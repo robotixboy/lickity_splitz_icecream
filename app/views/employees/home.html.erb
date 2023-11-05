@@ -61,22 +61,24 @@
     </div>
   <% end %>
 </div>
+
+
 <div class="col-span-3 md:col-span-1">
   <div class="grid grid-cols-5 gap-4">
     <% if !@foods.blank? %>
       <% @foods.each do |fooditem| %>
-        <div class="bg-white shadow-md rounded-lg p-4 mx-4 my-4 overflow-hidden">
-          <h2 class="text-lg font-bold mb-2">Food Name: <%= fooditem.food_name %></h2>
+        <div class="bg-white shadow-md rounded-lg p-2 text-center">
+          <h2 class="text-sm font-bold mb-1">Food Name: <%= fooditem.food_name %></h2>
           <% data = eval(fooditem.food_additions) rescue [] %>
           <% additions = data.is_a?(Array) ? data : [data] %>
-          <div class="text-sm">
+          <div class="text-xs">
             <p>Food Modifications:</p>
             <% additions.each do |addition| %>
               <p>ID: <%= addition['id'] %>, Name: <%= addition['addition_name'] %>, Cost: <%= addition['cost'] %></p>
             <% end %>
           </div>
-          <p class="text-sm">Total Cost: $<%= fooditem.inital_cost %></p>
-          <p class="text-sm">
+          <p class="text-xs">Total Cost: $<%= fooditem.inital_cost %></p>
+          <p class="text-xs">
             <% if fooditem.isBreakfast == true %>
               Breakfast
             <% else %>
@@ -88,6 +90,7 @@
     <% end %>
   </div>
 </div>
+
 
 
 <%= link_to "View Orders", customer_orders_path, class: "btn btn-primary" %>
