@@ -47,11 +47,18 @@ class EmployeesController < ApplicationController
 
     def completingOrder
         @order = Order.find(params[:id])
-        @order.completed_order = (@order.completed_order == 0) ? 1 : 0
+      
+        # Use a 3-way toggle for completed_order
+        @order.completed_order = case @order.completed_order
+        when 0 then 1
+        when 1 then 2
+        else 0
+        end
+      
         if @order.save
-            redirect_to orders_path, notice: "Order updated successfully."
+          redirect_to orders_path, notice: "Order updated successfully."
         else
-            render :edit
+          render :edit
         end
     end
     
