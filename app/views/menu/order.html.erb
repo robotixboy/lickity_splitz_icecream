@@ -38,25 +38,25 @@
             <div class="rounded overflow-hidden shadow-lg flex flex-col">
                 <a href="#"></a>
                 <div class="relative">
-                    <a href="/orderingMenu?value=true">
+                    <a href="<%= set_isBreakfast_true_path %>">
                         <!--<img class="w-full" src="https://images.pexels.com/photos/61180/pexels-photo-61180.jpeg?auto=compress&amp;cs=tinysrgb&amp;dpr=1&amp;w=500" alt="Sunset in the mountains">-->
                         <%= image_tag("breakfast.png", class: "w-full", alt: "picture") %>
                         <div class="hover:bg-transparent transition duration-300 absolute bottom-0 top-0 right-0 left-0 bg-gray-900 opacity-25"></div>
                     </a>
-                    <a href="/orderingMenu?value=true">
+                    <a href="<%= set_isBreakfast_true_path %>">
                         <div class="text-xs absolute top-0 right-0 px-4 py-2 text-white mt-3 mr-3 hover:bg-white hover:text-black transition duration-500 ease-in-out" style="background-color: #0CC0DF">
                                                 Breakfast
                         </div>
                     </a>
                 </div>
                 <div class="px-6 py-4 mb-auto">
-                    <a href="/orderingMenu?value=true" class="font-medium text-lg inline-block hover:text-indigo-600 transition duration-500 ease-in-out inline-block mb-2">Breakfast Menu</a>
+                    <a href="<%= set_isBreakfast_true_path %>" class="font-medium text-lg inline-block hover:text-indigo-600 transition duration-500 ease-in-out inline-block mb-2">Breakfast Menu</a>
                     <p class="text-gray-500 text-sm">
                                         Elevate your breakfast experience with the delectable combination of eggs, omelets, and freshly baked breads, crafting a morning meal that's both comforting and full of flavor.
                                     </p>
                 </div>
                 <div class="px-6 py-3 flex flex-row items-center justify-between bg-gray-100">
-                    <span href="/orderingMenu?value=true" class="py-1 text-xs font-regular text-gray-900 mr-1 flex flex-row items-center">
+                    <span href="<%= set_isBreakfast_true_path %>" class="py-1 text-xs font-regular text-gray-900 mr-1 flex flex-row items-center">
                         <!--<svg height="13px" width="13px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
                             <g>
                                 <g>
@@ -82,24 +82,24 @@
             
 
             <div class="relative">
-                <a href="/orderingMenu?value=false">
+                <a href="<%= set_isBreakfast_false_path %>">
                     <%= image_tag("lunch.png", class: "w-full", alt: "picture") %>
                     <div class="hover:bg-transparent transition duration-300 absolute bottom-0 top-0 right-0 left-0 bg-gray-900 opacity-25"></div>
                 </a>
-                <a href="/orderingMenu?value=false">
+                <a href="<%= set_isBreakfast_false_path %>">
                     <div class="text-xs absolute top-0 right-0 px-4 py-2 text-white mt-3 mr-3 hover:bg-white hover:text-black transition duration-500 ease-in-out" style="background-color: #0CC0DF">
                                             Lunch/Dinner
                                         </div>
                 </a>
             </div>
             <div class="px-6 py-4 mb-auto">
-                <a href="/orderingMenu?value=false" class="font-medium text-lg inline-block hover:text-indigo-600 transition duration-500 ease-in-out inline-block mb-2">Lunch/Dinner Menu</a>
+                <a href="<%= set_isBreakfast_false_path %>" class="font-medium text-lg inline-block hover:text-indigo-600 transition duration-500 ease-in-out inline-block mb-2">Lunch/Dinner Menu</a>
                 <p class="text-gray-500 text-sm">
                                     Savor an array of culinary delights, from succulent burgers and tender chicken to mouthwatering sandwiches and delightful seafood.
                                 </p>
             </div>
             <div class="px-6 py-3 flex flex-row items-center justify-between bg-gray-100">
-                <span href="/orderingMenu?value=false" class="py-1 text-xs font-regular text-gray-900 mr-1 flex flex-row items-center">
+                <span href="<%= set_isBreakfast_false_path %>" class="py-1 text-xs font-regular text-gray-900 mr-1 flex flex-row items-center">
                     <!--<svg height="13px" width="13px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
                         <g>
                             <g>

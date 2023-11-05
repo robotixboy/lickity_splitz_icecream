@@ -31,4 +31,14 @@ class MenuController < ApplicationController
             @customers_temp_orders = TempOrder.where(customer_id: session[:customer].id)
         end
     end
+
+    def set_isBreakfast_true
+        session[:isBreakfast] = true
+        redirect_to ordering_menu_path
+    end
+
+    def set_isBreakfast_false
+        session[:isBreakfast] = false
+        redirect_to ordering_menu_path
+    end
 end
