@@ -1,0 +1,38 @@
+<%= link_to "GO BACK : THIS IS FOR TESTING PURPOSES", employees_home_path, class: "btn btn-primary" %>
+<div class="container mt-4">
+    <h1 class="text-2xl font-bold mb-4">Order</h1>
+    <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-4">
+        <% [0, 1, 2].each do |status| %>
+            <div class="bg-white shadow-md rounded-lg p-4 mx-4 my-4 overflow-hidden">
+                <h2 class="text-lg font-bold mb-2">
+                    <%= case status
+                        when 0
+                            "Not Started"
+                        when 1
+                            "Started"
+                        when 2
+                            "Completed"
+                        else
+                            "Unknown"
+                    end
+                    %>
+                </h2>
+                <% @orders.select { |order| order.completed_order == status }.each do |order| %>
+                    <div class="border-t-2 mt-4 pt-4">
+                        <h3>Order ID: <%= order.order_id %></h3>
+                        <p>Customer ID: <%= order.customer_id %></p>
+                        <p>Food IDs: <%= order.list_food_id %></p>
+                        <p>Food Modifications: <%= order.list_food_notes %></p>
+                        <p>Total Cost: $<%= order.total_cost %></p>
+                        <p>
+                            <%= form_tag completingOrder_path, method: :post do %>
+                                <%= hidden_field_tag :id, order.id %>
+                                <%= submit_tag order.completed_order == 1 ? "Complete Order" : (order.completed_order == 0 ? "Start Order" : "Restart Order"), class: "bg-blue-500 text-white p-2 rounded" %>
+                            <% end %>
+                        </p>
+                    </div>
+                <% end %>
+            </div>
+        <% end %>
+    </div>
+</div>
