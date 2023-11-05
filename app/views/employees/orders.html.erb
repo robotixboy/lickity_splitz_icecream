@@ -26,7 +26,7 @@
                         <p>
                             <%= form_tag completingOrder_path, method: :post do %>
                                 <%= hidden_field_tag :id, order.id %>
-                                <%= submit_tag order.completed_order == 1 ? "Complete Order" : (order.completed_order == 0 ? "Start Order" : "Redo Order"), class: "bg-blue-500 text-white p-2 rounded" %>
+                                <%= submit_tag order.completed_order == 1 ? "Complete Order" : (order.completed_order == 0 ? "Start Order" : "Restart Order"), class: "bg-blue-500 text-white p-2 rounded" %>
                             <% end %>
                         </p>
                     </div>

@@ -52,7 +52,7 @@ class EmployeesController < ApplicationController
         @order.completed_order = case @order.completed_order
         when 0 then 1
         when 1 then 2
-        else 0
+        else 1
         end
       
         if @order.save
