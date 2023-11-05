@@ -1,94 +1,93 @@
 <%= form_for Addition.new, url: additions_path do |f| %>
-  <div class="mt-4">
-    <%= f.label :addition_name, "Addition Name", class: "block font-bold" %>
-    <%= f.text_field :addition_name, placeholder: "Enter the addition name", class: "border p-2 w-full" %>
-  </div>
-  <div class="mt-4">
-    <%= f.label :cost, "Cost", class: "block font-bold" %>
-    <%= f.number_field :cost, step: 0.01, placeholder: "Enter the cost", class: "border p-2 w-full" %>
-  </div>
-  <div class="mt-4">
-    <%= f.submit "Add Addition", class: "bg-blue-500 text-white p-2 rounded" %>
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div class="mb-4">
+      <%= f.label :addition_name, "Addition Name", class: "block font-bold" %>
+      <%= f.text_field :addition_name, placeholder: "Enter the addition name", class: "border p-2 w-full" %>
+    </div>
+    <div class="mb-4">
+      <%= f.label :cost, "Cost", class: "block font-bold" %>
+      <%= f.number_field :cost, step: 0.01, placeholder: "Enter the cost", class: "border p-2 w-full" %>
+    </div>
+    <div class="mb-4">
+      <%= f.submit "Add Addition", class: "bg-blue-500 text-white p-2 rounded" %>
+    </div>
   </div>
 <% end %>
 
-<table class="mt-8">
-  <tr>
-    <th class="px-4 py-2">Food Addition</th>
-    <th class="px-4 py-2">Cost</th>
-    <th class="px-4 py-2">Action</th>
-  </tr>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
   <% if @additions.any? %>
     <% @additions.each do |addition| %>
-      <tr>
-        <td class="px-4 py-2"><%= addition.addition_name %></td>
-        <td class="px-4 py-2"><%= addition.cost %></td>
-        <td class="px-4 py-2">
+      <div class="bg-white shadow-md rounded-lg p-4 overflow-hidden">
+        <h2 class="text-lg font-bold mb-2">Food Addition: <%= addition.addition_name %></h2>
+        <p class="text-sm">Cost: <%= addition.cost %></p>
+        <div class="mt-4">
           <%= form_tag storing_additions_path, method: :post do %>
             <%= hidden_field_tag :your_variable, addition.to_json %>
             <%= submit_tag "Store Variable", class: "bg-blue-500 text-white p-2 rounded" %>
           <% end %>
-        </td>
-      </tr>
+        </div>
+      </div>
     <% end %>
   <% else %>
-    <tr>
-      <td class="px-4 py-2" colspan="3">No additions available.</td>
-    </tr>
+    <p class="col-span-3">No additions available.</p>
   <% end %>
-</table>
+</div>
 
-<% if !session[:addition].blank? %>
-  <% session[:addition].each do |x| %>
-    <% object = JSON.parse(x) %>
-    <%= object.inspect %>
-    <h4 class="mt-4">ITS WORKING: <%= object["id"] %></h4>
+<div class="container mt-4">
+  <h1 class="text-2xl font-bold mb-4">Add Food</h1>
+  <%= form_with(model: @food, url: addingNewFood_path, method: :post) do |form| %>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div class="col-span-3 md:col-span-1">
+        <%= form.text_field :food_name, class: "border p-2 w-full" %>
+      </div>
+      <div class="col-span-3 md:col-span-1">
+        <%= form.hidden_field :food_additions, value: session[:addition] %>
+      </div>
+      <div class="col-span-3 md:col-span-1">
+        <%= form.hidden_field :food_modifiables, value: "" %>
+      </div>
+      <div class="col-span-3 md:col-span-1">
+        <%= form.number_field :inital_cost, step: 0.01, class: "border p-2 w-full" %>
+      </div>
+      <div class="col-span-3 md:col-span-1">
+        <%= form.label :autolyse, "Breakfast", class: "block font-bold" %>
+        <%= form.radio_button :isBreakfast, true, class: "mr-2" %>
+        <%= form.label :autolyse, "Lunch/Dinner", class: "block font-bold" %>
+        <%= form.radio_button :isBreakfast, false, class: "mr-2" %>
+      </div>
+      <div class="col-span-3 md:col-span-1">
+        <%= form.submit "Add Food", class: "bg-blue-500 text-white p-2 rounded" %>
+      </div>
+    </div>
   <% end %>
-<% end %>
-
-<%= form_with(model: @food, url: addingNewFood_path, method: :post) do |form| %>
-  <%= form.text_field :food_name, class: "border p-2 w-full" %>
-  <%= form.hidden_field :food_additions, value: session[:addition] %>
-  <%= form.hidden_field :food_modifiables, value: "" %>
-  <%= form.number_field :inital_cost, step: 0.01, class: "border p-2 w-full" %>
-  <div class="mt-4">
-    <%= form.label :autolyse, "Breakfast", class: "block font-bold" %>
-    <%= form.radio_button :isBreakfast, true, class: "mr-2" %>
-    <%= form.label :autolyse, "Lunch/Dinner", class: "block font-bold" %>
-    <%= form.radio_button :isBreakfast, false, class: "mr-2" %>
-  </div>
-  <%= form.submit "Add Food", class: "bg-blue-500 text-white p-2 rounded mt-4" %>
-<% end %>
-
-<table class="mt-8">
-  <tr>
-    <th class="px-4 py-2">Food Name</th>
-    <th class="px-4 py-2">Food Mods</th>
-    <th class="px-4 py-2">Total Cost</th>
-    <th class="px-4 py-2">Breakfast Or Lunch/Dinner</th>
-  </tr>
-  <% if !@foods.blank? %>
-    <% @foods.each do |fooditem| %>
-      <tr>
-        <td class="px-4 py-2"><%= fooditem.food_name %></td>
-        <% data = eval(fooditem.food_additions) rescue [] %>
-        <% additions = data.is_a?(Array) ? data : [data] %>
-        <td class="px-4 py-2">
-          <% additions.each do |addition| %>
-            <h4>ID: <%= addition['id'] %>, Name: <%= addition['addition_name'] %>, Cost: <%= addition['cost'] %></h4>
-          <% end %>
-        </td>
-        <td class="px-4 py-2"><%= fooditem.inital_cost %></td>
-        <td class="px-4 py-2">
-          <% if fooditem.isBreakfast == true %>
-            Breakfast
-          <% else %>
-            Lunch
-          <% end %>
-        </td>
-      </tr>
+</div>
+<div class="col-span-3 md:col-span-1">
+  <div class="grid grid-cols-5 gap-4">
+    <% if !@foods.blank? %>
+      <% @foods.each do |fooditem| %>
+        <div class="bg-white shadow-md rounded-lg p-4 mx-4 my-4 overflow-hidden">
+          <h2 class="text-lg font-bold mb-2">Food Name: <%= fooditem.food_name %></h2>
+          <% data = eval(fooditem.food_additions) rescue [] %>
+          <% additions = data.is_a?(Array) ? data : [data] %>
+          <div class="text-sm">
+            <p>Food Modifications:</p>
+            <% additions.each do |addition| %>
+              <p>ID: <%= addition['id'] %>, Name: <%= addition['addition_name'] %>, Cost: <%= addition['cost'] %></p>
+            <% end %>
+          </div>
+          <p class="text-sm">Total Cost: $<%= fooditem.inital_cost %></p>
+          <p class="text-sm">
+            <% if fooditem.isBreakfast == true %>
+              Breakfast
+            <% else %>
+              Lunch
+            <% end %>
+          </p>
+        </div>
+      <% end %>
     <% end %>
-  <% end %>
-</table>
+  </div>
+</div>
+
 
 <%= link_to "View Orders", customer_orders_path, class: "btn btn-primary" %>
