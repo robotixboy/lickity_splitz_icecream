@@ -25,6 +25,8 @@ Rails.application.routes.draw do
   post 'completingOrder', to: 'employees#completingOrder'
   get 'confirmation', to: 'menu#confirmation', as: 'order_confirmation'
   get 'orderingMenu', to: 'menu#orderingMenu', as: 'ordering_menu'
+  get '/set_isBreakfast_true', to: 'menu#set_isBreakfast_true'
+  get '/set_isBreakfast_false', to: 'menu#set_isBreakfast_false'
 
   Rails.application.routes.draw do
     get 'menu/show/:id', to: 'menu#show', as: 'menu_show' # Define a route for showing food details
