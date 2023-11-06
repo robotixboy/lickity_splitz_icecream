@@ -13,11 +13,11 @@
   <% additions = data.is_a?(Array) ? data : [data] %>
   <% additions.each do |addition| %>
     <div id = "checkboxes">
-    <h4 class="mt-4">
-        <%= check_box_tag addition['addition_name'], addition['cost'] %>
-        <%= label_tag addition['addition_name'] + " $" + addition['cost'].to_s %>
-    </h4>
-  <div>
+        <h4 class="mt-4">
+            <%= check_box_tag addition['addition_name'], addition['cost'] %>
+            <%= label_tag addition['addition_name'] + " $" + addition['cost'].to_s %>
+        </h4>
+    </div>
   <% end %>
 
   <%= form.submit "Add to Order" %>

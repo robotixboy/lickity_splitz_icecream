@@ -6,6 +6,7 @@
         <th>Food Mods</th>
         <th>Total Cost</th>
         <% if session[:customer] != nil%>
+            <th>Edit Item</th>
             <th>Order Item</th>
         <% end %>
     </tr>
@@ -22,7 +23,15 @@
                 </th>
                 <th><%= lunchItem.inital_cost %></th>
                 <% if session[:customer] != nil%>
-                    <th><%= link_to "View Details", menu_show_path(lunchItem), class: "btn btn-primary" %></th>
+                    <th><%= link_to "Edit Item", menu_show_path(lunchItem), class: "btn btn-primary" %></th>
+                    <th>
+                        <%= form_with(model: TempOrder.new, method: :post) do |form| %>
+                        <%= form.hidden_field :customer_id, value: session[:customer]['id'] %>
+                        <%= form.hidden_field :food_id, value: lunchItem.id %>
+                        <%= form.hidden_field :total_cost, value: lunchItem.inital_cost %>
+                        <%= form.submit "Add to Order"%>
+                        <% end %>
+                    </th>
                 <% end %>
             <tr>
         <% end%>
@@ -35,7 +44,10 @@
         <th>Food Name</th>
         <th>Food Mods</th>
         <th>Total Cost</th>
-        <th>Order Item</th>
+        <% if session[:customer] != nil and Time.now >= Time.parse("7:00") and Time.now <= Time.parse("12:00")%>
+            <th></th>
+            <th></th>
+        <% end %>
     </tr>
     <% if !@breakfastMenu.blank?%>
         <% @breakfastMenu.each  do |breakfastItem| %>
@@ -49,13 +61,23 @@
                 <% end %>
                 </th>
                 <th><%= breakfastItem.inital_cost %></th>
-                <th><%= link_to "View Details", menu_show_path(breakfastItem), class: "btn btn-primary" %></th>
+                <% if session[:customer] != nil and Time.now >= Time.parse("7:00") and Time.now <= Time.parse("12:00")%>
+                    <th><%= link_to "Edit Item", menu_show_path(breakfastItem), class: "btn btn-primary" %></th>
+                    <th>
+                        <%= form_with(model: TempOrder.new, method: :post) do |form| %>
+                        <%= form.hidden_field :customer_id, value: session[:customer]['id'] %>
+                        <%= form.hidden_field :food_id, value: breakfastItem.id %>
+                        <%= form.hidden_field :total_cost, value: breakfastItem.inital_cost %>
+                        <%= form.submit "Add to Order" %>
+                        <% end %>
+                    </th>
+                <% end %>
             <tr>
         <% end%>
     <% end %>
     </table>
 <% end %>
-<% if session[:customer] != nil%>
+<% if session[:customer] != nil and Time.now >= Time.parse("7:00") and Time.now <= Time.parse("12:00")%>
     <%= link_to "Show Results", order_confirmation_path, class: "btn btn-primary" %>
 <% else %>
     <%= link_to "Log In to order food", login_path, class: "btn btn-primary" %>
