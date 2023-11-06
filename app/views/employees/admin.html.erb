@@ -1,0 +1,25 @@
+<%= form_for @employee, url: employee_login_path do |f| %>
+  <div>
+    <%= f.label :username %>
+    <%= f.text_field :username, name: "employee[username]" %>
+  </div>
+
+  <div>
+    <%= f.label :password %>
+    <%= f.text_field :password, name: "employee[password]" %>
+  </div>
+
+  <div>
+    <%= f.label :phone_number %>
+    <%= f.text_field :phone_number, name: "employee[phone_number]" %>
+  </div>
+
+  <div>
+    <%= f.label :authorization_key %>
+    <%= f.text_field :authorization_key, name: "employee[authorization_key]" %>
+  </div>
+
+  <div>
+    <%= f.submit "Create Employee" %>
+  </div>
+<% end %>

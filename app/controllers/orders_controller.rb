@@ -21,6 +21,7 @@ class OrdersController < ApplicationController
         else
           render root_url # Render the 'home' template if saving fails
         end
+        reset_session
     end
     
     private

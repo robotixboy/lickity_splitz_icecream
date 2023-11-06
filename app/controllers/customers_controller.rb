@@ -16,6 +16,7 @@ class CustomersController < ApplicationController
     end
     session[:phoneNumber] = phoneNumber
     session[:firstName] = firstName
+    session[:customer] = Customer.find_by(first_name: session[:firstName],phone_number: session[:phoneNumber]) || nil
   end
 
   private
