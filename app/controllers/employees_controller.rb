@@ -26,6 +26,7 @@ class EmployeesController < ApplicationController
         @food.food_name = params[:food_name]
         @food.inital_cost = params[:inital_cost]
         @food.isBreakfast = params[:isBreakfast]
+        @food.tag = params[:tag]
     
         session[:addition] = []
     
@@ -56,6 +57,21 @@ class EmployeesController < ApplicationController
             render 'home'
         end
     end
+
+    def deletingTags
+        @tag = FoodTag.find(params[:id])
+        @foods = Food.where(tag: @tag)
+        
+        @foods.each do |food|
+          food.update(tag: nil)
+        end
+        
+        if @tag.destroy
+          redirect_to employee_index_url
+        else
+          render 'home'
+        end
+    end      
 
     def completingOrder
         @order = Order.find(params[:id])

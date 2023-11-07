@@ -16,6 +16,10 @@
     <% @foodTags.each do |tags| %>
       <div class="bg-white shadow-md rounded-lg p-4 overflow-hidden">
         <h2 class="text-lg font-bold mb-2">Tag: <%= tags.food_Tag_Name %></h2>
+        <%= form_tag deletingTags_path, method: :post do %>
+            <%= hidden_field_tag :id, tags.id %>
+            <%= submit_tag "Delete Tag", class: "bg-blue-500 text-white p-2 rounded" %>
+        <% end %>
       </div>
     <% end %>
   <% else %>
@@ -80,6 +84,7 @@
         <%= form.label :autolyse, "Lunch/Dinner", class: "block font-bold" %>
         <%= form.radio_button :isBreakfast, false, class: "mr-2" %>
       </div>
+      <%= select_tag :tag, options_for_select(@foodTags.map { |tag| [tag.food_Tag_Name] }), prompt: "Select a Food Tag" %>
       <div class="col-span-3 md:col-span-1">
         <%= form.submit "Add Food", class: "bg-blue-500 text-white p-2 rounded" %>
       </div>
@@ -88,8 +93,8 @@
 </div>
 
 
-<div class="col-span-3 md:col-span-1">
-  <div class="grid grid-cols-5 gap-4">
+<div class="col-span-5 md:col-span-3">
+  <div class="grid grid-cols-6 gap-3">
     <% if !@foods.blank? %>
       <% @foods.each do |fooditem| %>
         <div class="bg-white shadow-md rounded-lg p-2 text-center">
@@ -111,7 +116,7 @@
             <% end %>
           </p>
           <p class="text-xs">Tag: <%= fooditem.tag %></p>
-          <%= form_tag changingTag_path, method: :post do %>
+            <%= form_tag changingTag_path, method: :post do %>
             <%= hidden_field_tag :id, fooditem.id %>
             <%= select_tag :newTag, options_for_select(@foodTags.map { |tag| [tag.food_Tag_Name] }), prompt: "Select a Food Tag" %>
             <%= submit_tag "Store Variable", class: "bg-blue-500 text-white p-2 rounded" %>
