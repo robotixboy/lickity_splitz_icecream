@@ -49,7 +49,7 @@ class EmployeesController < ApplicationController
 
     def changingTag
         @food = Food.find(params[:id])
-        @food.food_Tag_Name = params[:newTag]
+        @food.tag = params[:newTag]
         if @food.save
             redirect_to employee_index_url
         else
