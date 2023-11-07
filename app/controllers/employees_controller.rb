@@ -9,6 +9,8 @@ class EmployeesController < ApplicationController
         @temp_orders = TempOrder.all
         @orders = Order.all
         @order = Order.new
+        @foodTag = FoodTag.new
+        @foodTags = FoodTag.all
     end
 
     def addition #This is how we are storing each addition into an array before we add it to the food item
@@ -43,6 +45,16 @@ class EmployeesController < ApplicationController
         puts session[:isCompleted]
         @orders = Order.all
         @order = Order.new
+    end
+
+    def changingTag
+        @food = Food.find(params[:id])
+        @food.tag = params[:newTag]
+        if @food.save
+            redirect_to employee_index_url
+        else
+            render 'home'
+        end
     end
 
     def completingOrder

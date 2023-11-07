@@ -1,3 +1,28 @@
+<%= form_for FoodTag.new, url: food_tags_url do |f| %>
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div class="mb-4">
+      <%= f.label :food_Tag_Name, "Food Tag Name", class: "block font-bold" %>
+      <%= f.text_field :food_Tag_Name, placeholder: "Enter the Food Tag Name", class: "border p-2 w-full" %>
+    </div>
+    <div class="mb-4">
+      <%= f.submit "Food Tag Add", class: "bg-blue-500 text-white p-2 rounded" %>
+    </div>
+  </div>
+<% end %>
+
+<p class="col-span-3">Possible Food Tags.</p>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
+  <% if @foodTags.any? %>
+    <% @foodTags.each do |tags| %>
+      <div class="bg-white shadow-md rounded-lg p-4 overflow-hidden">
+        <h2 class="text-lg font-bold mb-2">Tag: <%= tags.food_Tag_Name %></h2>
+      </div>
+    <% end %>
+  <% else %>
+    <p class="col-span-3">No additions available.</p>
+  <% end %>
+</div>
+
 <%= form_for Addition.new, url: additions_path do |f| %>
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
     <div class="mb-4">
@@ -85,6 +110,11 @@
               Lunch
             <% end %>
           </p>
+          <%= form_tag changingTag_path, method: :post do %>
+            <%= hidden_field_tag :id, fooditem.id %>
+            <%= select_tag :newTag, options_for_select(@foodTags.map { |tag| [tag.food_Tag_Name, tag.id] }), prompt: "Select a Food Tag" %>
+            <%= submit_tag "Store Variable", class: "bg-blue-500 text-white p-2 rounded" %>
+          <% end %>
         </div>
       <% end %>
     <% end %>
