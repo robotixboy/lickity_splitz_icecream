@@ -110,7 +110,7 @@
               Lunch
             <% end %>
           </p>
-          <p class="text-xs">Tag: $<%= fooditem.tag %></p>
+          <p class="text-xs">Tag: <%= fooditem.tag %></p>
           <%= form_tag changingTag_path, method: :post do %>
             <%= hidden_field_tag :id, fooditem.id %>
             <%= select_tag :newTag, options_for_select(@foodTags.map { |tag| [tag.food_Tag_Name, tag.id] }), prompt: "Select a Food Tag" %>
