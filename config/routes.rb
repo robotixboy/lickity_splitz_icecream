@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   resources :foods
   resources :temp_orders
   resources :orders
+  resources :food_tags
 
   # Defines the root path route ("/")
   # root "articles#index"
@@ -21,8 +22,11 @@ Rails.application.routes.draw do
   get 'home', to: 'employees#home', as: 'employees_home'
   get 'customerOrders', to: 'employees#orders', as: 'customer_orders'
   post 'storing_additions', to: 'employees#addition'
+  post 'deletingAdditions', to: 'employees#deletingAdditions'
   post 'addingNewFood', to: 'employees#addingFood'
   post 'completingOrder', to: 'employees#completingOrder'
+  post 'changingTag', to: 'employees#changingTag'
+  post 'deletingTags', to: 'employees#deletingTags'
   get 'confirmation', to: 'menu#confirmation', as: 'order_confirmation'
   get 'orderingMenu', to: 'menu#orderingMenu', as: 'ordering_menu'
   get '/set_isBreakfast_true', to: 'menu#set_isBreakfast_true'

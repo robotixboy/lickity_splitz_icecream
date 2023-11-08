@@ -1,5 +1,4 @@
 class EmployeesController < ApplicationController
-
     def home
         @employee = Employee.new
         @addition = Addition.new
@@ -9,6 +8,8 @@ class EmployeesController < ApplicationController
         @temp_orders = TempOrder.all
         @orders = Order.all
         @order = Order.new
+        @foodTag = FoodTag.new
+        @foodTags = FoodTag.all
     end
 
     def addition #This is how we are storing each addition into an array before we add it to the food item
@@ -24,6 +25,7 @@ class EmployeesController < ApplicationController
         @food.food_name = params[:food_name]
         @food.inital_cost = params[:inital_cost]
         @food.isBreakfast = params[:isBreakfast]
+        @food.tag = params[:tag]
     
         session[:addition] = []
     
@@ -43,6 +45,38 @@ class EmployeesController < ApplicationController
         puts session[:isCompleted]
         @orders = Order.all
         @order = Order.new
+    end
+
+    def changingTag
+        @food = Food.find(params[:id])
+        @food.tag = params[:newTag]
+        if @food.save
+            redirect_to employee_index_url
+        else
+            render 'home'
+        end
+    end
+
+    def deletingTags
+        @tag = FoodTag.find(params[:id])
+        @foods = Food.where(tag: @tag)
+        @foods.each do |food|
+          food.update(tag: nil)
+        end
+        if @tag.destroy
+          redirect_to employee_index_url
+        else
+          render 'home'
+        end
+    end
+
+    def deletingAdditions
+        @addition = Addition.find(params[:id])
+        if @addition.destroy
+            redirect_to employee_index_url
+        else
+            render 'home'
+        end
     end
 
     def completingOrder

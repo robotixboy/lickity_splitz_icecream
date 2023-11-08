@@ -17,7 +17,6 @@ class MenuController < ApplicationController
 
     def confirmation
         @customers_temp_orders = TempOrder.where(customer_id: session[:customer]["id"])
-        puts @customers_temp_orders
     end
 
     def order
@@ -26,7 +25,6 @@ class MenuController < ApplicationController
 
         @foods = Food.all
         session[:customer] = Customer.find_by(first_name: session[:firstName],phone_number: session[:phoneNumber])
-        puts session[:customer]
         if session[:customer] != nil
             @customers_temp_orders = TempOrder.where(customer_id: session[:customer].id)
         end

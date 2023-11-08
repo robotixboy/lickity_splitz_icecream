@@ -77,10 +77,21 @@
     <% end %>
     </table>
 <% end %>
-<% if session[:customer] != nil and Time.now >= Time.parse("7:00") and Time.now <= Time.parse("12:00")%>
-    <%= link_to "Show Results", order_confirmation_path, class: "btn btn-primary" %>
+<% if session[:isBreakfast] %>
+    <% if session[:customer] != nil && Time.now >= Time.parse("7:00") && Time.now <= Time.parse("12:00") %>
+        <%= link_to "Complete Order", order_confirmation_path, class: "btn btn-primary" %>
+    <% elsif session[:customer] == nil %>
+        <%= link_to "Log In to order food", login_path, class: "btn btn-primary" %>
+    <% else %>
+        <h3>YOU CANNOT ORDER BREAKFAST AFTER 12 YOU WEIRDOS</h3>
+    <% end %>
 <% else %>
-    <%= link_to "Log In to order food", login_path, class: "btn btn-primary" %>
+    <% if session[:customer] != nil %>
+        <%= link_to "Complete Order", order_confirmation_path, class: "btn btn-primary" %>
+    <% else %>
+        <%= link_to "Log In to order food", login_path, class: "btn btn-primary" %>
+    <% end %>
 <% end %>
+
 <br>
 <%= link_to "Go Back to the Menu", menu_order_path, class: "btn btn-primary" %>
