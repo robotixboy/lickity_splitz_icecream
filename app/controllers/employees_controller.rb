@@ -1,5 +1,4 @@
 class EmployeesController < ApplicationController
-
     def home
         @employee = Employee.new
         @addition = Addition.new
@@ -61,17 +60,24 @@ class EmployeesController < ApplicationController
     def deletingTags
         @tag = FoodTag.find(params[:id])
         @foods = Food.where(tag: @tag)
-        
         @foods.each do |food|
           food.update(tag: nil)
         end
-        
         if @tag.destroy
           redirect_to employee_index_url
         else
           render 'home'
         end
-    end      
+    end
+
+    def deletingAdditions
+        @addition = Addition.find(params[:id])
+        if @addition.destroy
+            redirect_to employee_index_url
+        else
+            render 'home'
+        end
+    end
 
     def completingOrder
         @order = Order.find(params[:id])

@@ -22,6 +22,7 @@ Rails.application.routes.draw do
   get 'home', to: 'employees#home', as: 'employees_home'
   get 'customerOrders', to: 'employees#orders', as: 'customer_orders'
   post 'storing_additions', to: 'employees#addition'
+  post 'deletingAdditions', to: 'employees#deletingAdditions'
   post 'addingNewFood', to: 'employees#addingFood'
   post 'completingOrder', to: 'employees#completingOrder'
   post 'changingTag', to: 'employees#changingTag'

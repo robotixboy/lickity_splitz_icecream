@@ -1,4 +1,4 @@
-<div class="w-5 p-4 border border-blue-200 bg-blue-100">
+
   <%= form_for FoodTag.new, url: food_tags_url do |f| %>
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
       <div class="mb-4">
@@ -10,7 +10,7 @@
       </div>
     </div>
   <% end %>
-
+  
   <h3 class="col-span-3">Possible Food Tags.</h3>
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
     <% if @foodTags.any? %>
@@ -19,7 +19,7 @@
           <h2 class="text-lg font-bold mb-2">Tag: <%= tags.food_Tag_Name %></h2>
           <%= form_tag deletingTags_path, method: :post do %>
               <%= hidden_field_tag :id, tags.id %>
-              <%= submit_tag "Delete Tag", class: "bg-blue-500 text-white p-2 rounded" %>
+              <%= submit_tag "Delete", class: "bg-red-500 text-white p-2 rounded" %>
           <% end %>
         </div>
       <% end %>
@@ -27,9 +27,7 @@
       <p class="col-span-3">No additions available.</p>
     <% end %>
   </div>
-</div>
 
-<div class="w-1/2 p-4 border border-blue-200 bg-blue-100">
   <%= form_for Addition.new, url: additions_path do |f| %>
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
       <div class="mb-4">
@@ -57,6 +55,10 @@
               <%= hidden_field_tag :your_variable, addition.to_json %>
               <%= submit_tag "Store Variable", class: "bg-blue-500 text-white p-2 rounded" %>
             <% end %>
+            <%= form_tag deletingAdditions_path, method: :post do %>
+              <%= hidden_field_tag :id, addition.id %>
+              <%= submit_tag "Delete", class: "bg-red-500 text-white p-2 rounded" %>
+            <% end %>
           </div>
         </div>
       <% end %>
@@ -64,7 +66,6 @@
       <p class="col-span-3">No additions available.</p>
     <% end %>
   </div>
-</div>
 
 <div class="w-1/2 p-4 border border-blue-255 bg-blue-255">
   <div class="container mt-4">
@@ -98,40 +99,41 @@
   </div>
 </div>
 
-
-<div class="col-span-5 md:col-span-3">
-  <div class="grid grid-cols-6 gap-3">
+<div class="col-span-10 md:col-span-10">
+  <div class="flex flex-wrap flex-col gap-5">
     <% if !@foods.blank? %>
-      <% @foods.each do |fooditem| %>
-        <div class="bg-white shadow-md rounded-lg p-2 text-center">
-          <h2 class="text-sm font-bold mb-1">Food Name: <%= fooditem.food_name %></h2>
-          <% data = eval(fooditem.food_additions) rescue [] %>
-          <% additions = data.is_a?(Array) ? data : [data] %>
-          <div class="text-xs">
-            <p>Food Modifications:</p>
-            <% additions.each do |addition| %>
-              <p>ID: <%= addition['id'] %>, Name: <%= addition['addition_name'] %>, Cost: <%= addition['cost'] %></p>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+        <% @foods.each do |fooditem| %>
+          <div class="bg-white shadow-md rounded-lg text-center flex flex-col">
+            <h2 class="text-sm font-bold mb-1">Food Name: <%= fooditem.food_name %></h2>
+            <% data = eval(fooditem.food_additions) rescue [] %>
+            <% additions = data.is_a?(Array) ? data : [data] %>
+            <div class="text-xs">
+              <p>Food Modifications:</p>
+              <% additions.each do |addition| %>
+                <p>ID: <%= addition['id'] %>, Name: <%= addition['addition_name'] %>, Cost: <%= addition['cost'] %></p>
+              <% end %>
+            </div>
+            <p class="text-xs">Total Cost: $<%= fooditem.inital_cost %></p>
+            <p class="text-xs">
+              <%= fooditem.isBreakfast ? "Breakfast" : "Lunch" %>
+            </p>
+            <p class="text-xs">Tag: <%= fooditem.tag %></p>
+            <%= form_tag changingTag_path, method: :post do %>
+              <%= hidden_field_tag :id, fooditem.id %>
+              <%= select_tag :newTag, options_for_select(@foodTags.map { |tag| [tag.food_Tag_Name] }, fooditem.tag), prompt: "Select a Food Tag", class: "flex-grow py-1 px-2 text-sm" %>
+              <%= submit_tag "Change", class: "bg-blue-500 text-white py-1 px-2 rounded text-sm" %>
             <% end %>
           </div>
-          <p class="text-xs">Total Cost: $<%= fooditem.inital_cost %></p>
-          <p class="text-xs">
-            <% if fooditem.isBreakfast == true %>
-              Breakfast
-            <% else %>
-              Lunch
-            <% end %>
-          </p>
-          <p class="text-xs">Tag: <%= fooditem.tag %></p>
-            <%= form_tag changingTag_path, method: :post do %>
-            <%= hidden_field_tag :id, fooditem.id %>
-            <%= select_tag :newTag, options_for_select(@foodTags.map { |tag| [tag.food_Tag_Name] }), prompt: "Select a Food Tag" %>
-            <%= submit_tag "Store Variable", class: "bg-blue-500 text-white p-2 rounded" %>
-          <% end %>
-        </div>
-      <% end %>
+        <% end %>
+      </div>
     <% end %>
   </div>
 </div>
+
+
+
+
 
 
 
