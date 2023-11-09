@@ -6,6 +6,7 @@
 <tr>
     <th>Customer id</th>
     <th>Food id</th>
+    <th>Food Name</th>
     <th>Food Mods</th>
     <th>Total cost</th>
 </tr>
@@ -14,9 +15,8 @@
     <tr>
       <th><%= orderedItme.customer_id%></th>
       <th><%= orderedItme.food_id%></th>
-      <th>
-        <%= orderedItme.food_modifications%>
-      </th>
+      <th><%= Food.find_by_id(orderedItme.food_id).food_name%></th>
+      <th><%= orderedItme.food_modifications%></th>
       <th><%= orderedItme.total_cost%></th>
       <% foodIds.append(orderedItme.food_id) %>
       <% foodNotes.append(orderedItme.food_modifications) %>
@@ -30,3 +30,5 @@
   <%= form.hidden_field :total_cost, value: total %>
   <%= form.submit "Add", class: "btn btn-primary" %>
 <% end %>
+
+<%= link_to "Go Back to the Menu", menu_order_path, class: "btn btn-primary" %>

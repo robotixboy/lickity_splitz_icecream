@@ -10,26 +10,131 @@
         margin-top: 10px;
         font-size: 16px;
     }
+
+    .typing-container {
+    font-size: 20px;
+    }
+    #constant-text,
+    #typing-text {
+        display: inline-block; /* Use "inline" or "inline-block" for inline display */
+        color: black;
+    }
 </style>
 
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lilita+One&display=swap">
-  <style>
-    /* .custom-text {
-      font-family: 'Lilita One', sans-serif;
-      font-weight: normal !important; /* Set the font weight to normal (not bold) */
-    } */
-  </style>
+
+<div class="mt-5 ml-2">
+  <h1 class="text-2xl md:text-3xl pl-2 my-2 border-l-4 font-sans font-bold dark:text-gray-800" style="border-color:#0CC0DF">
+    ABOUT
+  </h1>
+</div>
 
 <div class="mt-6 max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl">
   <div class="md:flex">
     <div class="md:shrink-0">
-  <%= image_tag("test2.png", class: "h-48 w-full object-cover md:h-full md:w-48", alt: "Modern building architecture") %>
     </div>
     <div class="p-8">
-      <div class="uppercase tracking-wide text-lg font-semibold" style="color: #0CC0DF">Lickity Splitz</div>
-      <a href="#" class="block mt-1 text-lg leading-tight font-medium text-black hover:underline">Discover culinary delight here</a>
-      <p class="mt-2 text-slate-500">At Lickity Splitz, you'll find the perfect place for any time of day. Enjoy a hearty breakfast, savor a tasty lunch, and when summer's in full swing, don't miss our irresistible ice cream treats. It's the ultimate spot for all your cravings.</p>
+      <div class="uppercase tracking-wide text-lg font-semibold" style="color: #0CC0DF">
+        Lickity Splitz 
+      </div>
+      <!--<a href="#" class="block mt-1 text-lg leading-tight font-medium text-black hover:underline">Discover culinary delight here</a>-->
+      <div class="typing-container">
+                <p class="block mt-0 text-lg leading-tight font-medium text-black hover:underline">
+                    <!--<span style="color: green;" id="constant-text">We are: </span>-->
+                    <span style="font-weight: bold;" id="typing-text"></span>
+                </p>
+        </div>
+        <p class="mt-0 text-slate-500" style="margin: 0 !important">Enthusiastic staff, lively ambiance, and mouthwatering dishes create a warm, inviting experience.</p>
+        <p class="mt-0 text-slate-500" style="margin: 0 !important"><a href="https://www.google.com/maps/dir//Lickity+Splitz,+231+Main+St,+Winchendon,+MA+01475/@42.536082,-72.385826,9z/data=!4m9!4m8!1m0!1m5!1m1!1s0x89e15d897d57009b:0x886184d8c00a3064!2m2!1d-72.0778735!2d42.6697029!3e0?entry=ttu" class="mt-0 text-slate-500" style="margin: 0 !important;text-decoration:none;" target = "_blank"><i class="fa fa-map-marker" style="color:black"></i> 231 Main St, Winchendon, MA</a></p>
+        <p class="mt-0 text-slate-500" style="margin: 0 !important ;text-decoration:none"><a href="tel:(978) 297-1777" class="mt-0 text-slate-500"><i class="fa fa-phone" style="color:black"></i> (978) 297-1777</a></p>
+        <p class="mt-0 text-slate-500" style="margin: 0 !important"><i class="fa fa-bell" style="color:black"></i> Takeout · Dine-in · Outdoor seating</p>
+        <p class="mt-0 text-slate-500" style="margin: 0 !important"><i class="fa fa-clock-o" style="color:black"></i> Hours of Operation</p>
+
     </div>
   </div>
 </div>
 
+<script>
+  const words = ["Culinary Delight", "Friendly Service", "Gourmet Treats", "Warm Welcome"]; 
+  let currentIndex = 0;
+  let charIndex = 0;
+  let isTyping = true;
+  const typingSpeed = 100; 
+  const eraseSpeed = 50;  
+
+  const typingText = document.getElementById('typing-text');
+  const constantText = document.getElementById('constant-text');
+
+function typeWord() {
+  if (charIndex < words[currentIndex].length) {
+      typingText.textContent += words[currentIndex].charAt(charIndex);
+      charIndex++;
+      setTimeout(typeWord, typingSpeed);
+  } else {
+      isTyping = false;
+      setTimeout(eraseWord, 1000); 
+  }
+  }
+
+  function eraseWord() {
+  if (charIndex > 0) {
+      typingText.textContent = words[currentIndex].substring(0, charIndex - 1);
+      charIndex--;
+      setTimeout(eraseWord, eraseSpeed);
+  } else {
+      isTyping = true;
+      currentIndex = (currentIndex + 1) % words.length; 
+      setTimeout(typeWord, 750); 
+  }
+  }
+
+  function startTyping() {
+  if (isTyping) {
+      eraseWord();
+  } else {
+      typeWord();
+  }
+  }
+
+  startTyping();
+</script>
+
+
+<div class="mt-10 ml-2">
+  <h1 class="text-2xl md:text-3xl pl-2 my-2 border-l-4 font-sans font-bold dark:text-gray-800" style="border-color:#0CC0DF">
+    FAN FAVORITES
+  </h1>
+</div>
+
+<div class="grid w-full grid-cols-1 gap-6 mx-auto lg:grid-cols-3">
+  <div class="p-6">
+      <img class="object-cover object-center w-full mb-8 lg:h-48 md:h-36 rounded-xl" src="https://www.americas-table.com/wp-content/uploads/2015/05/blueberry-pancakes-with-vanilla-ice-cream.jpg" alt="food">
+
+      <h1 class="mx-auto mb-8 text-2xl font-semibold leading-none tracking-tighter text-neutral-600 lg:text-3xl">Breakfast</h1>
+      <p class="mx-auto text-base leading-relaxed text-gray-500">
+        Indulge in fluffy, buttermilk golden pancakes, a delightful breakfast treat that's perfect everytime.
+      <div class="mt-4">
+          <a href="<%= set_isBreakfast_true_path %>" class="inline-flex items-center mt-4 font-semibold text-blue-600 lg:mb-0 hover:text-neutral-600" title="read more" style="color: #0CC0DF;text-decoration:none"> View on menu <i class="fa fa-chevron-circle-right" style="padding-left: 4px"></i></a>
+      </div>
+  </div>
+  <div class="p-6">
+      <img class="object-cover object-center w-full mb-8 lg:h-48 md:h-36 rounded-xl" src="https://www.allrecipes.com/thmb/5JVfA7MxfTUPfRerQMdF-nGKsLY=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/25473-the-perfect-basic-burger-DDMFS-4x3-56eaba3833fd4a26a82755bcd0be0c54.jpg" alt="food">
+
+      <h1 class="mx-auto mb-8 text-2xl font-semibold leading-none tracking-tighter text-neutral-600 lg:text-3xl">Lunch</h1>
+      <p class="mx-auto text-base leading-relaxed text-gray-500">
+        Savor the juiciness and flavor explosion of our gourmet burgers - a taste sensation you won't forget.
+      <div class="mt-4">
+          <a href="<%= set_isBreakfast_false_path %>" class="inline-flex items-center mt-4 font-semibold text-blue-600 lg:mb-0 hover:text-neutral-600" title="read more" style="color: #0CC0DF;text-decoration:none"> View on menu <i class="fa fa-chevron-circle-right" style="padding-left: 4px"></i></a>
+      </div>
+  </div>
+  <div class="p-6">
+      <img class="object-cover object-center w-full mb-8 lg:h-48 md:h-36 rounded-xl" src="https://food.fnr.sndimg.com/content/dam/images/food/fullset/2018/4/13/0/DV2809_The-Sampler-Platter_s4x3.jpg.rend.hgtvcom.1280.1280.suffix/1523655234880.jpeg" alt="food">
+
+      <h1 class="mx-auto mb-8 text-2xl font-semibold leading-none tracking-tighter text-neutral-600 lg:text-3xl">Dinner</h1>
+      <p class="mx-auto text-base leading-relaxed text-gray-500">
+        Dive into a world of crispy perfection with our fried seafood, where each bite is a seaside adventure.
+      <div class="mt-4">
+          <a href="<%= set_isBreakfast_false_path %>" class="inline-flex items-center mt-4 font-semibold text-blue-600 lg:mb-0 hover:text-neutral-600" title="read more" style="color: #0CC0DF; text-decoration:none"> View on menu <i class="fa fa-chevron-circle-right" style="padding-left: 4px"></i> </a>
+      </div>
+  </div>
+</div>

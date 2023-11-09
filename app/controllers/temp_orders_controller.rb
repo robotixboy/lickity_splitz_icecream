@@ -3,7 +3,7 @@ class TempOrdersController < ApplicationController
         @temp_order = TempOrder.new(temp_order_params)
     
         if @temp_order.save
-          redirect_to root_url
+          redirect_to ordering_menu_url
         else
           render root_url # Render the 'home' template if saving fails
         end

@@ -1,41 +1,39 @@
 <%= form_for Addition.new, url: additions_path do |f| %>
-  <div class="field">
-    <%= f.label :addition_name, "Addition Name" %>
-    <%= f.text_field :addition_name, placeholder: "Enter the addition name" %>
+  <div class="mt-4">
+    <%= f.label :addition_name, "Addition Name", class: "block font-bold" %>
+    <%= f.text_field :addition_name, placeholder: "Enter the addition name", class: "border p-2 w-full" %>
   </div>
-
-  <div class="field">
-    <%= f.label :cost, "Cost" %>
-    <%= f.number_field :cost, step: 0.01, placeholder: "Enter the cost" %>
+  <div class="mt-4">
+    <%= f.label :cost, "Cost", class: "block font-bold" %>
+    <%= f.number_field :cost, step: 0.01, placeholder: "Enter the cost", class: "border p-2 w-full" %>
   </div>
-
-  <div class="actions">
-    <%= f.submit "Add Addition" %>
+  <div class="mt-4">
+    <%= f.submit "Add Addition", class: "bg-blue-500 text-white p-2 rounded" %>
   </div>
 <% end %>
 
-<table>
+<table class="mt-8">
   <tr>
-    <th>Food Addition</th>
-    <th>Cost</th>
-    <th>Action</th>
+    <th class="px-4 py-2">Food Addition</th>
+    <th class="px-4 py-2">Cost</th>
+    <th class="px-4 py-2">Action</th>
   </tr>
   <% if @additions.any? %>
     <% @additions.each do |addition| %>
       <tr>
-        <td><%= addition.addition_name %></td>
-        <td><%= addition.cost %></td>
-        <td>
+        <td class="px-4 py-2"><%= addition.addition_name %></td>
+        <td class="px-4 py-2"><%= addition.cost %></td>
+        <td class="px-4 py-2">
           <%= form_tag storing_additions_path, method: :post do %>
             <%= hidden_field_tag :your_variable, addition.to_json %>
-            <%= submit_tag "Store Variable" %>
+            <%= submit_tag "Store Variable", class: "bg-blue-500 text-white p-2 rounded" %>
           <% end %>
         </td>
       </tr>
     <% end %>
   <% else %>
     <tr>
-      <td colspan="3">No additions available.</td>
+      <td class="px-4 py-2" colspan="3">No additions available.</td>
     </tr>
   <% end %>
 </table>
@@ -44,50 +42,74 @@
   <% session[:addition].each do |x| %>
     <% object = JSON.parse(x) %>
     <%= object.inspect %>
-    <h4> ITS WORKING: <%= object["id"] %> </h4>
+    <h4 class="mt-4">ITS WORKING: <%= object["id"] %></h4>
   <% end %>
 <% end %>
 
 <%= form_with(model: @food, url: addingNewFood_path, method: :post) do |form| %>
-  <%= form.text_field :food_name %>
+  <%= form.text_field :food_name, class: "border p-2 w-full" %>
   <%= form.hidden_field :food_additions, value: session[:addition] %>
   <%= form.hidden_field :food_modifiables, value: "" %>
-  <%= form.number_field :inital_cost, step: 0.01 %>
-  <%= form.submit "Add Food", class: "btn btn-primary" %>
+  <%= form.number_field :inital_cost, step: 0.01, class: "border p-2 w-full" %>
+  <div class="mt-4">
+    <%= form.label :autolyse, "Breakfast", class: "block font-bold" %>
+    <%= form.radio_button :isBreakfast, true, class: "mr-2" %>
+    <%= form.label :autolyse, "Lunch/Dinner", class: "block font-bold" %>
+    <%= form.radio_button :isBreakfast, false, class: "mr-2" %>
+  </div>
+  <%= form.submit "Add Food", class: "bg-blue-500 text-white p-2 rounded mt-4" %>
 <% end %>
 
-<% if !@foods.blank? %>
-  <% @foods.each do |fooditem| %>
-    <%= fooditem.food_name %>
-
-    <% data = eval(fooditem.food_additions) rescue [] %>
-    <% additions = data.is_a?(Array) ? data : [data] %>
-    <% additions.each do |addition| %>
-      <h4>ID: <%= addition['id'] %>, Name: <%= addition['addition_name'] %>, Cost: <%= addition['cost'] %></h4>
+<table class="mt-8">
+  <tr>
+    <th class="px-4 py-2">Food Name</th>
+    <th class="px-4 py-2">Food Mods</th>
+    <th class="px-4 py-2">Total Cost</th>
+    <th class="px-4 py-2">Breakfast Or Lunch/Dinner</th>
+  </tr>
+  <% if !@foods.blank? %>
+    <% @foods.each do |fooditem| %>
+      <tr>
+        <td class="px-4 py-2"><%= fooditem.food_name %></td>
+        <% data = eval(fooditem.food_additions) rescue [] %>
+        <% additions = data.is_a?(Array) ? data : [data] %>
+        <td class="px-4 py-2">
+          <% additions.each do |addition| %>
+            <h4>ID: <%= addition['id'] %>, Name: <%= addition['addition_name'] %>, Cost: <%= addition['cost'] %></h4>
+          <% end %>
+        </td>
+        <td class="px-4 py-2"><%= fooditem.inital_cost %></td>
+        <td class="px-4 py-2">
+          <% if fooditem.isBreakfast == true %>
+            Breakfast
+          <% else %>
+            Lunch
+          <% end %>
+        </td>
+      </tr>
     <% end %>
   <% end %>
-<% end %>
+</table>
 
-
-<h1>Order Database</h1>
-<table>
-<tr>
-    <th>Customer Id</th>
-    <th>Order Id</th>
-    <th>Food Ids</th>
-    <th>Food Mods</th>
-    <th>Total Cost</th>
-</tr>
-<% if !@order.blank? %>
-  <% @orders.each do |order| %>
-    <tr>
-      <th><%= order.customer_id %></th>
-      <th><%= order.order_id %></th>
-      <th><%= order.list_food_id %></th>
-      <th><%= order.list_food_notes %></th>
-      <th><%= order.total_cost %></th>
-      <th><%= order.completed_order %></th>
-    </tr>
+<h1 class="mt-8">Order Database</h1>
+<table class="mt-4">
+  <tr>
+    <th class="px-4 py-2">Customer Id</th>
+    <th class="px-4 py-2">Order Id</th>
+    <th class="px-4 py-2">Food Ids</th>
+    <th class="px-4 py-2">Food Mods</th>
+    <th class="px-4 py-2">Total Cost</th>
+  </tr>
+  <% if !@orders.blank? %>
+    <% @orders.each do |order| %>
+      <tr>
+        <td class="px-4 py-2"><%= order.customer_id %></td>
+        <td class="px-4 py-2"><%= order.order_id %></td>
+        <td class="px-4 py-2"><%= order.list_food_id %></td>
+        <td class="px-4 py-2"><%= order.list_food_notes %></td>
+        <td class="px-4 py-2"><%= order.total_cost %></td>
+        <td class="px-4 py-2"><%= order.completed_order %></td>
+      </tr>
+    <% end %>
   <% end %>
-<% end %>
 </table>
