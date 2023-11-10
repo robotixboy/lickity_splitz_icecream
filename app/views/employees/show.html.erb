@@ -1,6 +1,6 @@
 <div class="rounded-lg bg-indigo-200 p-4 food-additions-container">
   <h1>Food Name: <%= @food.food_name %></h1>
-  <% data = eval(@food.food_additions) rescue [] %>
+  <% data = JSON.parse(@food.food_additions) rescue [] %>
   <% additions = data.is_a?(Array) ? data : [data] %>
   <h3>Possible Food Additions</h3>
   <% additions.each do |addition| %>
@@ -8,6 +8,7 @@
   <% end %>
   <h4>Initial Cost $<%= @food.inital_cost %></h4>
 </div>
+
 
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 mt-4">
   <% if @additions.any? %>
@@ -41,21 +42,21 @@
 
 <script>
   document.addEventListener("DOMContentLoaded", function() {
-    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-    const outputTextarea = document.getElementById("selected-additions-output");
+    var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    var outputTextarea = document.getElementById("selected-additions-output");
     var label = document.getElementById("food_modifications_textbox");
     console.log(label.value);
 
     checkboxes.forEach(checkbox => {
       checkbox.addEventListener("change", function() {
-        const selectedAdditions = Array.from(checkboxes)
+        var selectedAdditions = Array.from(checkboxes)
           .filter(cb => cb.checked)
           .map(cb => {
-            const id = parseInt(cb.dataset.id);
-            const name = cb.getAttribute('name').replace('selected_addition[', '').replace(']', '');
-            const cost = parseFloat(cb.dataset.cost);
-            const created_at = cb.dataset.created_at; // Replace with your dataset key
-            const updated_at = cb.dataset.updated_at; // Replace with your dataset key
+            var id = parseInt(cb.dataset.id);
+            var name = cb.getAttribute('name').replace('selected_addition[', '').replace(']', '');
+            var cost = parseFloat(cb.dataset.cost);
+            var created_at = cb.dataset.created_at; // Replace with your dataset key
+            var updated_at = cb.dataset.updated_at; // Replace with your dataset key
             return `{"id"=>${id}, "addition_name"=>"${name}", "cost"=>${cost}, "created_at"=>"${created_at}", "updated_at"=>"${updated_at}"}`;
           });
 
