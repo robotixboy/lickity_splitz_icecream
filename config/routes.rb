@@ -27,6 +27,7 @@ Rails.application.routes.draw do
   post 'completingOrder', to: 'employees#completingOrder'
   post 'changingTag', to: 'employees#changingTag'
   post 'deletingTags', to: 'employees#deletingTags'
+  post 'updatingFoodAdditions', to: 'employees#updatingFoodAdditions'
   get 'confirmation', to: 'menu#confirmation', as: 'order_confirmation'
   get 'orderingMenu', to: 'menu#orderingMenu', as: 'ordering_menu'
   get '/set_isBreakfast_true', to: 'menu#set_isBreakfast_true'
@@ -34,6 +35,10 @@ Rails.application.routes.draw do
 
   Rails.application.routes.draw do
     get 'menu/show/:id', to: 'menu#show', as: 'menu_show' # Define a route for showing food details
+  end
+
+  Rails.application.routes.draw do
+    get 'employees/show/:id', to: 'employees#show', as: 'employees_show' # Define a route for showing food details
   end
 
 end
