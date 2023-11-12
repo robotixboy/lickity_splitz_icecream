@@ -55,8 +55,8 @@
             var id = parseInt(cb.dataset.id);
             var name = cb.getAttribute('name').replace('selected_addition[', '').replace(']', '');
             var cost = parseFloat(cb.dataset.cost);
-            var created_at = cb.dataset.created_at; // Replace with your dataset key
-            var updated_at = cb.dataset.updated_at; // Replace with your dataset key
+            var created_at = cb.dataset.created_at;
+            var updated_at = cb.dataset.updated_at; 
             return `{"id"=>${id}, "addition_name"=>"${name}", "cost"=>${cost}, "created_at"=>"${created_at}", "updated_at"=>"${updated_at}"}`;
           });
 

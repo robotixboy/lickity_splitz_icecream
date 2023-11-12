@@ -1,9 +1,10 @@
 <%= link_to "GO BACK : THIS IS FOR TESTING PURPOSES", employees_home_path, class: "btn btn-primary" %>
-<div class="container mt-4">
+
+<div class="container">
     <h1 class="text-2xl font-bold mb-4">Order</h1>
-    <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-4">
+    <div class="flex flex-wrap gap-4">
         <% [0, 1, 2].each do |status| %>
-            <div class="bg-white shadow-md rounded-lg p-4 mx-4 my-4 overflow-hidden">
+            <div >
                 <h2 class="text-lg font-bold mb-2">
                     <%= case status
                         when 0
@@ -20,10 +21,44 @@
                 <% @orders.select { |order| order.completed_order == status }.each do |order| %>
                     <div class="border-t-2 mt-4 pt-4">
                         <h3>Order ID: <%= order.order_id %></h3>
-                        <p>Customer ID: <%= order.customer_id %></p>
-                        <p>Food IDs: <%= order.list_food_id %></p>
-                        <p>Food Modifications: <%= order.list_food_notes %></p>
+                        <p>Customer Name: <%= Customer.find(order.customer_id).first_name %></p>
+                        <p>Customer Phone Number: <%= Customer.find(order.customer_id).phone_number %></p>
                         <p>Total Cost: $<%= order.total_cost %></p>
+                        <!-- <% food_ids = order.list_food_id.split(',').map(&:to_i) %> -->
+                        <!-- <p>Food IDs: <%= food_ids.join(', ') %></p> -->
+                        <!-- <p>Food Modifications: <%= order.list_food_notes %></p> -->
+
+
+                        <% contents = order.list_food_notes.gsub(/\[|\]|"/, '').split(',') %>
+
+                        <% joined_items = contents.join('') %>  <!-- Joining all items to process together -->
+                        <% split_items = joined_items.split(/(\\\\)|(\\.*?\\)/) %>  <!-- Split based on backslashes and captured content -->
+
+                        <% merged_items = [] %>
+                        <% current_group = [] %>
+                        <% split_items.each do |item| %>
+                            <% next if item.strip.empty? %>
+                            <% if item.start_with?('\\') && item.end_with?('\\') || item == "null" %>
+                                <% current_group.push(item) %>
+                                <% merged_items.push(current_group.join) %>
+                                <% current_group = [] %>
+                            <% else %>
+                                <% current_group.push(item) %>
+                            <% end %>
+                        <% end %>
+
+
+                        <% merged_items.each_with_index do |line, index| %>
+                            <div class="bg-blue-100 border border-black p-4 rounded-lg">
+                                <p><%= food_ids[index] == 0 ? Food.find(1).food_name : Food.find(food_ids[index]).food_name %></p>
+                                <% if line != "null" %>
+                                    <p>Mods: <%= line %></p>
+                                <% end %>
+                            </div>
+                        <% end %>
+
+
+
                         <p>
                             <%= form_tag completingOrder_path, method: :post do %>
                                 <%= hidden_field_tag :id, order.id %>
@@ -36,3 +71,6 @@
         <% end %>
     </div>
 </div>
+
+
+

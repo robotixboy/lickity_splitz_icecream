@@ -42,7 +42,7 @@
             totalCostOfAdditions -= parseFloat(checkbox.value);
             additions.splice(additions.indexOf(checkbox.name),1);
         }
-        label.value = additions.toString();
+        label.value = additions
         totalCostField.value = totalCostOfAdditions.toString();
         });
     });
