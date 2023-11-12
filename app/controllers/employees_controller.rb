@@ -12,6 +12,25 @@ class EmployeesController < ApplicationController
         @foodTags = FoodTag.all
     end
 
+    def show
+        @food = Food.find(params[:id])
+        @additions = Addition.all
+    end
+      
+      
+
+    def updatingFoodAdditions
+        @food = Food.find(params[:id])
+        @food.food_additions = params[:foodAdditions]
+        #@food.food_additions = []
+        
+        if @food.save
+            redirect_to employee_index_url
+        else
+            render root_url
+        end
+    end
+
     def addition #This is how we are storing each addition into an array before we add it to the food item
         session[:addition] ||= []
         session[:addition] << params[:your_variable]

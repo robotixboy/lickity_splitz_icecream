@@ -113,6 +113,7 @@
               <% additions.each do |addition| %>
                 <p>ID: <%= addition['id'] %>, Name: <%= addition['addition_name'] %>, Cost: <%= addition['cost'] %></p>
               <% end %>
+              <%= link_to "Edit Item", employees_show_path(fooditem), class: "btn btn-primary" %>
             </div>
             <p class="text-xs">Total Cost: $<%= fooditem.inital_cost %></p>
             <p class="text-xs">
