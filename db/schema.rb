@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_11_07_172918) do
+ActiveRecord::Schema[7.0].define(version: 2023_11_13_153347) do
   create_table "additions", force: :cascade do |t|
     t.string "addition_name"
     t.float "cost"
@@ -50,6 +50,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_07_172918) do
     t.datetime "updated_at", null: false
     t.boolean "isBreakfast"
     t.string "tag"
+    t.string "description"
   end
 
   create_table "orders", force: :cascade do |t|

@@ -23,6 +23,8 @@ class EmployeesController < ApplicationController
         @food = Food.find(params[:id])
         @food.food_additions = params[:foodAdditions]
         #@food.food_additions = []
+        puts "------------------------------"
+        puts params[:foodAdditions]
         
         if @food.save
             redirect_to employee_index_url
@@ -39,11 +41,12 @@ class EmployeesController < ApplicationController
 
     def addingFood #Adding a food to the Food DB table: This will reset the session array 
         @food = Food.new
-        @food.food_additions = (session[:addition] || []).map { |json_str| JSON.parse(json_str) }
+        @food.food_additions = (session[:addition] || []).map { |json_str| JSON.parse(json_str) } || []
         @food.food_modifiables = ""
         @food.food_name = params[:food_name]
         @food.inital_cost = params[:inital_cost]
         @food.isBreakfast = params[:isBreakfast]
+        @food.description = params[:description] || ""
         @food.tag = params[:tag]
     
         session[:addition] = []
