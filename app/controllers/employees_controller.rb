@@ -41,7 +41,7 @@ class EmployeesController < ApplicationController
 
     def addingFood #Adding a food to the Food DB table: This will reset the session array 
         @food = Food.new
-        @food.food_additions = (session[:addition] || []).map { |json_str| JSON.parse(json_str) }
+        @food.food_additions = (session[:addition] || []).map { |json_str| JSON.parse(json_str) } || []
         @food.food_modifiables = ""
         @food.food_name = params[:food_name]
         @food.inital_cost = params[:inital_cost]
