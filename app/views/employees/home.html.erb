@@ -67,13 +67,17 @@
     <% end %>
   </div>
 
-<div class="w-1/2 p-4 border border-blue-255 bg-blue-255">
   <div class="container mt-4">
     <h1 class="text-2xl font-bold mb-4">Add Food</h1>
     <%= form_with(model: @food, url: addingNewFood_path, method: :post) do |form| %>
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         <div class="col-span-3 md:col-span-1">
+          <%= form.label :food_name, "Food Name:" %>
           <%= form.text_field :food_name, class: "border p-2 w-full" %>
+        </div>
+        <div class="col-span-3 md:col-span-1">
+          <%= form.label :description, "Food Description:" %>
+          <%= form.text_field :description, class: "border p-2 w-full" %>
         </div>
         <div class="col-span-3 md:col-span-1">
           <%= form.hidden_field :food_additions, value: session[:addition] %>
@@ -82,6 +86,7 @@
           <%= form.hidden_field :food_modifiables, value: "" %>
         </div>
         <div class="col-span-3 md:col-span-1">
+          <%= form.label :inital_cost, "Food Cost:" %>
           <%= form.number_field :inital_cost, step: 0.01, class: "border p-2 w-full" %>
         </div>
         <div class="col-span-3 md:col-span-1">
@@ -97,7 +102,6 @@
       </div>
     <% end %>
   </div>
-</div>
 
 <div class="col-span-10 md:col-span-10">
   <div class="flex flex-wrap flex-col gap-5">
@@ -105,7 +109,8 @@
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
         <% @foods.each do |fooditem| %>
           <div class="bg-white shadow-md rounded-lg text-center flex flex-col">
-            <h2 class="text-sm font-bold mb-1">Food Name: <%= fooditem.food_name %></h2>
+            <h1 class="text-sm font-bold mb-1">Food Name: <%= fooditem.food_name %></h1>
+            <h3 class="text-sm font-bold mb-1">Food Description: <%= fooditem.description %></h3>
             <% data = eval(fooditem.food_additions) rescue [] %>
             <% additions = data.is_a?(Array) ? data : [data] %>
             <div class="text-xs">

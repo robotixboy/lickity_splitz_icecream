@@ -23,6 +23,8 @@ class EmployeesController < ApplicationController
         @food = Food.find(params[:id])
         @food.food_additions = params[:foodAdditions]
         #@food.food_additions = []
+        puts "------------------------------"
+        puts params[:foodAdditions]
         
         if @food.save
             redirect_to employee_index_url
@@ -44,6 +46,7 @@ class EmployeesController < ApplicationController
         @food.food_name = params[:food_name]
         @food.inital_cost = params[:inital_cost]
         @food.isBreakfast = params[:isBreakfast]
+        @food.description = params[:description] || ""
         @food.tag = params[:tag]
     
         session[:addition] = []
