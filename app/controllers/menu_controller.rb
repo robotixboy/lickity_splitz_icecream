@@ -14,8 +14,10 @@ class MenuController < ApplicationController
             @customers_temp_orders = TempOrder.where(customer_id: session[:customer]["id"])
         end
         @total = 0
-        @customers_temp_orders.each do |foodItem|
-          @total = (foodItem.total_cost).to_f
+        if @customers_temp_orders
+          @customers_temp_orders.each do |foodItem|
+            @total += (foodItem.total_cost).to_f
+          end
         end
 
         @viewableMenu = params[:value]
