@@ -1,3 +1,13 @@
+<style>
+    ul {
+        list-style-type: none !important; 
+    }
+    .quick_options{
+        margin-top: 15px !important;
+        margin-bottom: 15px !important;
+    }
+</style>
+
 <% if !session[:isBreakfast]%>
     <h1>Lunch / Dinner Menu</h1>
     <table>
@@ -38,7 +48,131 @@
     <% end %>
     </table>
 <% else %>
-    <h1>Breakfast Menu</h1>
+    <div style="padding-top:20px; padding-left:10px">
+        <h1 class="text-2xl md:text-3xl pl-2 my-2 border-l-4 font-sans font-bold dark:text-gray-800" style="border-color:#0CC0DF;">Breakfast Menu</h1>
+    </div>
+
+    <div class="p-4 max-w-lg mx-auto">
+        <details class="mb-2">
+            <summary class="bg-gray-200 p-4 rounded-lg cursor-pointer shadow-md mb-4">
+                <span class="font-semibold">Eggs</span>
+            </summary>
+            <ul class="ml-8 space-y-4">
+                <li>
+                    <details class="mb-2">
+                        <summary class="bg-gray-100 p-3 rounded-lg cursor-pointer shadow">
+                            <span class="font-semibold">Quick Meals</span>
+                        </summary>
+                        <div class="bg-white p-1">
+                            <span class="text-gray-600">One egg, toast, home fries</span>
+                        </div>
+                        <div class="flex flex-col md:flex-row justify-between items-center text-gray-900">
+                            <p class="font-bold text-xl">$5.50</p>
+                            <button class="px-3 py-1 transition ease-in duration-200 uppercase rounded-full hover:bg-gray-800 hover:text-white border-2 border-gray-900 focus:outline-none" style="font-size:14px"> <i class="fa fa-cart-plus" style="font-size:16px"></i> Add to cart</button>
+                        </div>
+                        <hr class="quick_options">
+                        <div class="bg-white p-1">
+                            <span class="text-gray-600">Two eggs, toast, home fries</span>
+                        </div>
+                        <div class="flex flex-col md:flex-row justify-between items-center text-gray-900">
+                            <p class="font-bold text-xl">$6.50</p>
+                            <button class="px-3 py-1 transition ease-in duration-200 uppercase rounded-full hover:bg-gray-800 hover:text-white border-2 border-gray-900 focus:outline-none" style="font-size:14px"> <i class="fa fa-cart-plus" style="font-size:16px"></i> Add to cart</button>
+                        </div>
+                        <hr class="quick_options">
+                        <div class="bg-white p-1">
+                            <span class="text-gray-600">Three eggs, toast, home fries</span>
+                        </div>
+                        <div class="flex flex-col md:flex-row justify-between items-center text-gray-900">
+                            <p class="font-bold text-xl">$7.50</p>
+                            <button class="px-3 py-1 transition ease-in duration-200 uppercase rounded-full hover:bg-gray-800 hover:text-white border-2 border-gray-900 focus:outline-none" style="font-size:14px"> <i class="fa fa-cart-plus" style="font-size:16px"></i> Add to cart</button>
+                        </div>
+                        <hr class="quick_options">
+                        <div class="bg-white p-1">
+                            <span class="text-gray-600">** Additions ??</span>
+                        </div>
+                    </details>
+                </li>
+                <li>
+                    <details class="mb-2">
+                        <summary class="bg-gray-100 p-3 rounded-lg cursor-pointer shadow">
+                            <span class="font-semibold">Eggs Benedict </span>
+                        </summary>
+                        <div class="bg-white p-1">
+                            <span class="text-gray-600">A toasted English muffin topped with ham, poached eggs, and Hollandiase sauce. Served with home fries.</span>
+                        </div>
+                        <div class="flex flex-col md:flex-row justify-between items-center text-gray-900">
+                            <p class="font-bold text-xl">$12.85</p>
+                            <button class="px-3 py-1 transition ease-in duration-200 uppercase rounded-full hover:bg-gray-800 hover:text-white border-2 border-gray-900 focus:outline-none" style="font-size:14px"> <i class="fa fa-cart-plus" style="font-size:16px"></i> Add to cart</button>
+                        </div>
+                    </details>
+                </li>
+                <li>
+                    <details class="mb-2">
+                        <summary class="bg-gray-100 p-3 rounded-lg cursor-pointer shadow">
+                            <span class="font-semibold">Eggs Irish </span>
+                        </summary>
+                        <div class="bg-white p-1">
+                            <span class="text-gray-600">A toasted English muffin topped with corned beef hash, poached eggs, and Hollandiase sauce. Served with home fries.</span>
+                        </div>
+                        <div class="flex flex-col md:flex-row justify-between items-center text-gray-900">
+                            <p class="font-bold text-xl">$13.65</p>
+                            <button class="px-3 py-1 transition ease-in duration-200 uppercase rounded-full hover:bg-gray-800 hover:text-white border-2 border-gray-900 focus:outline-none" style="font-size:14px"> <i class="fa fa-cart-plus" style="font-size:16px"></i> Add to cart</button>
+                        </div>
+                    </details>
+                </li>
+            </ul>
+        </details>
+
+        <details class="mb-2">
+            <summary class="bg-gray-200 p-4 rounded-lg cursor-pointer shadow-md mb-4">
+                <span class="font-semibold">Make your own omelettes</span>
+            </summary>
+            <ul class="ml-8 space-y-4">
+                <li>
+                    <details class="mb-2">
+                        <summary class="bg-gray-100 p-3 rounded-lg cursor-pointer shadow">
+                            <span class="font-semibold">Eggs Irish </span>
+                        </summary>
+                        <div class="bg-white p-1">
+                            <span class="text-gray-600">A toasted English muffin topped with corned beef hash, poached eggs, and Hollandiase sauce. Served with home fries.</span>
+                        </div>
+                        <div class="flex flex-col md:flex-row justify-between items-center text-gray-900">
+                            <p class="font-bold text-xl">$13.65</p>
+                            <button class="px-3 py-1 transition ease-in duration-200 uppercase rounded-full hover:bg-gray-800 hover:text-white border-2 border-gray-900 focus:outline-none" style="font-size:14px"> <i class="fa fa-cart-plus" style="font-size:16px"></i> Add to cart</button>
+                        </div>
+                    </details>
+                </li>
+            </ul>
+        </details>
+
+        <details class="mb-2">
+            <summary class="bg-gray-200 p-4 rounded-lg cursor-pointer shadow-md mb-4">
+                <span class="font-semibold">Breads and Hot Cakes</span>
+            </summary>
+        </details>
+
+        <details class="mb-2">
+            <summary class="bg-gray-200 p-4 rounded-lg cursor-pointer shadow-md mb-4">
+                <span class="font-semibold">Breakfast sides</span>
+            </summary>
+        </details>
+
+
+        <details class="mb-2">
+            <summary class="bg-gray-200 p-4 rounded-lg cursor-pointer shadow-md mb-4">
+                <span class="font-semibold">Drinks</span>
+            </summary>
+        </details>
+
+        <details class="mb-2">
+            <summary class="bg-gray-200 p-4 rounded-lg cursor-pointer shadow-md mb-4">
+                <span class="font-semibold">Brunch</span>
+            </summary>
+        </details>
+
+    </div>
+
+
     <table>
     <tr>
         <th>Food Name</th>

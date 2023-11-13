@@ -78,7 +78,7 @@ class EmployeesController < ApplicationController
 
     def deletingTags
         @tag = FoodTag.find(params[:id])
-        @foods = Food.where(tag: @tag)
+        @foods = Food.where(tag: @tag.food_Tag_Name)
         @foods.each do |food|
           food.update(tag: nil)
         end
