@@ -133,7 +133,12 @@
                                     <span>
                                     <i class="fa fa-check"></i>
                                     </span>
-                                    <span>Confirm</span>
+                                    <%= form_with(model: TempOrder.new, method: :post) do |form| %>
+                                        <%= form.hidden_field :customer_id, value: session[:customer]['id'] %>
+                                        <%= form.hidden_field :food_id, value: food.id %>
+                                        <%= form.hidden_field :total_cost, value: food.inital_cost %>
+                                        <span><%= form.submit "Confirm" %></span>
+                                    <% end %>
                                 </div>
                                 </button>
                             </div>
