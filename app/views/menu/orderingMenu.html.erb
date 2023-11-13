@@ -10,6 +10,27 @@
         margin-top: 15px !important;
         margin-bottom: 15px !important;
     }
+    /* Styles for the popup overlay */
+    .overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    overflow-y: auto;
+    }
+
+    /* Styles for the popup content */
+    .popup {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    }
 </style>
 
 <% if !session[:isBreakfast]%>
@@ -56,182 +77,157 @@
         <h1 class="text-2xl md:text-3xl pl-2 my-2 border-l-4 font-sans font-bold dark:text-gray-800" style="border-color:#0CC0DF;">Breakfast Menu</h1>
     </div>
 
-    <!-- Order button that displays items --->
 
-
-
-
+    <!-- Loop to get all foods -->
     <div class="p-4 max-w-lg mx-auto">
+        <% id = -1 %>
+        <% Food.all.group_by(&:tag).each do |tag, foods| %>
         <details class="mb-2">
             <summary class="bg-gray-200 p-4 rounded-lg cursor-pointer shadow-md mb-4">
-                <span class="font-semibold">Eggs</span>
+            <span class="font-semibold"><%= tag %></span>
             </summary>
-            <ul class="ml-8 space-y-4">
-                <li>
+
+            <% foods.each do |food| %>
+            <% id += 1 %>
+            <div>
+                <!-- Additional details for "Eggs" go here -->
+                <ul class="ml-8 space-y-4">
+                <% if food.tag == "Eggs" %>
+                    <li>
                     <details class="mb-2">
                         <summary class="bg-gray-100 p-3 rounded-lg cursor-pointer shadow">
-                            <span class="font-semibold">Quick Meals</span>
+                        <span class="font-semibold"><%= food.food_name %></span>
                         </summary>
                         <div class="bg-white p-1">
-                            <span class="text-gray-600">One egg, toast, home fries</span>
+                        <span class="text-gray-600"><%= food.description %></span>
                         </div>
                         <div class="flex flex-col md:flex-row justify-between items-center text-gray-900">
-                            <p class="font-bold text-xl">$5.50</p>
+                        <p class="font-bold text-xl">$<%= food.inital_cost %></p>
 
-                        <style>
-                            /* Styles for the popup overlay */
-                            .overlay {
-                            display: none;
-                            position: fixed;
-                            top: 0;
-                            left: 0;
-                            width: 100%;
-                            height: 100%;
-                            background-color: rgba(0, 0, 0, 0.5);
-                            justify-content: center;
-                            align-items: center;
-                            overflow-y: auto;
-                            }
-
-                            /* Styles for the popup content */
-                            .popup {
-                            background-color: white;
-                            padding: 20px;
-                            border-radius: 8px;
-                            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-                            }
-                        </style>
                         <!-- Your button -->
-                        <button id="openPopup" class="px-3 py-1 transition ease-in duration-200 uppercase rounded-full hover:bg-gray-800 hover:text-white border-2 border-gray-900 focus:outline-none" style="font-size:14px">
-                        <i class="fa fa-cart-plus" style="font-size:16px"></i> add to order
+                        <button class="popup-trigger px-3 py-1 transition ease-in duration-200 uppercase rounded-full hover:bg-gray-800 hover:text-white border-2 border-gray-900 focus:outline-none" data-popup-id="<%= id %>" style="font-size:14px">
+                            <i class="fa fa-cart-plus" style="font-size:16px"></i> add to order
                         </button>
 
                         <!-- The popup overlay -->
-                        <div id="popupOverlay" class="overlay">
-                        <!-- The popup content -->
-                        <div class="popup">
-                            <button id="closePopup" style="padding-left:300px"><i class="fa fa-window-close" style="font-size: 24px;color:#F0512F;"></i></button>
-                            <h3 style="margin-top:0px !important">{foodname}</h3>
+                        <div class="overlay overlay_<%= id %>">
+                            <!-- The popup content -->
+                            <div class="popup">
+                            <button class="closePopup" style="padding-left:300px"><i class="fa fa-window-close" style="font-size: 24px;color:#F0512F;"></i></button>
+                            <h3 style="margin-top:0px !important"><%= food.food_name %></h3>
                             <p>Are there any food modifications?</p>
                             <p>{modifications}</p>
                             <p>I will turn the modifications into buttons.</p>
                             <div class="flex gap-6">
-                            <button class="bg-gray-600 rounded-full w-32 h-11 text-white font-semibold" id="cancel">
+                                <button class="bg-gray-600 rounded-full w-32 h-11 text-white font-semibold cancel">
                                 <div class="flex gap-4 justify-center items-center">
-                                <span>
+                                    <span>
                                     <i class="fa fa-close"></i>
-                                </span>
-                                <span>Cancel</span>
+                                    </span>
+                                    <span>Cancel</span>
                                 </div>
-                            </button>
-                            <div style="width: 10px;"></div>
-                            <button class="bg-green-600 rounded-full w-32 h-11 text-white font-semibold">
+                                </button>
+                                <div style="width: 10px;"></div>
+                                <button class="bg-green-600 rounded-full w-32 h-11 text-white font-semibold">
                                 <div class="flex gap-4 justify-center items-center">
-                                <span>
+                                    <span>
                                     <i class="fa fa-check"></i>
-                                </span>
-                                <span>Confirm</span>
+                                    </span>
+                                    <span>Confirm</span>
                                 </div>
-                            </button>
+                                </button>
                             </div>
-
+                            </div>
                         </div>
-                        </div>
-
-                        <script>
-                        // JavaScript to handle the popup
-                        document.getElementById('openPopup').addEventListener('click', function () {
-                            document.getElementById('popupOverlay').style.display = 'flex';
-                        });
-
-                        document.getElementById('closePopup').addEventListener('click', function () {
-                            document.getElementById('popupOverlay').style.display = 'none';
-                        });
-                        document.getElementById('cancel').addEventListener('click', function () {
-                            document.getElementById('popupOverlay').style.display = 'none';
-                        });
-                        </script>
-                    </details>
-                </li>
-                <li>
+                        </details>
+                    </li>
+                    <% elsif food.tag == "Breads" %>
+                    <li>
                     <details class="mb-2">
                         <summary class="bg-gray-100 p-3 rounded-lg cursor-pointer shadow">
-                            <span class="font-semibold">Eggs Benedict </span>
+                        <span class="font-semibold"><%= food.food_name %></span>
                         </summary>
                         <div class="bg-white p-1">
-                            <span class="text-gray-600">A toasted English muffin topped with ham, poached eggs, and Hollandiase sauce. Served with home fries.</span>
+                        <span class="text-gray-600"><%= food.description %></span>
                         </div>
                         <div class="flex flex-col md:flex-row justify-between items-center text-gray-900">
-                            <p class="font-bold text-xl">$12.85</p>
-                            <button class="px-3 py-1 transition ease-in duration-200 uppercase rounded-full hover:bg-gray-800 hover:text-white border-2 border-gray-900 focus:outline-none" style="font-size:14px"> <i class="fa fa-cart-plus" style="font-size:16px"></i> add to order</button>
+                        <p class="font-bold text-xl">$<%= food.inital_cost %></p>
+
+                        <!-- Your button -->
+                        <button class="popup-trigger px-3 py-1 transition ease-in duration-200 uppercase rounded-full hover:bg-gray-800 hover:text-white border-2 border-gray-900 focus:outline-none" data-popup-id="<%= id %>" style="font-size:14px">
+                            <i class="fa fa-cart-plus" style="font-size:16px"></i> add to order
+                        </button>
+
+                        <!-- The popup overlay -->
+                        <div class="overlay overlay_<%= id %>">
+                            <!-- The popup content -->
+                            <div class="popup">
+                            <button class="closePopup" style="padding-left:300px"><i class="fa fa-window-close" style="font-size: 24px;color:#F0512F;"></i></button>
+                            <h3 style="margin-top:0px !important"><%= food.food_name %></h3>
+                            <p>Are there any food modifications?</p>
+                            <p>{modifications}</p>
+                            <p>I will turn the modifications into buttons.</p>
+                            
+                            <div class="flex gap-6">
+                                <button class="bg-gray-600 rounded-full w-32 h-11 text-white font-semibold cancel">
+                                <div class="flex gap-4 justify-center items-center">
+                                    <span>
+                                    <i class="fa fa-close"></i>
+                                    </span>
+                                    <span>Cancel</span>
+                                </div>
+                                </button>
+                                <div style="width: 10px;"></div>
+                                <button class="bg-green-600 rounded-full w-32 h-11 text-white font-semibold">
+                                <div class="flex gap-4 justify-center items-center">
+                                    <span>
+                                    <i class="fa fa-check"></i>
+                                    </span>
+                                    <span>Confirm</span>
+                                </div>
+                                </button>
+                            </div>
+                            </div>
                         </div>
-                    </details>
-                </li>
-                <li>
-                    <details class="mb-2">
-                        <summary class="bg-gray-100 p-3 rounded-lg cursor-pointer shadow">
-                            <span class="font-semibold">Eggs Irish </span>
-                        </summary>
-                        <div class="bg-white p-1">
-                            <span class="text-gray-600">A toasted English muffin topped with corned beef hash, poached eggs, and Hollandiase sauce. Served with home fries.</span>
-                        </div>
-                        <div class="flex flex-col md:flex-row justify-between items-center text-gray-900">
-                            <p class="font-bold text-xl">$13.65</p>
-                            <button class="px-3 py-1 transition ease-in duration-200 uppercase rounded-full hover:bg-gray-800 hover:text-white border-2 border-gray-900 focus:outline-none" style="font-size:14px"> <i class="fa fa-cart-plus" style="font-size:16px"></i> add to order</button>
-                        </div>
-                    </details>
-                </li>
-            </ul>
-        </details>
-
-        <details class="mb-2">
-            <summary class="bg-gray-200 p-4 rounded-lg cursor-pointer shadow-md mb-4">
-                <span class="font-semibold">Make your own omelettes</span>
-            </summary>
-            <ul class="ml-8 space-y-4">
-                <li>
-                    <details class="mb-2">
-                        <summary class="bg-gray-100 p-3 rounded-lg cursor-pointer shadow">
-                            <span class="font-semibold">Eggs Irish </span>
-                        </summary>
-                        <div class="bg-white p-1">
-                            <span class="text-gray-600">A toasted English muffin topped with corned beef hash, poached eggs, and Hollandiase sauce. Served with home fries.</span>
-                        </div>
-                        <div class="flex flex-col md:flex-row justify-between items-center text-gray-900">
-                            <p class="font-bold text-xl">$13.65</p>
-                            <button class="px-3 py-1 transition ease-in duration-200 uppercase rounded-full hover:bg-gray-800 hover:text-white border-2 border-gray-900 focus:outline-none" style="font-size:14px"> <i class="fa fa-cart-plus" style="font-size:16px"></i> add to order</button>
-                        </div>
-                    </details>
-                </li>
-            </ul>
-        </details>
-
-        <details class="mb-2">
-            <summary class="bg-gray-200 p-4 rounded-lg cursor-pointer shadow-md mb-4">
-                <span class="font-semibold">Breads and Hot Cakes</span>
-            </summary>
-        </details>
-
-        <details class="mb-2">
-            <summary class="bg-gray-200 p-4 rounded-lg cursor-pointer shadow-md mb-4">
-                <span class="font-semibold">Breakfast sides</span>
-            </summary>
-        </details>
-
-
-        <details class="mb-2">
-            <summary class="bg-gray-200 p-4 rounded-lg cursor-pointer shadow-md mb-4">
-                <span class="font-semibold">Drinks</span>
-            </summary>
-        </details>
-
-        <details class="mb-2">
-            <summary class="bg-gray-200 p-4 rounded-lg cursor-pointer shadow-md mb-4">
-                <span class="font-semibold">Brunch</span>
-            </summary>
-        </details>
-
+                        </details>
+                    </li>
+                    <% end %>
+                </ul>
+                </div>
+            <% end %>
+            </details>
+        <% end %>
     </div>
+
+<script>
+  document.querySelectorAll('.popup-trigger').forEach(function (button) {
+    button.addEventListener('click', function () {
+      var popupId = this.dataset.popupId;
+      document.querySelector('.overlay.overlay_' + popupId).style.display = 'flex';
+    });
+  });
+
+  document.querySelectorAll('.closePopup').forEach(function (closeButton) {
+    closeButton.addEventListener('click', function () {
+      document.querySelectorAll('.overlay').forEach(function (overlay) {
+        overlay.style.display = 'none';
+      });
+    });
+  });
+
+  document.querySelectorAll('.cancel').forEach(function (cancelButton) {
+    cancelButton.addEventListener('click', function () {
+      document.querySelectorAll('.overlay').forEach(function (overlay) {
+        overlay.style.display = 'none';
+      });
+    });
+  });
+</script>
+
+
+
+
+    
 
     <style>
     .overlay {
@@ -346,8 +342,11 @@
                 <% additions = data.is_a?(Array) ? data : [data] %>
                 <th>
                 <% additions.each do |addition| %>
+                <% if addition %>
                     <h4>ID: <%= addition['id'] %>, Name: <%= addition['addition_name'] %>, Cost: <%= addition['cost'] %></h4>
                 <% end %>
+                <% end %>
+
                 </th>
                 <th><%= breakfastItem.inital_cost %></th>
                 <% if session[:customer] != nil and Time.now >= Time.parse("7:00") and Time.now <= Time.parse("12:00")%>
