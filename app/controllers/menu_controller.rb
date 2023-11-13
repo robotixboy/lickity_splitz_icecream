@@ -10,6 +10,14 @@ class MenuController < ApplicationController
 
     def orderingMenu #Grabs value from previous page and Adds logged in customer information to the session
         session[:customer] = Customer.find_by(first_name: session[:firstName],phone_number: session[:phoneNumber]) || nil
+        if !session[:customer].nil?
+            @customers_temp_orders = TempOrder.where(customer_id: session[:customer]["id"])
+        end
+        @total = 0
+        @customers_temp_orders.each do |foodItem|
+          @total = (foodItem.total_cost).to_f
+        end
+
         @viewableMenu = params[:value]
         @lunchAndDinnerMenu = Food.where(isBreakfast: false)
         @breakfastMenu = Food.where(isBreakfast: true)

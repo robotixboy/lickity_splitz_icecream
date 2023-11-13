@@ -151,28 +151,6 @@
                             document.getElementById('popupOverlay').style.display = 'none';
                         });
                         </script>
-
-                        </div>
-                        <hr class="quick_options">
-                        <div class="bg-white p-1">
-                            <span class="text-gray-600">Two eggs, toast, home fries</span>
-                        </div>
-                        <div class="flex flex-col md:flex-row justify-between items-center text-gray-900">
-                            <p class="font-bold text-xl">$6.50</p>
-                            <button class="px-3 py-1 transition ease-in duration-200 uppercase rounded-full hover:bg-gray-800 hover:text-white border-2 border-gray-900 focus:outline-none" style="font-size:14px"> <i class="fa fa-cart-plus" style="font-size:16px"></i> add to order</button>
-                        </div>
-                        <hr class="quick_options">
-                        <div class="bg-white p-1">
-                            <span class="text-gray-600">Three eggs, toast, home fries</span>
-                        </div>
-                        <div class="flex flex-col md:flex-row justify-between items-center text-gray-900">
-                            <p class="font-bold text-xl">$7.50</p>
-                            <button class="px-3 py-1 transition ease-in duration-200 uppercase rounded-full hover:bg-gray-800 hover:text-white border-2 border-gray-900 focus:outline-none" style="font-size:14px"> <i class="fa fa-cart-plus" style="font-size:16px"></i> add to order</button>
-                        </div>
-                        <hr class="quick_options">
-                        <div class="bg-white p-1">
-                            <span class="text-gray-600">** Additions ??</span>
-                        </div>
                     </details>
                 </li>
                 <li>
@@ -281,34 +259,29 @@
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     }
     </style>
-
     <!-- The popup overlay -->
     <div id="customer_view_overlay" class="overlay">
     <!-- The popup content -->
      <div class="popup-container">
     <div class="popup">
         <button id="close_customer_view" style="padding-left:300px"><i class="fa fa-window-close" style="font-size: 24px;color:#F0512F;"></i></button>
-        <h3 style="margin-top:0px !important">Hello, {username}</h3>
-        <p>Below is your current order:</p>
-        <p>{item 1}</p>
-        <p style="margin-top:0px !important; padding-top: 0px !important">{item 1 modifications}</p>
-        <hr class="quick_options">
-        <p>{item 1}</p>
-        <p style="margin-top:0px !important; padding-top: 0px !important">{item 2 modifications}</p>
-        <hr class="quick_options">
-        <p>{item 2}</p>
-        <p style="margin-top:0px !important; padding-top: 0px !important">{item 1 modifications}</p>
-        <hr class="quick_options">
-        <p>{item 3}</p>
-        <p style="margin-top:0px !important; padding-top: 0px !important">{item 3 modifications}</p>
-        <hr class="quick_options">
-        <p>{item 4}</p>
-        <p style="margin-top:0px !important; padding-top: 0px !important">{item 4 modifications}</p>
-        <hr class="quick_options">
-        <p>{item 5}</p>
-        <p style="margin-top:0px !important; padding-top: 0px !important">{item 5 modifications}</p>
-        <hr class="quick_options">
-        <p>{total_price}</p>
+        <% if !session[:customer].blank? %>
+            <% foodIds = [] %>
+            <% foodNotes = [] %>
+
+
+            <h3 style="margin-top:0px !important">Hello, <%= session[:customer]["first_name"] %></h3>
+            <p>Below is your current order:</p>
+            <% @customers_temp_orders.each do |orderedItme| %>
+                <p><%= Food.find_by_id(orderedItme.food_id).food_name%></p>
+                <p style="margin-top:0px !important; padding-top: 0px !important"><%= orderedItme.food_modifications%></p>
+                <p><%= orderedItme.total_cost%></p>
+                <hr class="quick_options">
+                <% foodIds.append(orderedItme.food_id) %>
+                <% foodNotes.append(orderedItme.food_modifications) %>
+            <% end %>
+        <% end %>
+        <p>Total Price: $<%= @total%></p>
 
         <div class="flex gap-6">
         <button class="bg-gray-600 rounded-full w-32 h-11 text-white font-semibold" id="close_customer">
@@ -325,7 +298,14 @@
             <span>
                 <i class="fa fa-check"></i>
             </span>
-            <span>Submit</span>
+            <span>
+                <%= form_with(model: Order.new, method: :post) do |form| %>
+                <%= form.hidden_field :list_food_id, value: foodIds %>
+                <%= form.hidden_field :list_food_notes, value: foodNotes %>
+                <%= form.hidden_field :total_cost, value: @total %>
+                <%= form.submit "Submit", class: "btn btn-primary" %>
+                <% end %>
+            </span>
             </div>
         </button>
         </div>
