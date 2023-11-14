@@ -129,66 +129,69 @@
       <%= yield %>
     </div>
   </body>
+<div style = "padding-top:5px"> <!-- White space above footy -->
+  <div style="padding-top:20px !important">
+    <div class="bg-gray-100 mt-3">
+      <div class="max-w-screen-lg py-3 px-4 sm:px-6 text-gray-800 sm:flex justify-between mx-auto">
+          <div class="p-2 sm:w-2/12 border-r">
+              <div class="text-sm uppercase font-bold" style="color:#0CC0DF">Quick Links</div>
+              <ul>
+                  <li class="my-2">
+                      <a class="hover:text-cyan-500" href=<%= root_url%>>Home</a>
+                  </li>
+                  <li class="my-2">
+                      <a class="hover:text-cyan-500" href="<%= login_path%>">Login</a>
+                  </li>
+                  <li class="my-2">
+                      <a class="hover:text-cyan-500" href="<%= login_path%>">Place an Order</a>
+                  </li>
+                  <li class="my-2">
+                      <a class="hover:text-cyan-500" href="<%= menu_order_path%>">View Menu's</a>
+                  </li>
+              </ul>
+          </div>
+          <div class="p-2 sm:w-7/12 border-r text-center">
+          
+              <h3 class="font-bold text-xl mb-4 text-gray-700">Lickity Splitz</h3>
 
-<div style="padding-top:30px !important">
-  <div class="bg-gray-100 mt-3">
-    <div class="max-w-screen-lg py-10 px-4 sm:px-6 text-gray-800 sm:flex justify-between mx-auto">
-        <div class="p-5 sm:w-2/12 border-r">
-            <div class="text-sm uppercase font-bold" style="color:#0CC0DF">Quick Links</div>
-            <ul>
-                <li class="my-2">
-                    <a class="hover:text-cyan-500" href="#">Home</a>
-                </li>
-                <li class="my-2">
-                    <a class="hover:text-cyan-500" href="#">Login</a>
-                </li>
-                <li class="my-2">
-                    <a class="hover:text-cyan-500" href="#">Place an Order</a>
-                </li>
-                <li class="my-2">
-                    <a class="hover:text-cyan-500" href="#">See pricing</a>
-                </li>
-            </ul>
-        </div>
-        <div class="p-5 sm:w-7/12 border-r text-center">
-            <h3 class="font-bold text-xl mb-4 text-gray-700">Lickity Splitz</h3>
-            <p class="text-gray-500 text-sm mb-10">Under new ownership, the restaurant radiates warmth with its enthusiastic staff, lively ambiance, and mouthwatering dishes, creating an inviting and engaging dining experience.</p>
-        </div>
-        <div class="p-5 sm:w-3/12">
-            <div class="text-sm uppercase font-bold" style="color:#0CC0DF">Contact Us</div>
-            <ul>
-                <li class="my-2">
-                    <a href="https://www.google.com/maps/dir//Lickity+Splitz,+231+Main+St,+Winchendon,+MA+01475/@42.536082,-72.385826,9z/data=!4m9!4m8!1m0!1m5!1m1!1s0x89e15d897d57009b:0x886184d8c00a3064!2m2!1d-72.0778735!2d42.6697029!3e0?entry=ttu" class="hover:text-cyan-500" target = "_blank"><i class="fa fa-map-marker" style="color:black"></i> 231 Main St, Winchendon, MA</a>
-                </li>
-                <li class="my-2">
-                  <a style="text-decoration:none !important" href="tel:(978) 297-1777" class="hover:text-cyan-500"><i class="fa fa-phone" style="color:black"></i> (978) 297-1777</a>              
-                </li>
-                <li class="my-2">
-                  <p><i class="fa fa-bell" style="color:black"></i> Takeout · Dine-in · Outdoor seating</p>
-                </li>
-            </ul>
-        </div>
-    </div>
-    <div class="flex py-5 m-auto text-gray-800 text-sm flex-col items-center border-t max-w-screen-xl">
-        <div class="md:flex-auto md:flex-row-reverse mt-2 flex-row flex">
-            <a href="https://www.facebook.com/lickitysplitzwinchendon/" class="w-6 mx-1">
-              <svg xmlns="http://www.w3.org/2000/svg" height="2em" viewBox="0 0 320 512">
-                <path d="M279.14 288l14.22-92.66h-88.91v-60.13c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S260.43 0 225.36 0c-73.22 0-121.08 44.38-121.08 124.72v70.62H22.89V288h81.39v224h100.17V288z"/>
-              </svg>
-            </a>
+              <p class="text-gray-500 text-sm mb-10">Under new ownership, the restaurant radiates warmth with its enthusiastic staff, lively ambiance, and mouthwatering dishes, creating an inviting and engaging dining experience.</p>
+          </div>
+          <div class="p-2 sm:w-3/12">
+              <div class="text-sm uppercase font-bold" style="color:#0CC0DF">Contact Us</div>
+              <ul>
+                  <li class="my-2">
+                      <a href="https://www.google.com/maps/dir//Lickity+Splitz,+231+Main+St,+Winchendon,+MA+01475/@42.536082,-72.385826,9z/data=!4m9!4m8!1m0!1m5!1m1!1s0x89e15d897d57009b:0x886184d8c00a3064!2m2!1d-72.0778735!2d42.6697029!3e0?entry=ttu" class="hover:text-cyan-500" target = "_blank"><i class="fa fa-map-marker" style="color:black"></i> 231 Main St, <br>Winchendon, MA</a>
+                  </li>
+                  <li class="my-2">
+                    <a style="text-decoration:none !important" href="tel:(978) 297-1777" class="hover:text-cyan-500"><i class="fa fa-phone" style="color:black"></i> (978) 297-1777</a>              
+                  </li>
+                  <li class="my-2">
+                    <p><i class="fa fa-bell" style="color:black"></i> Takeout · Dine-in · Outdoor seating</p>
+                  </li>
+              </ul>
+          </div>
+      </div>
+      <div class="flex py-1 m-auto text-gray-800 text-sm flex-col items-center border-t max-w-screen-xl">
+          <div class="md:flex-auto md:flex-row-reverse mt-2 flex-row flex">
+              <a href="https://www.facebook.com/lickitysplitzwinchendon/" class="w-6 mx-1">
+                <svg xmlns="http://www.w3.org/2000/svg" height="2em" viewBox="0 0 320 512">
+                  <path d="M279.14 288l14.22-92.66h-88.91v-60.13c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S260.43 0 225.36 0c-73.22 0-121.08 44.38-121.08 124.72v70.62H22.89V288h81.39v224h100.17V288z"/>
+                </svg>
+              </a>
 
-            <a href="https://www.yelp.com/biz/lickity-splitz-winchendon" class="w-6 mx-1">
-                              <svg xmlns="http://www.w3.org/2000/svg" height="2em" viewBox="0 0 384 512">
-                      <!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
-                      <path d="M42.9 240.32l99.62 48.61c19.2 9.4 16.2 37.51-4.5 42.71L30.5 358.45a22.79 22.79 0 0 1-28.21-19.6 197.16 197.16 0 0 1 9-85.32 22.8 22.8 0 0 1 31.61-13.21zm44 239.25a199.45 199.45 0 0 0 79.42 32.11A22.78 22.78 0 0 0 192.94 490l3.9-110.82c.7-21.3-25.5-31.91-39.81-16.1l-74.21 82.4a22.82 22.82 0 0 0 4.09 34.09zm145.34-109.92l58.81 94a22.93 22.93 0 0 0 34 5.5 198.36 198.36 0 0 0 52.71-67.61A23 23 0 0 0 364.17 370l-105.42-34.26c-20.31-6.5-37.81 15.8-26.51 33.91zm148.33-132.23a197.44 197.44 0 0 0-50.41-69.31 22.85 22.85 0 0 0-34 4.4l-62 91.92c-11.9 17.7 4.7 40.61 25.2 34.71L366 268.63a23 23 0 0 0 14.61-31.21zM62.11 30.18a22.86 22.86 0 0 0-9.9 32l104.12 180.44c11.7 20.2 42.61 11.9 42.61-11.4V22.88a22.67 22.67 0 0 0-24.5-22.8 320.37 320.37 0 0 0-112.33 30.1z"/>
-                  </svg>
-            </a>
+              <a href="https://www.yelp.com/biz/lickity-splitz-winchendon" class="w-6 mx-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="2em" viewBox="0 0 384 512">
+                        <!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                        <path d="M42.9 240.32l99.62 48.61c19.2 9.4 16.2 37.51-4.5 42.71L30.5 358.45a22.79 22.79 0 0 1-28.21-19.6 197.16 197.16 0 0 1 9-85.32 22.8 22.8 0 0 1 31.61-13.21zm44 239.25a199.45 199.45 0 0 0 79.42 32.11A22.78 22.78 0 0 0 192.94 490l3.9-110.82c.7-21.3-25.5-31.91-39.81-16.1l-74.21 82.4a22.82 22.82 0 0 0 4.09 34.09zm145.34-109.92l58.81 94a22.93 22.93 0 0 0 34 5.5 198.36 198.36 0 0 0 52.71-67.61A23 23 0 0 0 364.17 370l-105.42-34.26c-20.31-6.5-37.81 15.8-26.51 33.91zm148.33-132.23a197.44 197.44 0 0 0-50.41-69.31 22.85 22.85 0 0 0-34 4.4l-62 91.92c-11.9 17.7 4.7 40.61 25.2 34.71L366 268.63a23 23 0 0 0 14.61-31.21zM62.11 30.18a22.86 22.86 0 0 0-9.9 32l104.12 180.44c11.7 20.2 42.61 11.9 42.61-11.4V22.88a22.67 22.67 0 0 0-24.5-22.8 320.37 320.37 0 0 0-112.33 30.1z"/>
+                    </svg>
+              </a>
 
 
-        </div>
-        <div class="my-5">© Copyright 2023. All Rights Reserved.</div>
-    </div>
-    </div>
+          </div>
+          <div class="my-5">© Copyright 2023. All Rights Reserved.</div>
+      </div>
+      </div>
+      </div>
   </div>
 
 </html>
