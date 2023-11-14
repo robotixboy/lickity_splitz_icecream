@@ -134,10 +134,12 @@
                                             <span>
                                             <i class="fa fa-check"></i>
                                             </span>
+                                             <% if session[:customer].present? %>
                                                 <%= form.hidden_field :customer_id, value: session[:customer]['id'] %>
                                                 <%= form.hidden_field :food_id, value: food.id %>
                                                 <%= form.hidden_field :total_cost, value: food.inital_cost %>
                                                 <span><%= form.submit "Confirm" %></span>
+                                            <% end %>
                                         </div>
                                     </button>
                                 <% end %>
@@ -246,10 +248,12 @@
                                                 <span>
                                                 <i class="fa fa-check"></i>
                                                 </span>
+                                                <% if session[:customer].present? %>
                                                     <%= form.hidden_field :customer_id, value: session[:customer]['id'] %>
                                                     <%= form.hidden_field :food_id, value: food.id %>
                                                     <%= form.hidden_field :total_cost, value: food.inital_cost %>
                                                     <span><%= form.submit "Confirm" %></span>
+                                                <% end %>
                                             </div>
                                         </button>
                                     <% end %>
@@ -332,23 +336,32 @@
             <% foodIds = [] %>
             <% foodNotes = [] %>
 
-
             <h3 style="margin-top:0px !important">Hello, <%= session[:customer]["first_name"] %>.</h3>
-            <p>Below is your current order:</p>
-            <% @customers_temp_orders.each do |orderedItme| %>
-            <p style="margin: 0 !important;" class="font-semibold"><%= Food.find_by_id(orderedItme.food_id).food_name %></p>
-            <p style="margin: 0 !important; padding: 0 !important;"><%= orderedItme.food_modifications %></p>
-            <p style="margin: 0 !important;" class="text-green-600"><span style="color:black">+</span> $<%= number_with_precision(orderedItme.total_cost, precision: 2) %></p>
-            <div style="padding-top:10px">
-            <button class="bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-2 px-2 border border-red-500 hover:border-transparent rounded" style="padding-top:2px !important;padding-bottom:2px !important">
-            Remove
-            </button>
-            </div>
-                <hr class="quick_options">
-                <% foodIds.append(orderedItme.food_id) %>
-                <% foodNotes.append(orderedItme.food_modifications) %>
+
+            <% if @customers_temp_orders.empty? %>
+                <p style="margin-top:0px !important">You have not ordered anything yet.</p>
+            <% else %>
+                <p>Below is your current order:</p>
+                <% @customers_temp_orders.each do |orderedItem| %>
+                    <% if orderedItem.total_cost != 0 %>
+                        <p style="margin: 0 !important;" class="font-semibold"><%= Food.find_by_id(orderedItem.food_id).food_name %></p>
+                        <p style="margin: 0 !important; padding: 0 !important;"><%= orderedItem.food_modifications %></p>
+                        <p style="margin: 0 !important;" class="text-green-600"><span style="color:black">+</span> $<%= number_with_precision(orderedItem.total_cost, precision: 2) %></p>
+                        <div style="padding-top:10px">
+                            <button class="bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-2 px-2 border border-red-500 hover:border-transparent rounded" style="padding-top:2px !important;padding-bottom:2px !important">
+                                {Remove}
+                            </button>
+                        </div>
+                        <hr class="quick_options">
+                        <% foodIds.append(orderedItem.food_id) %>
+                        <% foodNotes.append(orderedItem.food_modifications) %>
+                    <% else %>
+                        <p style="margin: 0 !important;">Nothing ordered yet.</p>
+                    <% end %>
+                <% end %>
             <% end %>
         <% end %>
+
         <p>Total price: $<%= number_with_precision(@total, precision: 2) %></p>
 
         <div class="flex gap-6">
@@ -396,62 +409,8 @@
     });
     </script>
 
-    <table>
-    <tr>
-        <th>Food Name</th>
-        <th>Food Mods</th>
-        <th>Total Cost</th>
-        <% if session[:customer] != nil and Time.now >= Time.parse("7:00") and Time.now <= Time.parse("12:00")%>
-            <th></th>
-            <th></th>
-        <% end %>
-    </tr>
-    <% if !@breakfastMenu.blank?%>
-        <% @breakfastMenu.each  do |breakfastItem| %>
-            <tr>
-                <th><%= breakfastItem.food_name %></th>
-                <% data = eval(breakfastItem.food_additions) rescue [] %>
-                <% additions = data.is_a?(Array) ? data : [data] %>
-                <th>
-                <% additions.each do |addition| %>
-                <% if addition %>
-                    <h4>ID: <%= addition['id'] %>, Name: <%= addition['addition_name'] %>, Cost: <%= addition['cost'] %></h4>
-                <% end %>
-                <% end %>
+    
+<% end %>
 
-                </th>
-                <th><%= breakfastItem.inital_cost %></th>
-                <% if session[:customer] != nil and Time.now >= Time.parse("7:00") and Time.now <= Time.parse("12:00")%>
-                    <th><%= link_to "Edit Item", menu_show_path(breakfastItem), class: "btn btn-primary" %></th>
-                    <th>
-                        <%= form_with(model: TempOrder.new, method: :post) do |form| %>
-                        <%= form.hidden_field :customer_id, value: session[:customer]['id'] %>
-                        <%= form.hidden_field :food_id, value: breakfastItem.id %>
-                        <%= form.hidden_field :total_cost, value: breakfastItem.inital_cost %>
-                        <%= form.submit "Add to Order" %>
-                        <% end %>
-                    </th>
-                <% end %>
-            <tr>
-        <% end%>
-    <% end %>
-    </table>
-<% end %>
-<% if session[:isBreakfast] %>
-    <% if session[:customer] != nil && Time.now >= Time.parse("7:00") && Time.now <= Time.parse("12:00") %>
-        <%= link_to "Complete Order", order_confirmation_path, class: "btn btn-primary" %>
-    <% elsif session[:customer] == nil %>
-        <%= link_to "Log In to order food", login_path, class: "btn btn-primary" %>
-    <% else %>
-        <h3>YOU CANNOT ORDER BREAKFAST AFTER 12 YOU WEIRDOS</h3>
-    <% end %>
-<% else %>
-    <% if session[:customer] != nil %>
-        <%= link_to "Complete Order", order_confirmation_path, class: "btn btn-primary" %>
-    <% else %>
-        <%= link_to "Log In to order food", login_path, class: "btn btn-primary" %>
-    <% end %>
-<% end %>
 
 <br>
-<%= link_to "Go Back to the Menu", menu_order_path, class: "btn btn-primary" %>
