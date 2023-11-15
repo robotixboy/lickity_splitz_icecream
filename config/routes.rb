@@ -28,6 +28,8 @@ Rails.application.routes.draw do
   post 'changingTag', to: 'employees#changingTag'
   post 'deletingTags', to: 'employees#deletingTags'
   post 'updatingFoodAdditions', to: 'employees#updatingFoodAdditions'
+  post 'deleteTempOrderItem', to: 'menu#deleteTempOrderItem'
+  post 'updatingCustomersOrder', to: 'menu#updatingCustomersOrder'
   get 'confirmation', to: 'menu#confirmation', as: 'order_confirmation'
   get 'orderingMenu', to: 'menu#orderingMenu', as: 'ordering_menu'
   get '/set_isBreakfast_true', to: 'menu#set_isBreakfast_true'

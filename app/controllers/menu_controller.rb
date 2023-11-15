@@ -49,4 +49,20 @@ class MenuController < ApplicationController
         session[:isBreakfast] = false
         redirect_to ordering_menu_path
     end
+
+    def deleteTempOrderItem
+        @customersTempFood = TempOrder.find_by(customer_id: session[:customer]["id"], food_id: params[:foodId])
+        if !@customersTempFood.nil?
+            @customersTempFood.destroy
+            updatingCustomersOrder()
+            redirect_to ordering_menu_path
+        else
+            puts "Error ------------------"
+            redirect_to ordering_menu_path
+        end
+    end
+
+    def updatingCustomersOrder
+        puts TempOrder.where(customer_id: session[:customer]["id"])
+    end
 end
