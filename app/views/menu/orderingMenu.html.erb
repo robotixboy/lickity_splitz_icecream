@@ -126,9 +126,15 @@
                         <p class="font-bold text-xl">$<%= number_with_precision(food.inital_cost, precision: 2) %></p>
 
                         <!-- Your button -->
-                        <button class="popup-trigger px-3 py-1 transition ease-in duration-200 uppercase rounded-full hover:bg-gray-800 hover:text-white border-2 border-gray-900 focus:outline-none" data-popup-id="<%= id %>" style="font-size:14px">
-                            <i class="fa fa-cart-plus" style="font-size:16px"></i> add to order
-                        </button>
+                        <% if session[:customer] != nil%>
+                            <button class="popup-trigger px-3 py-1 transition ease-in duration-200 uppercase rounded-full hover:bg-gray-800 hover:text-white border-2 border-gray-900 focus:outline-none" data-popup-id="<%= id %>" style="font-size:14px">
+                                <i class="fa fa-cart-plus" style="font-size:16px"></i>add to order
+                            </button>
+                        <% else %>
+                            <button class="px-3 py-1 transition ease-in duration-200 uppercase rounded-full hover:bg-gray-800 hover:text-white border-2 border-gray-900 focus:outline-none" data-popup-id="<%= id %>" style="font-size:14px">
+                                <i class="fa fa-cart-plus" style="font-size:16px"></i><%= link_to "add to order", login_path, class: "btn btn-primary" %>
+                            </button>
+                        <% end %>
 
                         <!-- The popup overlay -->
                         <div class="overlay overlay_<%= id %>">
@@ -183,9 +189,15 @@
                         <p class="font-bold text-xl">$<%= number_with_precision(food.inital_cost, precision: 2) %></p>
 
                         <!-- Your button -->
-                        <button class="popup-trigger px-3 py-1 transition ease-in duration-200 uppercase rounded-full hover:bg-gray-800 hover:text-white border-2 border-gray-900 focus:outline-none" data-popup-id="<%= id %>" style="font-size:14px">
-                            <i class="fa fa-cart-plus" style="font-size:16px"></i> add to order
-                        </button>
+                        <% if session[:customer] != nil%>
+                            <button class="popup-trigger px-3 py-1 transition ease-in duration-200 uppercase rounded-full hover:bg-gray-800 hover:text-white border-2 border-gray-900 focus:outline-none" data-popup-id="<%= id %>" style="font-size:14px">
+                                <i class="fa fa-cart-plus" style="font-size:16px"></i>add to order
+                            </button>
+                        <% else %>
+                            <button class="px-3 py-1 transition ease-in duration-200 uppercase rounded-full hover:bg-gray-800 hover:text-white border-2 border-gray-900 focus:outline-none" data-popup-id="<%= id %>" style="font-size:14px">
+                                <i class="fa fa-cart-plus" style="font-size:16px"></i><%= link_to "add to order", login_path, class: "btn btn-primary" %>
+                            </button>
+                        <% end %>
 
                         <!-- The popup overlay -->
                         <div class="overlay overlay_<%= id %>">
@@ -240,9 +252,15 @@
                         <p class="font-bold text-xl">$<%= number_with_precision(food.inital_cost, precision: 2) %></p>
 
                         <!-- Your button -->
-                        <button class="popup-trigger px-3 py-1 transition ease-in duration-200 uppercase rounded-full hover:bg-gray-800 hover:text-white border-2 border-gray-900 focus:outline-none" data-popup-id="<%= id %>" style="font-size:14px">
-                            <i class="fa fa-cart-plus" style="font-size:16px"></i> add to order
-                        </button>
+                        <% if session[:customer] != nil%>
+                            <button class="popup-trigger px-3 py-1 transition ease-in duration-200 uppercase rounded-full hover:bg-gray-800 hover:text-white border-2 border-gray-900 focus:outline-none" data-popup-id="<%= id %>" style="font-size:14px">
+                                <i class="fa fa-cart-plus" style="font-size:16px"></i>add to order
+                            </button>
+                        <% else %>
+                            <button class="px-3 py-1 transition ease-in duration-200 uppercase rounded-full hover:bg-gray-800 hover:text-white border-2 border-gray-900 focus:outline-none" data-popup-id="<%= id %>" style="font-size:14px">
+                                <i class="fa fa-cart-plus" style="font-size:16px"></i><%= link_to "add to order", login_path, class: "btn btn-primary" %>
+                            </button>
+                        <% end %>
 
                         <!-- The popup overlay -->
                         <div class="overlay overlay_<%= id %>">
@@ -297,9 +315,11 @@
                         <p class="font-bold text-xl">$<%= number_with_precision(food.inital_cost, precision: 2) %></p>
 
                         <!-- Your button -->
-                        <button class="popup-trigger px-3 py-1 transition ease-in duration-200 uppercase rounded-full hover:bg-gray-800 hover:text-white border-2 border-gray-900 focus:outline-none" data-popup-id="<%= id %>" style="font-size:14px">
-                            <i class="fa fa-cart-plus" style="font-size:16px"></i> add to order
-                        </button>
+                        <% if session[:customer] != nil%>
+                            <button class="popup-trigger px-3 py-1 transition ease-in duration-200 uppercase rounded-full hover:bg-gray-800 hover:text-white border-2 border-gray-900 focus:outline-none" data-popup-id="<%= id %>" style="font-size:14px">
+                                <i class="fa fa-cart-plus" style="font-size:16px"></i> add to order
+                            </button>
+                        <% end %>
 
                         <!-- The popup overlay -->
                         <div class="overlay overlay_<%= id %>">
@@ -354,9 +374,15 @@
                         <p class="font-bold text-xl">$<%= number_with_precision(food.inital_cost, precision: 2) %></p>
 
                         <!-- Your button -->
-                        <button class="popup-trigger px-3 py-1 transition ease-in duration-200 uppercase rounded-full hover:bg-gray-800 hover:text-white border-2 border-gray-900 focus:outline-none" data-popup-id="<%= id %>" style="font-size:14px">
-                            <i class="fa fa-cart-plus" style="font-size:16px"></i> add to order
-                        </button>
+                        <% if session[:customer] != nil%>
+                            <button class="popup-trigger px-3 py-1 transition ease-in duration-200 uppercase rounded-full hover:bg-gray-800 hover:text-white border-2 border-gray-900 focus:outline-none" data-popup-id="<%= id %>" style="font-size:14px">
+                                <i class="fa fa-cart-plus" style="font-size:16px"></i>add to order
+                            </button>
+                        <% else %>
+                            <button class="px-3 py-1 transition ease-in duration-200 uppercase rounded-full hover:bg-gray-800 hover:text-white border-2 border-gray-900 focus:outline-none" data-popup-id="<%= id %>" style="font-size:14px">
+                                <i class="fa fa-cart-plus" style="font-size:16px"></i><%= link_to "add to order", login_path, class: "btn btn-primary" %>
+                            </button>
+                        <% end %>
 
                         <!-- The popup overlay -->
                         <div class="overlay overlay_<%= id %>">
@@ -411,9 +437,15 @@
                             <p class="font-bold text-xl">$<%= number_with_precision(food.inital_cost, precision: 2) %></p>
 
                             <!-- Your button -->
-                            <button class="popup-trigger px-3 py-1 transition ease-in duration-200 uppercase rounded-full hover:bg-gray-800 hover:text-white border-2 border-gray-900 focus:outline-none" data-popup-id="<%= id %>" style="font-size:14px">
-                                <i class="fa fa-cart-plus" style="font-size:16px"></i> add to order
-                            </button>
+                            <% if session[:customer] != nil%>
+                                <button class="popup-trigger px-3 py-1 transition ease-in duration-200 uppercase rounded-full hover:bg-gray-800 hover:text-white border-2 border-gray-900 focus:outline-none" data-popup-id="<%= id %>" style="font-size:14px">
+                                    <i class="fa fa-cart-plus" style="font-size:16px"></i>add to order
+                                </button>
+                            <% else %>
+                                <button class="px-3 py-1 transition ease-in duration-200 uppercase rounded-full hover:bg-gray-800 hover:text-white border-2 border-gray-900 focus:outline-none" data-popup-id="<%= id %>" style="font-size:14px">
+                                    <i class="fa fa-cart-plus" style="font-size:16px"></i><%= link_to "add to order", login_path, class: "btn btn-primary" %>
+                                </button>
+                            <% end %>
 
                             <!-- The popup overlay -->
                             <div class="overlay overlay_<%= id %>">
@@ -601,6 +633,21 @@
     document.getElementById('close_customer').addEventListener('click', function () {
         document.getElementById('customer_view_overlay').style.display = 'none';
     });
+
+
+    const refresh = async(id) => {
+        const req = await fetch('http://localhost:5000/orders/:id/remove', {
+            method: 'DELETE',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        })
+
+        const res = await req.json();
+
+        console.log(res);
+    }
     </script>
 
     

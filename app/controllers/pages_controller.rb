@@ -1,6 +1,6 @@
 class PagesController < ApplicationController
     def home
-      session[:customer] = nil
+      reset_session
     end
   end
   
