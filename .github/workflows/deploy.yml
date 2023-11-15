@@ -14,7 +14,7 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Set up Ruby
-      uses: actions/setup-ruby@v2
+      uses: actions/setup-ruby@2
       with:
         ruby-version: 3.2.2 # Adjust the Ruby version as needed
 
