@@ -13,8 +13,8 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
-    - name: Debug SSH connection
-      run: ssh -v -i ~/.ssh/id_rsa deploy@162.243.186.231
+    #- name: Debug SSH connection
+      #run: ssh -v -i ~/.ssh/id_rsa deploy@162.243.186.231
 
 
     - name: Set up Ruby
