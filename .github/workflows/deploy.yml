@@ -4,13 +4,13 @@ on:
     branches:
       - main
     workflows:
-      - CI
+      - ["CI"]
     types:
       - completed
 concurrency:
   group: production
 jobs:
-  tomo:
+  deploy:
     runs-on: ubuntu-latest
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
