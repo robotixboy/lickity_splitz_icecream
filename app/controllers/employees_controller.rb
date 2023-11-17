@@ -1,31 +1,56 @@
 class EmployeesController < ApplicationController
+
     def home
-        @employee = Employee.new
-        @addition = Addition.new
         @additions = Addition.all
         @foods = Food.all
-        @temp_order = TempOrder.new
-        @temp_orders = TempOrder.all
         @orders = Order.all
-        @order = Order.new
-        @foodTag = FoodTag.new
         @foodTags = FoodTag.all
+
+        puts "==================== HOME DEBUGGING ======================"
+        puts session[:authorization_key]
+        puts session[:employee]
+        puts "DEBUG END"
+        if session[:authorization_key] == "80085"
+        elsif session[:employee].blank? || session[:employee].nil?
+            redirect_to customer_orders_url
+        else
+            redirect_to employees_admin_login_url
+        end
     end
 
     def show
         @food = Food.find(params[:id])
         @additions = Addition.all
     end
-      
+    
+    def checkCredentials
+        username = params[:username]
+        password = params[:password]
+        employee = Employee.find_by(username: username, password: password)
+        if !employee.nil?
+            session[:employee] = employee
+            session[:authorization_key] = employee.authorization_key
+            redirect_to customer_orders_url
+        else
+            redirect_to employees_admin_login_url
+        end
+    end
+
+    def adminKey
+        session[:authorization_key] = params[:authorizationKey]
+        puts "---------------------"
+        puts session[:authorization_key]
+        if session[:authorization_key] == "80085"
+            redirect_to employees_home_url
+        else
+            redirect_to customer_orders_path
+        end
+    end
       
 
     def updatingFoodAdditions
         @food = Food.find(params[:id])
         @food.food_additions = params[:foodAdditions]
-        #@food.food_additions = []
-        puts "------------------------------"
-        puts params[:foodAdditions]
-        
         if @food.save
             redirect_to employee_index_url
         else

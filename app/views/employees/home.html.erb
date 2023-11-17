@@ -51,10 +51,6 @@
           <h2 class="text-lg font-bold mb-2">Food Addition: <%= addition.addition_name %></h2>
           <p class="text-sm">Cost: <%= addition.cost %></p>
           <div class="mt-4">
-            <%= form_tag storing_additions_path, method: :post do %>
-              <%= hidden_field_tag :your_variable, addition.to_json %>
-              <%= submit_tag "Store Variable", class: "bg-blue-500 text-white p-2 rounded" %>
-            <% end %>
             <%= form_tag deletingAdditions_path, method: :post do %>
               <%= hidden_field_tag :id, addition.id %>
               <%= submit_tag "Delete", class: "bg-red-500 text-white p-2 rounded" %>

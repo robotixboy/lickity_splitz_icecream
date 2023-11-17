@@ -1,5 +1,7 @@
-<%= link_to "GO BACK : THIS IS FOR TESTING PURPOSES", employees_home_path, class: "btn btn-primary" %>
-
+<%= form_tag adminKey_path, method: :post do %>
+    <%= text_field_tag :authorizationKey %>
+    <%= submit_tag "Log-In", class: "bg-blue-500 text-white p-2 rounded" %>
+<% end %>
 <div class="container">
     <h1 class="text-2xl font-bold mb-4">Order</h1>
     <div class="flex flex-wrap gap-4">

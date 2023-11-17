@@ -13,6 +13,10 @@ class MenuController < ApplicationController
         if !session[:customer].nil?
             @customers_temp_orders = TempOrder.where(customer_id: session[:customer]["id"])
         end
+
+        Time.zone = 'Eastern Time (US & Canada)'
+        session["Time"] = Time.zone.now
+        
         @total = 0
         if @customers_temp_orders
           @customers_temp_orders.each do |foodItem|
@@ -30,6 +34,8 @@ class MenuController < ApplicationController
     end
 
     def order
+        Time.zone = 'Eastern Time (US & Canada)'
+        session["Time"] = Time.zone.now
         @temp_order = TempOrder.new
         @temp_orders = TempOrder.all
 
