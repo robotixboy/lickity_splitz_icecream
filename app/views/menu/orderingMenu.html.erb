@@ -636,19 +636,19 @@
     });
 
 
-    const refresh = async(id) => {
-        const req = await fetch('http://localhost:5000/orders/:id/remove', {
-            method: 'DELETE',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            }
-        })
+    // const refresh = async(id) => {
+    //     const req = await fetch('http://localhost:5000/orders/:id/remove', {
+    //         method: 'DELETE',
+    //         headers: {
+    //             'Accept': 'application/json',
+    //             'Content-Type': 'application/json'
+    //         }
+    //     })
 
-        const res = await req.json();
+    //     const res = await req.json();
 
-        console.log(res);
-    }
+    //     console.log(res);
+    // }
     </script>
 
     
