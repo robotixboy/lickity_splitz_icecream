@@ -1,16 +1,16 @@
 name: Deploy
 on:
-  push:
+  workflow_run:
     branches:
       - main
-    workflows:
-      - CI_Workflow
-    types:
-      - completed
-concurrency:
-  group: production
+    # workflows:
+    #   - CI
+    # types:
+    #   - completed
+# concurrency:
+#   group: production
 jobs:
-  cap:
+  tomo:
     runs-on: ubuntu-latest
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
@@ -21,4 +21,4 @@ jobs:
       - uses: webfactory/ssh-agent@v0.8.0
         with:
           ssh-private-key: ${{ secrets.TOMO_DEPLOY_PRIVATE_KEY }}
-      - run: bundle exec cap deploy --color -s git_ref=$GITHUB_SHA
+      - run: bundle exec tomo deploy --color -s git_ref=$GITHUB_SHA
