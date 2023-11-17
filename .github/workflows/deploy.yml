@@ -3,12 +3,12 @@ on:
   workflow_run:
     branches:
       - main
-    # workflows:
-    #   - CI
-    # types:
-    #   - completed
-# concurrency:
-#   group: production
+    workflows:
+      - CI
+    types:
+      - completed
+concurrency:
+  group: production
 jobs:
   tomo:
     runs-on: ubuntu-latest
