@@ -39,6 +39,4 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.TOMO_DEPLOY_PRIVATE_KEY }}
       # - run: bundle exec cap deploy -s git_ref=$GITHUB_SHA
-      # - run: bundle exec cap deploy git_ref=$GITHUB_SHA
-      - run: bundle
-      - run: cap production deploy
+      - run: bundle exec cap deploy git_ref=$GITHUB_SHA
