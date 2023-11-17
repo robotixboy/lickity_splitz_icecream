@@ -52,7 +52,7 @@ class EmployeesController < ApplicationController
         @food = Food.find(params[:id])
         @food.food_additions = params[:foodAdditions]
         if @food.save
-            redirect_to employee_index_url
+            redirect_to employees_home_url
         else
             render root_url
         end
@@ -61,7 +61,7 @@ class EmployeesController < ApplicationController
     def addition #This is how we are storing each addition into an array before we add it to the food item
         session[:addition] ||= []
         session[:addition] << params[:your_variable]
-        redirect_to employee_index_url
+        redirect_to employees_home_url
     end
 
     def addingFood #Adding a food to the Food DB table: This will reset the session array 
@@ -98,7 +98,7 @@ class EmployeesController < ApplicationController
         @food = Food.find(params[:id])
         @food.tag = params[:newTag]
         if @food.save
-            redirect_to employee_index_url
+            redirect_to employees_home_url
         else
             render 'home'
         end
@@ -111,7 +111,7 @@ class EmployeesController < ApplicationController
           food.update(tag: nil)
         end
         if @tag.destroy
-          redirect_to employee_index_url
+          redirect_to employees_home_url
         else
           render 'home'
         end
@@ -120,7 +120,7 @@ class EmployeesController < ApplicationController
     def deletingAdditions
         @addition = Addition.find(params[:id])
         if @addition.destroy
-            redirect_to employee_index_url
+            redirect_to employees_home_url
         else
             render 'home'
         end
