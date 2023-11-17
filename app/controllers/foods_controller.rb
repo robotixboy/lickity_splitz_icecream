@@ -3,7 +3,7 @@ class FoodsController < ApplicationController
         @food = Food.new(food_params)
         
         if @food.save
-            redirect_to employee_index_url
+            redirect_to employees_home_url
         else
             render root_url # Render the 'home' template if saving fails
         end

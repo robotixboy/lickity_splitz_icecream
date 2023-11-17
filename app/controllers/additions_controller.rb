@@ -5,7 +5,7 @@ class AdditionsController < ApplicationController
         @addition = Addition.new(addition_params)
 
         if @addition.save
-            redirect_to employee_index_url
+            redirect_to employees_home_url
         else
             render root_url
         end

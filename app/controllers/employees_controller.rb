@@ -77,7 +77,7 @@ class EmployeesController < ApplicationController
         session[:addition] = []
     
         if @food.save
-            redirect_to employee_index_url
+            redirect_to employees_home_url
         else
             render root_url
         end
