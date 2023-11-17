@@ -4,6 +4,6 @@ on:
   push:
     branches:
       - main
-jobs:
-  always-pass:
-    runs-on: ubuntu-latest
+# jobs:
+#   always-pass:
+#     runs-on: ubuntu-latest
