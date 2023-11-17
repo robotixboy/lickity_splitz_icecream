@@ -1,0 +1,5 @@
+<%= form_tag checkCredentials_path, method: :post do %>
+    <%= text_field_tag :username %>
+    <%= text_field_tag :password %>
+    <%= submit_tag "Log-In", class: "bg-blue-500 text-white p-2 rounded" %>
+<% end %>
