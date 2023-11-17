@@ -32,8 +32,14 @@
     </div>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-10">
-
-        <!--- <% if session["Time"] >= Time.parse("7:00") && session["Time"]  <= Time.parse("13:00") %> --->
+        <!--- START OF COMMENT --->
+        <%
+=begin%>
+ <% if session["Time"] >= Time.parse("7:00") && session["Time"]  <= Time.parse("13:00") %> 
+<%
+=end%>
+        <!--- END OF COMMENT --->
+        
             <!-- CARD 1 -->
             <div class="rounded overflow-hidden shadow-lg flex flex-col">
                 <a href="#"></a>
@@ -75,9 +81,21 @@
                     </span>
                 </div>
             </div>
-        <!--- <% end %> --->
+        <!--- START OF COMMENT --->
+        <%
+=begin%>
+ <% end %> 
+<%
+=end%>
+        <!--- END OF COMMENT --->
 
-       <!--- <% if session["Time"] >= Time.parse("11:00") && session["Time"]  <= Time.parse("19:00")%> --->
+        <!--- START OF COMMENT --->
+       <%
+=begin%>
+ <% if session["Time"] >= Time.parse("11:00") && session["Time"]  <= Time.parse("19:00")%> 
+<%
+=end%>
+        <!--- END OF COMMENT --->
             <!-- CARD 2 -->
             <div class="rounded overflow-hidden shadow-lg flex flex-col">
                 
@@ -119,7 +137,13 @@
                     </span>
                 </div>
             </div>
-       <!--- <% end %> --->
+        <!--- START OF COMMENT --->
+       <%
+=begin%>
+ <% end %> 
+<%
+=end%>
+         <!--- END OF COMMENT --->
 
     </div>
 
