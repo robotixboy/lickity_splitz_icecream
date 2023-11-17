@@ -1,24 +1,39 @@
-name: Deploy
+# name: Deploy
+# on:
+#   push:
+#     branches:
+#       - main
+#     workflows:
+#       - CI_Workflow
+#     types:
+#       - completed
+# concurrency:
+#   group: production
+# jobs:
+#   tomo:
+#     runs-on: ubuntu-latest
+#     if: ${{ github.event.workflow_run.conclusion == 'success' }}
+#     steps:
+#       - uses: actions/checkout@v3
+#       - uses: ruby/setup-ruby@v1
+#         with:
+#           bundler-cache: true
+#       - uses: webfactory/ssh-agent@v0.8.0
+#         with:
+#           ssh-private-key: ${{ secrets.TOMO_DEPLOY_PRIVATE_KEY }}
+#       - run: bundle exec cap deploy --color -s git_ref=$GITHUB_SHA
+
+name: Deploy to Production
+
 on:
   push:
     branches:
       - main
-    workflows:
-      - CI_Workflow
-    types:
-      - completed
-concurrency:
-  group: production
-jobs:
-  tomo:
-    runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
-    steps:
-      - uses: actions/checkout@v3
-      - uses: ruby/setup-ruby@v1
-        with:
-          bundler-cache: true
-      - uses: webfactory/ssh-agent@v0.8.0
-        with:
-          ssh-private-key: ${{ secrets.TOMO_DEPLOY_PRIVATE_KEY }}
-      - run: bundle exec cap deploy --color -s git_ref=$GITHUB_SHA
+    - uses: actions/checkout@v3
+    - uses: ruby/setup-ruby@v1
+      with:
+        bundler-cache: true
+    - uses: webfactory/ssh-agent@v0.8.0
+      with:
+        ssh-private-key: ${{ secrets.TOMO_DEPLOY_PRIVATE_KEY }}
+    - run: bundle exec cap deploy --color -s git_ref=$GITHUB_SHA
