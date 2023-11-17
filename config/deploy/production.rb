@@ -8,7 +8,6 @@
 # server "db.example.com", user: "deploy", roles: %w{db}
 
 server '162.243.186.231', user: 'deploy', roles: %w{app db web}
-set :stages, %w(production staging) # Add other stages as needed
 
 # role-based syntax
 # ==================
