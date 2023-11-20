@@ -30,13 +30,17 @@ jobs:
 
   deploy:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        ruby-version: ['3.2.2']
     steps:
       - uses: actions/checkout@v3
       - uses: ruby/setup-ruby@v1
         with:
+          ruby-version: ${{ matrix.ruby-version }}
           bundler-cache: true
       - uses: webfactory/ssh-agent@v0.8.0
         with:
           ssh-private-key: ${{ secrets.TOMO_DEPLOY_PRIVATE_KEY }}
       # - run: bundle exec cap deploy -s git_ref=$GITHUB_SHA
-      - run: bundle exec cap production deploy git_ref=$GITHUB_SHA
+      - run: bundle exec cap production deploy #git_ref=$GITHUB_SHA
