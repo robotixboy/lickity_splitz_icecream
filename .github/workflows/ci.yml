@@ -42,7 +42,7 @@ jobs:
           known_hosts: 'random-placeholder-value-replaced-by-keyscan-below'
           config: |
             host lsscse.com
-              IdentityFile ~/.ssh/github-actions
+              IdentityFile /home/deploy/.ssh/github-actions
               IdentitiesOnly yes
               ForwardAgent yes
 
