@@ -6,8 +6,9 @@ set :repo_url, "git@github.com:leocarten/lickity_splitz_icecream.git"
 set :branch, 'main'
 
 set :deploy_to, "/home/deploy/#{fetch :application}"
+set :linked_files, fetch(:linked_files, []).push('config/database.yml', 'config/secrets.yml')
 
-append :linked_dirs, 'log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', '.bundle', 'public/system', 'public/uploads'
+append :linked_dirs, 'log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', '.bundle', 'public/system', 'public/uploads','db'
 
 # Only keep the last 5 releases to save disk space
 set :keep_releases, 5
