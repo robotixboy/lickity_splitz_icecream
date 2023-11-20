@@ -42,7 +42,7 @@ jobs:
           known_hosts: 'random-placeholder-value-replaced-by-keyscan-below'
           config: |
             host lsscse.com
-              IdentityFile /home/deploy/.ssh/github-actions
+              IdentityFile ~/.ssh/github-actions
               IdentitiesOnly yes
               ForwardAgent yes
 
@@ -57,11 +57,11 @@ jobs:
           bundler-cache: true # runs 'bundle install' and caches installed gems automatically
 
 
-      - name: Deploy to production
-        run: |
-          eval "$(ssh-agent -s)"
-          ssh-add ~/.ssh/github-actions
-          bundle exec cap production deploy
+      # - name: Deploy to production
+      #   run: |
+      #     eval "$(ssh-agent -s)"
+      #     ssh-add ~/.ssh/github-actions
+      #     bundle exec cap production deploy
 
   # deploy:
   #   runs-on: ubuntu-latest
