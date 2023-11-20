@@ -56,8 +56,10 @@ jobs:
           ruby-version: 3.2.2
           bundler-cache: true # runs 'bundle install' and caches installed gems automatically
 
-          
-        
+
+      - name: Install Capistrano   
+        run: gem install capistrano -v '3.17.3'
+      
       - name: Deploy to production
         run: cap production deploy
 
