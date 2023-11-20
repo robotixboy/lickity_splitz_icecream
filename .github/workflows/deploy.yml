@@ -1,9 +1,9 @@
 name: Deploy To Server
 
 on:
-  # Deploy on merge to main
   push:
-    branches: [ main ]
+    branches:
+      - main
 #  # Manually deploy branch
 #  workflow_dispatch:
 #    branches: [ main ]
