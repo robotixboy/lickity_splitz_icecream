@@ -7,7 +7,7 @@ set :branch, 'main'
 
 set :deploy_to, "/home/deploy/#{fetch :application}"
 
-set :linked_files, %w{config/database.yml config/secrets.yml db/production.sqlite3}
+set :linked_files, %w{db/production.sqlite3}
 
 # set :linked_files, fetch(:linked_files, []).push('db/production.sqlite3')
 
