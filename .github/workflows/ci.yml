@@ -58,6 +58,7 @@ jobs:
 
       - name: Deploy to production
         run: |
+          ls -l /home/deploy/.ssh/
           eval "$(ssh-agent -s)"
           ssh-add /home/deploy/.ssh/github-actions
           bundle exec cap production deploy
