@@ -57,11 +57,15 @@ jobs:
           bundler-cache: true # runs 'bundle install' and caches installed gems automatically
 
 
+      # - name: Deploy to production
+      #   run: |
+      #     eval "$(ssh-agent -s)"
+      #     ssh-add ~/.ssh/github-actions
+      #     bundle exec cap production deploy
+
+
       - name: Deploy to production
-        run: |
-          eval "$(ssh-agent -s)"
-          ssh-add ~/.ssh/github-actions
-          bundle exec cap production deploy
+        run: bundle exec cap production deploy
 
   # deploy:
   #   runs-on: ubuntu-latest
