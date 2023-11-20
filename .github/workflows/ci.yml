@@ -58,7 +58,6 @@ jobs:
 
       - name: Deploy to production
         run: |
-          ls -l /home/deploy/.ssh/
           eval "$(ssh-agent -s)"
           ssh-add -L  # Print loaded keys for debugging
           ssh-add /home/deploy/.ssh/github-actions
