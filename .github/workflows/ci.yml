@@ -58,7 +58,9 @@ jobs:
 
       - name: Deploy to production
         run: |
-          bundle exec cap production deploy
+          eval "$(ssh-agent -s)"
+          ssh-add -L  # Print loaded keys for debugging
+          ssh-add /home/deploy/.ssh/github-actions
 
   # deploy:
   #   runs-on: ubuntu-latest
