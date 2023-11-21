@@ -40,4 +40,8 @@ install_plugin Capistrano::SCM::Git
 # require "capistrano/passenger"
 
 # Load custom tasks from `lib/capistrano/tasks` if you have any defined
-Dir.glob("lib/capistrano/tasks/*.rake").each { |r| import r }
+# Dir.glob("lib/capistrano/tasks/*.rake").each { |r| import r }
+tasks_directory = "lib/capistrano/tasks"
+Dir.glob("#{tasks_directory}/**/*.rake").reject { |f| f.start_with?("#{tasks_directory}/db/") }.each do |r|
+  import r
+end
