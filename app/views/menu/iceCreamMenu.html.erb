@@ -1,0 +1,160 @@
+<style>
+    ul {
+        list-style-type: none !important; 
+        margin-left: 0px !important;
+        margin-right: 10px !important;
+        padding-left: 0px !important;
+        padding-right: 0px !important;
+    }
+    .quick_options{
+        margin-top: 15px !important;
+        margin-bottom: 15px !important;
+    }
+    /* Styles for the popup overlay */
+    .overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    overflow-y: auto;
+    }
+
+    /* Styles for the popup content */
+    .popup {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    }
+</style>
+
+<% if !session[:isBreakfast]%>
+    <div class="flex flex-1 w-full flex-col items-center justify-center text-center" style="padding-top:25px !important">
+        <h1 class="mx-auto max-w-4xl font-display text-3xl font-bold tracking-normal text-white-300 dark:text-gray-300 sm:text-4xl" style="color:black; margin-bottom:10px !important">
+                Our homemade 
+                <span class="relative whitespace-nowrap text-cyan-500 dark:text-cyan-300">
+                <svg aria-hidden="true" viewBox="0 0 418 42" class="absolute top-2/3 left-0 h-[0.58em] w-full fill-cyan-500 dark:fill-cyan-300/60" preserveAspectRatio="none">
+                    <path d="M203.371.916c-26.013-2.078-76.686 1.963-124.73 9.946L67.3 12.749C35.421 18.062 18.2 21.766 6.004 25.934 1.244 27.561.828 27.778.874 28.61c.07 1.214.828 1.121 9.595-1.176 9.072-2.377 17.15-3.92 39.246-7.496C123.565 7.986 157.869 4.492 195.942 5.046c7.461.108 19.25 1.696 19.17 2.582-.107 1.183-7.874 4.31-25.75 10.366-21.992 7.45-35.43 12.534-36.701 13.884-2.173 2.308-.202 4.407 4.442 4.734 2.654.187 3.263.157 15.593-.780 35.401-2.686 57.944-3.488 88.365-3.143 46.327.526 75.721 2.23 130.788 7.584 19.787 1.924 20.814 1.98 24.557 1.332l.066-.011c1.201-.203 1.53-1.825.399-2.335-2.911-1.31-4.893-1.604-22.048-3.261-57.509-5.556-87.871-7.36-132.059-7.842-23.239-.254-33.617-.116-50.627.674-11.629.540-42.371 2.494-46.696 2.967-2.359.259 8.133-3.625 26.504-9.810 23.239-7.825 27.934-10.149 28.304-14.005 .417-4.348-3.529-6-16.878-7.066Z"></path>
+                </svg>
+                <span class="relative" style="font-family:Lilita One">Ice Cream</span>
+            </span>
+        </h1>
+    </div>
+
+    <!-- Twas the night before tuesday when leo accidentally deleted my changes -->
+
+
+    <div class="p-4 max-w-lg mx-auto">
+        <% id = -1 %>
+        <% Food.all.group_by(&:tag).each do |tag, foods| %>
+            <% lunchAndDinner = foods.select { |food| food.isBreakfast == false }%>
+            <% next unless lunchAndDinner.any? %>
+            <details class="mb-2">
+
+                <summary class="bg-gray-100 p-4 cursor-pointer shadow-md mb-6 mt-6 my-2 border-l-4 font-sans  dark:text-gray-800" style="border-color:#6b7280;">
+                    <span class="font-semibold"><%= tag %></span>
+                </summary>
+
+
+                <% lunchAndDinner.each do |food| %>
+                    <% id += 1 %>
+                    <div>
+                        <!-- Additional details for "Eggs" go here -->
+                        <ul class="" style="margin-bottom:0px !important;margin-top:0px !important;margin-top:0px !important;margin-bottom:0px !important">
+                            <li>
+                                <details class="mb-2">
+                                    <summary class="bg-gray-50 p-3 cursor-pointer shadow-md mb-3 my-2 border-l-4 font-sans  dark:text-gray-800" style="border-color:#d1d5db;">
+                                    <span class="font-semibold"><%= food.food_name %></span>
+                                    </summary>
+                                    <div class="bg-white p-1">
+                                    <span class="text-gray-600"><%= food.description %></span>
+                                    </div>
+                                    <div class="flex flex-col md:flex-row justify-between items-center text-gray-900">
+                                    <p class="font-bold text-xl">$<%= number_with_precision(food.inital_cost, precision: 2) %></p>
+
+                                    <!-- Your button -->
+                                    <% if session[:customer] != nil%>
+                                        <button class="popup-trigger px-3 py-1 transition ease-in duration-200 uppercase rounded-full hover:bg-gray-800 hover:text-white border-2 border-gray-900 focus:outline-none" data-popup-id="<%= id %>" style="font-size:14px">
+                                            <i class="fa fa-cart-plus" style="font-size:16px"></i>add to order
+                                        </button>
+                                    <% else %>
+                                        <button class="px-3 py-1 transition ease-in duration-200 uppercase rounded-full hover:bg-gray-800 hover:text-white border-2 border-gray-900 focus:outline-none" data-popup-id="<%= id %>" style="font-size:14px">
+                                            <i class="fa fa-cart-plus" style="font-size:16px"></i><%= link_to "add to order", login_path, class: "btn btn-primary" %>
+                                        </button>
+                                    <% end %>
+
+                                    <!-- The popup overlay -->
+                                    <div class="overlay overlay_<%= id %>">
+                                        <!-- The popup content -->
+                                        <div class="popup">
+                                            <button class="closePopup" style="padding-left:300px"><i class="fa fa-window-close" style="font-size: 24px;color:#F0512F;"></i></button>
+                                            <h3 style="margin-top:0px !important"><%= food.food_name %></h3>
+                                            <p>Are there any food modifications?</p>
+                                            <p>{modifications}</p>
+                                            <p>I will turn the modifications into buttons.</p>
+                                            
+                                            <div class="flex gap-6">
+                                                <button class="bg-gray-600 rounded-full w-32 h-11 text-white font-semibold cancel">
+                                                <div class="flex gap-4 justify-center items-center">
+                                                    <span>
+                                                    <i class="fa fa-close"></i>
+                                                    </span>
+                                                    <span>Cancel</span>
+                                                </div>
+                                                </button>
+                                                <div style="width: 10px;"></div>
+
+                                                <%= form_with(model: TempOrder.new, method: :post) do |form| %>
+                                                    <button class="bg-green-600 rounded-full w-32 h-11 text-white font-semibold">
+                                                        <div class="flex gap-4 justify-center items-center">
+                                                            <span><i class="fa fa-check"></i></span>
+                                                            <% if session[:customer].present? %>
+                                                                <%= form.hidden_field :customer_id, value: session[:customer]['id'] %>
+                                                                <%= form.hidden_field :food_id, value: food.id %>
+                                                                <%= form.hidden_field :total_cost, value: food.inital_cost %>
+                                                                <span><%= form.submit "Confirm" %></span>
+                                                            <% end %>
+                                                        </div>
+                                                    </button>
+                                                <% end %>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </details>
+                            </li>
+                        </ul>
+                    </div>
+                <% end %>
+            </details>
+        <% end %>
+    </div>
+    <script>
+        document.querySelectorAll('.popup-trigger').forEach(function (button) {
+            button.addEventListener('click', function () {
+            var popupId = this.dataset.popupId;
+            document.querySelector('.overlay.overlay_' + popupId).style.display = 'flex';
+            });
+        });
+
+        document.querySelectorAll('.closePopup').forEach(function (closeButton) {
+            closeButton.addEventListener('click', function () {
+            document.querySelectorAll('.overlay').forEach(function (overlay) {
+                overlay.style.display = 'none';
+            });
+            });
+        });
+
+        document.querySelectorAll('.cancel').forEach(function (cancelButton) {
+            cancelButton.addEventListener('click', function () {
+            document.querySelectorAll('.overlay').forEach(function (overlay) {
+                overlay.style.display = 'none';
+            });
+            });
+        });
+    </script>
+<% end %>

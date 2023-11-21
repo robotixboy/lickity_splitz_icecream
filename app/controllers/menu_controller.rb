@@ -8,6 +8,10 @@ class MenuController < ApplicationController
         @food = Food.find(params[:id])
     end
 
+    def iceCreamMenu #ice cream menu
+        session[:customer]
+    end
+
     def orderingMenu #Grabs value from previous page and Adds logged in customer information to the session
         session[:customer] = Customer.find_by(first_name: session[:firstName],phone_number: session[:phoneNumber]) || nil
         if !session[:customer].nil?
