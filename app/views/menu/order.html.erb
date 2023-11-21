@@ -27,11 +27,11 @@
                     <path d="M53.527,192.864c-2.187,3.518-1.109,8.142,2.409,10.329l183.478,114.081c1.232,0.767,2.601,1.132,3.953,1.132 c2.506,0,4.956-1.256,6.376-3.541c2.187-3.518,1.109-8.142-2.409-10.329L63.856,190.455 C60.338,188.266,55.714,189.346,53.527,192.864z"></path>
                 </g>
             </svg>
-            <a href="#" class="font-semibold inline-block">Our menus</a>
+            <a href="#" class="font-semibold inline-block text-lg">Our menus</a>
         </div>
     </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-10">
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
         <!--- START OF COMMENT --->
         <%
 =begin%>
@@ -144,32 +144,51 @@
 <%
 =end%>
          <!--- END OF COMMENT --->
+         <!-- CARD 3 -->
+    <div class="rounded overflow-hidden shadow-lg flex flex-col">
+        
+
+        <div class="relative">
+            <a href="<%= ice_memu_url %>">
+                <%= image_tag("icecream.jpeg", class: "w-full", alt: "picture") %>
+                <div class="hover:bg-transparent transition duration-300 absolute bottom-0 top-0 right-0 left-0 bg-gray-900 opacity-25"></div>
+            </a>
+            <a href="<%= set_isBreakfast_false_path %>">
+                <div class="text-xs absolute top-0 right-0 px-4 py-2 text-white mt-3 mr-3 hover:bg-white hover:text-black transition duration-500 ease-in-out" style="background-color: #0CC0DF">
+                                        Ice Cream
+                                    </div>
+            </a>
+        </div>
+        <div class="px-6 py-4 mb-auto">
+            <a href="<%= set_isBreakfast_false_path %>" class="font-medium text-lg inline-block hover:text-indigo-600 transition duration-500 ease-in-out inline-block mb-2">Ice Cream</a>
+            <p class="text-gray-500 text-sm">
+                             
+Savor the taste of homemade ice cream with our delightful menu. From classic favorites to unique creations, each scoop is crafted with love in our kitchen. Indulge in the goodness of our treats, making every bite a sweet escape. 
+                            </p>
+        </div>
+        <div class="px-6 py-3 flex flex-row items-center justify-between bg-gray-100">
+            <span href="<%= set_isBreakfast_false_path %>" class="py-1 text-xs font-regular text-gray-900 mr-1 flex flex-row items-center">
+                <!--<svg height="13px" width="13px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
+                    <g>
+                        <g>
+                            <path d="M256,0C114.837,0,0,114.837,0,256s114.837,256,256,256s256-114.837,256-256S397.163,0,256,0z M277.333,256 c0,11.797-9.536,21.333-21.333,21.333h-85.333c-11.797,0-21.333-9.536-21.333-21.333s9.536-21.333,21.333-21.333h64v-128 c0-11.797,9.536-21.333,21.333-21.333s21.333,9.536,21.333,21.333V256z"></path>
+                        </g>
+                    </g>
+                </svg>-->
+                <!--<span class="ml-1"> 10 days ago</span>-->
+            </span>
+
+            <span href="#" class="py-1 text-xs font-regular text-gray-900 mr-1 flex flex-row items-center">
+                <!--<svg class="h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"></path>
+                </svg>
+                <span class="ml-1">0 Comments</span>-->
+            </span>
+
 
     </div>
 
+        </div>
+    </div>
 </div>
 
-
-
-<%
-=begin%>
- <% if !@foods.blank? %>
-  <% @foods.each do |fooditem| %>
-    <%= fooditem.food_name %>
-    <%= form_with(model: TempOrder.new, method: :post) do |form| %>
-            <%= form.hidden_field :customer_id, value: session[:customer].id %>
-            <%= form.hidden_field :food_id, value: fooditem.id %>
-            <%= form.hidden_field :total_cost, value: fooditem.inital_cost %>
-            <%= form.text_field :food_modifications, value: fooditem.food_name %>
-            <%= form.submit "Add", class: "btn btn-primary" %>
-    <% end %>
-    <% data = eval(fooditem.food_additions) rescue [] %>
-    <% additions = data.is_a?(Array) ? data : [data] %>
-    <% additions.each do |addition| %>
-      <h4>ID: <%= addition['id'] %>, Name: <%= addition['addition_name'] %>, Cost: <%= addition['cost'] %></h4>
-    <% end %>
-  <% end %>
-<% end %> 
-<%
-=end%>
-<!-- <%= link_to "Show Results", order_confirmation_path, class: "btn btn-primary" %> -->
