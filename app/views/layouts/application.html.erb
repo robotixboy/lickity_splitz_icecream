@@ -1,3 +1,6 @@
+<% content_for :prose_class do %>
+  <%= "prose" %>
+<% end %>
 <!DOCTYPE html>
 <html>
   <head>
@@ -138,9 +141,11 @@
   <%# content %>
   
   <body class="">
-    <div class="prose mx-auto">
+
+    <div class="<%= @include_prose_class ? 'prose' : '' %> mx-auto">
       <%= yield %>
     </div>
+
   </body>
 <div style = "padding-top:5px"> <!-- White space above footy -->
   <div style="padding-top:20px !important">
@@ -201,7 +206,7 @@
 
 
           </div>
-          <div class="my-5">© Copyright 2023. All Rights Reserved. Leo is dumb.</div>
+          <div class="my-5">© Copyright 2023. All Rights Reserved.</div>
       </div>
       </div>
       </div>

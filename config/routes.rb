@@ -24,6 +24,7 @@ Rails.application.routes.draw do
   get 'orderingMenu', to: 'menu#orderingMenu', as: 'ordering_menu'
   get 'order', to: 'menu#order', as: 'menu_order'
   get 'login', to: 'menu#login'
+  get 'icecreamMenu', to: 'menu#iceCreamMenu', as: 'ice_memu'
 
   #Setting what menu will be shown for the ordering menu 
   get '/set_isBreakfast_true', to: 'menu#set_isBreakfast_true'
