@@ -1,3 +1,4 @@
+
 <style>
     ul {
         list-style-type: none !important; 
@@ -53,7 +54,7 @@
             <% next unless lunchAndDinner.any? %>
             <details class="mb-2">
 
-                <summary class="bg-gray-100 p-4 cursor-pointer shadow-md mb-6 mt-6 my-2 border-l-4 font-sans  dark:text-gray-800" style="border-color:#6b7280;">
+                <summary class="p-4 cursor-pointer shadow-md mb-6 mt-6 my-2 border-l-4 font-sans dark:text-gray-800" style="border-color:#6b7280;background-color:white !important;">
                     <span class="font-semibold"><%= tag %></span>
                 </summary>
 
@@ -93,7 +94,8 @@
                                             <h3 style="margin-top:0px !important"><%= food.food_name %></h3>
                                             <p>Are there any food modifications?</p>
                                             <p>{modifications}</p>
-                                            <p>I will turn the modifications into buttons.</p>
+                                            <h3 style="margin-top:0px !important"><%= food.food_additions %></h3>
+                                            <p >I will turn the modifications into buttons.</p>
                                             
                                             <div class="flex gap-6">
                                                 <button class="bg-gray-600 rounded-full w-32 h-11 text-white font-semibold cancel">
@@ -155,15 +157,6 @@
         });
     </script>
     
-
-
-
-
-
-
-
-
-
 
     <h1>Lunch / Dinner Menu (LEGACY CODE)</h1>
     <table>
@@ -230,12 +223,25 @@
     <!-- Loop to get all foods -->
     <div class="p-4 max-w-lg mx-auto">
         <% id = -1 %>
+        <% brunch_items_count = Food.where(tag: "Brunch").count %>
+        <% brunch_counter = 0 %>
+        <% eggs_items_count = Food.where(tag: "Eggs").count %>
+        <% eggs_counter = 0 %>
+        <% omelette_items_count = Food.where(tag: "Make your own Omelette").count %>
+        <% omelette_counter = 0 %>
+        <% sides_items_count = Food.where(tag: "Sides").count %>
+        <% sides_counter = 0 %>
+        <% drinks_items_count = Food.where(tag: "Drinks").count %>
+        <% drinks_counter = 0 %>
+        <% breads_items_count = Food.where(tag: "Breads and Hotcakes").count %>
+        <% breads_counter = 0 %>
         <% Food.all.group_by(&:tag).each do |tag, foods| %>
         <% breakfast = foods.select { |food| food.isBreakfast == true }%>
         <% next unless breakfast.any? %>
         <details class="mb-2">
 
-            <summary class="bg-gray-100 p-4 cursor-pointer shadow-md mb-6 mt-6 my-2 border-l-4 font-sans  dark:text-gray-800" style="border-color:#6b7280;">
+
+            <summary class="p-4 cursor-pointer shadow-md mb-6 mt-6 my-2 border-l-4 font-sans  dark:text-gray-800" style="border-color:#0CC0DF;background-color:white;">
                 <span class="font-semibold"><%= tag %></span>
             </summary>
 
@@ -246,380 +252,401 @@
                 <!-- Additional details for "Eggs" go here -->
                 <ul class="" style="margin-bottom:0px !important;margin-top:0px !important;margin-top:0px !important;margin-bottom:0px !important">
                 <% if food.tag == "Eggs" %>
-                    <li>
-                    <details class="mb-2">
-                        <summary class="bg-gray-50 p-3 cursor-pointer shadow-md mb-3 my-2 border-l-4 font-sans  dark:text-gray-800" style="border-color:#d1d5db;">
-                        <span class="font-semibold"><%= food.food_name %></span>
-                        </summary>
-                        <div class="bg-white p-1">
-                        <span class="text-gray-600"><%= food.description %></span>
-                        </div>
-                        <div class="flex flex-col md:flex-row justify-between items-center text-gray-900">
-                        <p class="font-bold text-xl">$<%= number_with_precision(food.inital_cost, precision: 2) %></p>
-
-                        <!-- Your button -->
-                        <% if session[:customer] != nil%>
-                            <button class="popup-trigger px-3 py-1 transition ease-in duration-200 uppercase rounded-full hover:bg-gray-800 hover:text-white border-2 border-gray-900 focus:outline-none" data-popup-id="<%= id %>" style="font-size:14px">
-                                <i class="fa fa-cart-plus" style="font-size:16px"></i>add to order
-                            </button>
-                        <% else %>
-                            <button class="px-3 py-1 transition ease-in duration-200 uppercase rounded-full hover:bg-gray-800 hover:text-white border-2 border-gray-900 focus:outline-none" data-popup-id="<%= id %>" style="font-size:14px">
-                                <i class="fa fa-cart-plus" style="font-size:16px"></i><%= link_to "add to order", login_path, class: "btn btn-primary" %>
-                            </button>
-                        <% end %>
-
-                        <!-- The popup overlay -->
-                        <div class="overlay overlay_<%= id %>">
-                            <!-- The popup content -->
-                            <div class="popup">
-                            <button class="closePopup" style="padding-left:300px"><i class="fa fa-window-close" style="font-size: 24px;color:#F0512F;"></i></button>
-                            <h3 style="margin-top:0px !important"><%= food.food_name %></h3>
-                            <p>Are there any food modifications?</p>
-                            <p>{modifications}</p>
-                            <p>I will turn the modifications into buttons.</p>
-                            <div class="flex gap-6">
-                                <button class="bg-gray-600 rounded-full w-32 h-11 text-white font-semibold cancel">
-                                <div class="flex gap-4 justify-center items-center">
-                                    <span>
-                                    <i class="fa fa-close"></i>
-                                    </span>
-                                    <span>Cancel</span>
-                                </div>
-                                </button>
-                                <div style="width: 10px;"></div>
-                                <%= form_with(model: TempOrder.new, method: :post) do |form| %>
-                                    <button class="bg-green-600 rounded-full w-32 h-11 text-white font-semibold">
-                                        <div class="flex gap-4 justify-center items-center">
-                                            <span>
-                                            <i class="fa fa-check"></i>
-                                            </span>
-                                             <% if session[:customer].present? %>
-                                                <%= form.hidden_field :customer_id, value: session[:customer]['id'] %>
-                                                <%= form.hidden_field :food_id, value: food.id %>
-                                                <%= form.hidden_field :total_cost, value: food.inital_cost %>
-                                                <span><%= form.submit "Confirm" %></span>
-                                            <% end %>
-                                        </div>
-                                    </button>
-                                <% end %>
-                            </div>
-                            </div>
-                        </div>
-                        </details>
-                    </li>
-
-                    <% elsif food.tag == "Make your own Omelette" %>
-                    <li>
-                    <details class="mb-2">
-                        <summary class="bg-gray-50 p-3 cursor-pointer shadow-md mb-3 my-2 border-l-4 font-sans  dark:text-gray-800" style="border-color:#d1d5db;">
-                        <span class="font-semibold"><%= food.food_name %></span>
-                        </summary>
-                        <div class="bg-white p-1">
-                        <span class="text-gray-600"><%= food.description %></span>
-                        </div>
-                        <div class="flex flex-col md:flex-row justify-between items-center text-gray-900">
-                        <p class="font-bold text-xl">$<%= number_with_precision(food.inital_cost, precision: 2) %></p>
-
-                        <!-- Your button -->
-                        <% if session[:customer] != nil%>
-                            <button class="popup-trigger px-3 py-1 transition ease-in duration-200 uppercase rounded-full hover:bg-gray-800 hover:text-white border-2 border-gray-900 focus:outline-none" data-popup-id="<%= id %>" style="font-size:14px">
-                                <i class="fa fa-cart-plus" style="font-size:16px"></i>add to order
-                            </button>
-                        <% else %>
-                            <button class="px-3 py-1 transition ease-in duration-200 uppercase rounded-full hover:bg-gray-800 hover:text-white border-2 border-gray-900 focus:outline-none" data-popup-id="<%= id %>" style="font-size:14px">
-                                <i class="fa fa-cart-plus" style="font-size:16px"></i><%= link_to "add to order", login_path, class: "btn btn-primary" %>
-                            </button>
-                        <% end %>
-
-                        <!-- The popup overlay -->
-                        <div class="overlay overlay_<%= id %>">
-                            <!-- The popup content -->
-                            <div class="popup">
-                            <button class="closePopup" style="padding-left:300px"><i class="fa fa-window-close" style="font-size: 24px;color:#F0512F;"></i></button>
-                            <h3 style="margin-top:0px !important"><%= food.food_name %></h3>
-                            <p>Are there any food modifications?</p>
-                            <p>{modifications}</p>
-                            <p>I will turn the modifications into buttons.</p>
-                            
-                            <div class="flex gap-6">
-                                <button class="bg-gray-600 rounded-full w-32 h-11 text-white font-semibold cancel">
-                                <div class="flex gap-4 justify-center items-center">
-                                    <span>
-                                    <i class="fa fa-close"></i>
-                                    </span>
-                                    <span>Cancel</span>
-                                </div>
-                                </button>
-                                <div style="width: 10px;"></div>
-
-                                <%= form_with(model: TempOrder.new, method: :post) do |form| %>
-                                    <button class="bg-green-600 rounded-full w-32 h-11 text-white font-semibold">
-                                        <div class="flex gap-4 justify-center items-center">
-                                            <span>
-                                            <i class="fa fa-check"></i>
-                                            </span>
-                                                <%= form.hidden_field :customer_id, value: session[:customer]['id'] %>
-                                                <%= form.hidden_field :food_id, value: food.id %>
-                                                <%= form.hidden_field :total_cost, value: food.inital_cost %>
-                                                <span><%= form.submit "Confirm" %></span>
-                                        </div>
-                                    </button>
-                                <% end %>
-                            </div>
-                            </div>
-                        </div>
-                        </details>
-                    </li>
-
-                    <% elsif food.tag == "Breads and Hotcakes" %>
-                    <li>
-                    <details class="mb-2">
-                        <summary class="bg-gray-50 p-3 cursor-pointer shadow-md mb-3 my-2 border-l-4 font-sans  dark:text-gray-800" style="border-color:#d1d5db;">
-                        <span class="font-semibold"><%= food.food_name %></span>
-                        </summary>
-                        <div class="bg-white p-1">
-                        <span class="text-gray-600"><%= food.description %></span>
-                        </div>
-                        <div class="flex flex-col md:flex-row justify-between items-center text-gray-900">
-                        <p class="font-bold text-xl">$<%= number_with_precision(food.inital_cost, precision: 2) %></p>
-
-                        <!-- Your button -->
-                        <% if session[:customer] != nil%>
-                            <button class="popup-trigger px-3 py-1 transition ease-in duration-200 uppercase rounded-full hover:bg-gray-800 hover:text-white border-2 border-gray-900 focus:outline-none" data-popup-id="<%= id %>" style="font-size:14px">
-                                <i class="fa fa-cart-plus" style="font-size:16px"></i>add to order
-                            </button>
-                        <% else %>
-                            <button class="px-3 py-1 transition ease-in duration-200 uppercase rounded-full hover:bg-gray-800 hover:text-white border-2 border-gray-900 focus:outline-none" data-popup-id="<%= id %>" style="font-size:14px">
-                                <i class="fa fa-cart-plus" style="font-size:16px"></i><%= link_to "add to order", login_path, class: "btn btn-primary" %>
-                            </button>
-                        <% end %>
-
-                        <!-- The popup overlay -->
-                        <div class="overlay overlay_<%= id %>">
-                            <!-- The popup content -->
-                            <div class="popup">
-                            <button class="closePopup" style="padding-left:300px"><i class="fa fa-window-close" style="font-size: 24px;color:#F0512F;"></i></button>
-                            <h3 style="margin-top:0px !important"><%= food.food_name %></h3>
-                            <p>Are there any food modifications?</p>
-                            <p>{modifications}</p>
-                            <p>I will turn the modifications into buttons.</p>
-                            
-                            <div class="flex gap-6">
-                                <button class="bg-gray-600 rounded-full w-32 h-11 text-white font-semibold cancel">
-                                <div class="flex gap-4 justify-center items-center">
-                                    <span>
-                                    <i class="fa fa-close"></i>
-                                    </span>
-                                    <span>Cancel</span>
-                                </div>
-                                </button>
-                                <div style="width: 10px;"></div>
-
-                                <%= form_with(model: TempOrder.new, method: :post) do |form| %>
-                                    <button class="bg-green-600 rounded-full w-32 h-11 text-white font-semibold">
-                                        <div class="flex gap-4 justify-center items-center">
-                                            <span>
-                                            <i class="fa fa-check"></i>
-                                            </span>
-                                                <%= form.hidden_field :customer_id, value: session[:customer]['id'] %>
-                                                <%= form.hidden_field :food_id, value: food.id %>
-                                                <%= form.hidden_field :total_cost, value: food.inital_cost %>
-                                                <span><%= form.submit "Confirm" %></span>
-                                        </div>
-                                    </button>
-                                <% end %>
-                            </div>
-                            </div>
-                        </div>
-                        </details>
-                    </li>
-
-                    <% elsif food.tag == "Sides" %>
-                    <li>
-                    <details class="mb-2">
-                        <summary class="bg-gray-50 p-3 cursor-pointer shadow-md mb-3 my-2 border-l-4 font-sans  dark:text-gray-800" style="border-color:#d1d5db;">
-                        <span class="font-semibold"><%= food.food_name %></span>
-                        </summary>
-                        <div class="bg-white p-1">
-                        <span class="text-gray-600"><%= food.description %></span>
-                        </div>
-                        <div class="flex flex-col md:flex-row justify-between items-center text-gray-900">
-                        <p class="font-bold text-xl">$<%= number_with_precision(food.inital_cost, precision: 2) %></p>
-
-                        <!-- Your button -->
-                        <% if session[:customer] != nil%>
-                            <button class="popup-trigger px-3 py-1 transition ease-in duration-200 uppercase rounded-full hover:bg-gray-800 hover:text-white border-2 border-gray-900 focus:outline-none" data-popup-id="<%= id %>" style="font-size:14px">
-                                <i class="fa fa-cart-plus" style="font-size:16px"></i> add to order
-                            </button>
-                        <% end %>
-
-                        <!-- The popup overlay -->
-                        <div class="overlay overlay_<%= id %>">
-                            <!-- The popup content -->
-                            <div class="popup">
-                            <button class="closePopup" style="padding-left:300px"><i class="fa fa-window-close" style="font-size: 24px;color:#F0512F;"></i></button>
-                            <h3 style="margin-top:0px !important"><%= food.food_name %></h3>
-                            <p>Are there any food modifications?</p>
-                            <p>{modifications}</p>
-                            <p>I will turn the modifications into buttons.</p>
-                            
-                            <div class="flex gap-6">
-                                <button class="bg-gray-600 rounded-full w-32 h-11 text-white font-semibold cancel">
-                                <div class="flex gap-4 justify-center items-center">
-                                    <span>
-                                    <i class="fa fa-close"></i>
-                                    </span>
-                                    <span>Cancel</span>
-                                </div>
-                                </button>
-                                <div style="width: 10px;"></div>
-
-                                <%= form_with(model: TempOrder.new, method: :post) do |form| %>
-                                    <button class="bg-green-600 rounded-full w-32 h-11 text-white font-semibold">
-                                        <div class="flex gap-4 justify-center items-center">
-                                            <span>
-                                            <i class="fa fa-check"></i>
-                                            </span>
-                                                <%= form.hidden_field :customer_id, value: session[:customer]['id'] %>
-                                                <%= form.hidden_field :food_id, value: food.id %>
-                                                <%= form.hidden_field :total_cost, value: food.inital_cost %>
-                                                <span><%= form.submit "Confirm" %></span>
-                                        </div>
-                                    </button>
-                                <% end %>
-                            </div>
-                            </div>
-                        </div>
-                        </details>
-                    </li>
-
-                    <% elsif food.tag == "Brunch" %>
-                    <li>
-                    <details class="mb-2">
-                        <summary class="bg-gray-50 p-3 cursor-pointer shadow-md mb-3 my-2 border-l-4 font-sans  dark:text-gray-800" style="border-color:#d1d5db;">
-                        <span class="font-semibold"><%= food.food_name %></span>
-                        </summary>
-                        <div class="bg-white p-1">
-                        <span class="text-gray-600"><%= food.description %></span>
-                        </div>
-                        <div class="flex flex-col md:flex-row justify-between items-center text-gray-900">
-                        <p class="font-bold text-xl">$<%= number_with_precision(food.inital_cost, precision: 2) %></p>
-
-                        <!-- Your button -->
-                        <% if session[:customer] != nil%>
-                            <button class="popup-trigger px-3 py-1 transition ease-in duration-200 uppercase rounded-full hover:bg-gray-800 hover:text-white border-2 border-gray-900 focus:outline-none" data-popup-id="<%= id %>" style="font-size:14px">
-                                <i class="fa fa-cart-plus" style="font-size:16px"></i>add to order
-                            </button>
-                        <% else %>
-                            <button class="px-3 py-1 transition ease-in duration-200 uppercase rounded-full hover:bg-gray-800 hover:text-white border-2 border-gray-900 focus:outline-none" data-popup-id="<%= id %>" style="font-size:14px">
-                                <i class="fa fa-cart-plus" style="font-size:16px"></i><%= link_to "add to order", login_path, class: "btn btn-primary" %>
-                            </button>
-                        <% end %>
-
-                        <!-- The popup overlay -->
-                        <div class="overlay overlay_<%= id %>">
-                            <!-- The popup content -->
-                            <div class="popup">
-                            <button class="closePopup" style="padding-left:300px"><i class="fa fa-window-close" style="font-size: 24px;color:#F0512F;"></i></button>
-                            <h3 style="margin-top:0px !important"><%= food.food_name %></h3>
-                            <p>Are there any food modifications?</p>
-                            <p>{modifications}</p>
-                            <p>I will turn the modifications into buttons.</p>
-                            
-                            <div class="flex gap-6">
-                                <button class="bg-gray-600 rounded-full w-32 h-11 text-white font-semibold cancel">
-                                <div class="flex gap-4 justify-center items-center">
-                                    <span>
-                                    <i class="fa fa-close"></i>
-                                    </span>
-                                    <span>Cancel</span>
-                                </div>
-                                </button>
-                                <div style="width: 10px;"></div>
-
-                                <%= form_with(model: TempOrder.new, method: :post) do |form| %>
-                                    <button class="bg-green-600 rounded-full w-32 h-11 text-white font-semibold">
-                                        <div class="flex gap-4 justify-center items-center">
-                                            <span>
-                                            <i class="fa fa-check"></i>
-                                            </span>
-                                                <%= form.hidden_field :customer_id, value: session[:customer]['id'] %>
-                                                <%= form.hidden_field :food_id, value: food.id %>
-                                                <%= form.hidden_field :total_cost, value: food.inital_cost %>
-                                                <span><%= form.submit "Confirm" %></span>
-                                        </div>
-                                    </button>
-                                <% end %>
-                            </div>
-                            </div>
-                        </div>
-                        </details>
-                    </li>
-
-                    <% else %>
-                        <li>
-                        <details class="mb-2">
-                            <summary class="bg-gray-50 p-3 cursor-pointer shadow-md mb-3 my-2 border-l-4 font-sans  dark:text-gray-800" style="border-color:#d1d5db;">
-                            <span class="font-semibold"><%= food.food_name %></span>
-                            </summary>
+                        <li style="padding-bottom:10px !important">                            
                             <div class="bg-white p-1">
-                            <span class="text-gray-600"><%= food.description %></span>
+                                <span class="text-gray-600"><%= food.description %></span>
                             </div>
                             <div class="flex flex-col md:flex-row justify-between items-center text-gray-900">
-                            <p class="font-bold text-xl">$<%= number_with_precision(food.inital_cost, precision: 2) %></p>
+                                <p class="font-bold text-xl">$<%= number_with_precision(food.inital_cost, precision: 2) %></p>
 
-                            <!-- Your button -->
-                            <% if session[:customer] != nil%>
-                                <button class="popup-trigger px-3 py-1 transition ease-in duration-200 uppercase rounded-full hover:bg-gray-800 hover:text-white border-2 border-gray-900 focus:outline-none" data-popup-id="<%= id %>" style="font-size:14px">
-                                    <i class="fa fa-cart-plus" style="font-size:16px"></i>add to order
-                                </button>
-                            <% else %>
-                                <button class="px-3 py-1 transition ease-in duration-200 uppercase rounded-full hover:bg-gray-800 hover:text-white border-2 border-gray-900 focus:outline-none" data-popup-id="<%= id %>" style="font-size:14px">
-                                    <i class="fa fa-cart-plus" style="font-size:16px"></i><%= link_to "add to order", login_path, class: "btn btn-primary" %>
-                                </button>
-                            <% end %>
-
-                            <!-- The popup overlay -->
-                            <div class="overlay overlay_<%= id %>">
-                                <!-- The popup content -->
-                                <div class="popup">
-                                <button class="closePopup" style="padding-left:300px"><i class="fa fa-window-close" style="font-size: 24px;color:#F0512F;"></i></button>
-                                <h3 style="margin-top:0px !important"><%= food.food_name %></h3>
-                                <p>Are there any food modifications?</p>
-                                <p>{modifications}</p>
-                                <p>I will turn the modifications into buttons.</p>
-                                
-                                <div class="flex gap-6">
-                                    <button class="bg-gray-600 rounded-full w-32 h-11 text-white font-semibold cancel">
-                                    <div class="flex gap-4 justify-center items-center">
-                                        <span>
-                                        <i class="fa fa-close"></i>
-                                        </span>
-                                        <span>Cancel</span>
-                                    </div>
+                                <!-- Your button -->
+                                <% if session[:customer] != nil%>
+                                    <button class="popup-trigger px-3 py-1 transition ease-in duration-200 uppercase rounded-full hover:bg-gray-800 hover:text-white border-2 border-gray-900 focus:outline-none" data-popup-id="<%= id %>" style="font-size:14px">
+                                        <i class="fa fa-cart-plus" style="font-size:16px"></i>add to order
                                     </button>
-                                    <div style="width: 10px;"></div>
+                                <% else %>
+                                    <button class="px-3 py-1 transition ease-in duration-200 uppercase rounded-full hover:bg-gray-800 hover:text-white border-2 border-gray-900 focus:outline-none" data-popup-id="<%= id %>" style="font-size:14px">
+                                        <i class="fa fa-cart-plus" style="font-size:16px"></i><%= link_to "add to order", login_path, class: "btn btn-primary" %>
+                                    </button>
+                                <% end %>
 
-                                    <%= form_with(model: TempOrder.new, method: :post) do |form| %>
-                                        <button class="bg-green-600 rounded-full w-32 h-11 text-white font-semibold">
-                                            <div class="flex gap-4 justify-center items-center">
-                                                <span>
-                                                <i class="fa fa-check"></i>
-                                                </span>
-                                                <% if session[:customer].present? %>
-                                                    <%= form.hidden_field :customer_id, value: session[:customer]['id'] %>
-                                                    <%= form.hidden_field :food_id, value: food.id %>
-                                                    <%= form.hidden_field :total_cost, value: food.inital_cost %>
-                                                    <span><%= form.submit "Confirm" %></span>
-                                                <% end %>
-                                            </div>
-                                        </button>
-                                    <% end %>
-                                </div>
+                                <!-- The popup overlay -->
+                                <div class="overlay overlay_<%= id %>">
+                                    <!-- The popup content -->
+                                    <div class="popup">
+                                        <button class="closePopup" style="padding-left:300px"><i class="fa fa-window-close" style="font-size: 24px;color:#F0512F;"></i></button>
+                                        <h3 style="margin-top:0px !important"><%= food.food_name %></h3>
+                                        <p>Are there any food modifications?</p>
+                                        <p>{modifications}</p>
+                                        <p >I will turn the modifications into buttons.</p>
+                                        
+                                        <div class="flex gap-6">
+                                            <button class="bg-gray-600 rounded-full w-32 h-11 text-white font-semibold cancel">
+                                                <div class="flex gap-4 justify-center items-center">
+                                                    <span>
+                                                        <i class="fa fa-close"></i>
+                                                    </span>
+                                                    <span>Cancel</span>
+                                                </div>
+                                            </button>
+                                            <div style="width: 10px;"></div>
+
+                                            <%= form_with(model: TempOrder.new, method: :post) do |form| %>
+                                                <button class="bg-green-600 rounded-full w-32 h-11 text-white font-semibold">
+                                                    <div class="flex gap-4 justify-center items-center">
+                                                        <span>
+                                                            <i class="fa fa-check"></i>
+                                                        </span>
+                                                        <% if session[:customer].present? %>
+                                                            <%= form.hidden_field :customer_id, value: session[:customer]['id'] %>
+                                                            <%= form.hidden_field :food_id, value: food.id %>
+                                                            <%= form.hidden_field :total_cost, value: food.inital_cost %>
+                                                            <span><%= form.submit "Confirm" %></span>
+                                                        <% end %>
+                                                    </div>
+                                                </button>
+                                            <% end %>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            </details>
                         </li>
+
+                    <% eggs_counter += 1 %>
+                    <% if eggs_counter != eggs_items_count %>
+                        <hr class="quick_options" style="border-color: #E2E0DF !important;">
+                    <% end %>
+
+                    <% elsif food.tag == "Make your own Omelette" %>
+                                           <li style="padding-bottom:10px !important">                            
+                            <div class="bg-white p-1">
+                                <span class="text-gray-600"><%= food.description %></span>
+                            </div>
+                            <div class="flex flex-col md:flex-row justify-between items-center text-gray-900">
+                                <p class="font-bold text-xl">$<%= number_with_precision(food.inital_cost, precision: 2) %></p>
+
+                                <!-- Your button -->
+                                <% if session[:customer] != nil%>
+                                    <button class="popup-trigger px-3 py-1 transition ease-in duration-200 uppercase rounded-full hover:bg-gray-800 hover:text-white border-2 border-gray-900 focus:outline-none" data-popup-id="<%= id %>" style="font-size:14px">
+                                        <i class="fa fa-cart-plus" style="font-size:16px"></i>add to order
+                                    </button>
+                                <% else %>
+                                    <button class="px-3 py-1 transition ease-in duration-200 uppercase rounded-full hover:bg-gray-800 hover:text-white border-2 border-gray-900 focus:outline-none" data-popup-id="<%= id %>" style="font-size:14px">
+                                        <i class="fa fa-cart-plus" style="font-size:16px"></i><%= link_to "add to order", login_path, class: "btn btn-primary" %>
+                                    </button>
+                                <% end %>
+
+                                <!-- The popup overlay -->
+                                <div class="overlay overlay_<%= id %>">
+                                    <!-- The popup content -->
+                                    <div class="popup">
+                                        <button class="closePopup" style="padding-left:300px"><i class="fa fa-window-close" style="font-size: 24px;color:#F0512F;"></i></button>
+                                        <h3 style="margin-top:0px !important"><%= food.food_name %></h3>
+                                        <p>Are there any food modifications?</p>
+                                        <p>{modifications}</p>
+                                        <p>I will turn the modifications into buttons.</p>
+                                        
+                                        <div class="flex gap-6">
+                                            <button class="bg-gray-600 rounded-full w-32 h-11 text-white font-semibold cancel">
+                                                <div class="flex gap-4 justify-center items-center">
+                                                    <span>
+                                                        <i class="fa fa-close"></i>
+                                                    </span>
+                                                    <span>Cancel</span>
+                                                </div>
+                                            </button>
+                                            <div style="width: 10px;"></div>
+
+                                            <%= form_with(model: TempOrder.new, method: :post) do |form| %>
+                                                <button class="bg-green-600 rounded-full w-32 h-11 text-white font-semibold">
+                                                    <div class="flex gap-4 justify-center items-center">
+                                                        <span>
+                                                            <i class="fa fa-check"></i>
+                                                        </span>
+                                                        <% if session[:customer].present? %>
+                                                            <%= form.hidden_field :customer_id, value: session[:customer]['id'] %>
+                                                            <%= form.hidden_field :food_id, value: food.id %>
+                                                            <%= form.hidden_field :total_cost, value: food.inital_cost %>
+                                                            <span><%= form.submit "Confirm" %></span>
+                                                        <% end %>
+                                                    </div>
+                                                </button>
+                                            <% end %>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+
+                    <% omelette_counter += 1 %>
+                    <% if omelette_counter != omelette_items_count %>
+                        <hr class="quick_options" style="border-color: #E2E0DF !important;">
+                    <% end %>
+
+                    <% elsif food.tag == "Breads and Hotcakes" %>
+                    <li style="padding-bottom:10px !important">                            
+                            <div class="bg-white p-1">
+                                <span class="text-gray-600"><%= food.description %></span>
+                            </div>
+                            <div class="flex flex-col md:flex-row justify-between items-center text-gray-900">
+                                <p class="font-bold text-xl">$<%= number_with_precision(food.inital_cost, precision: 2) %></p>
+
+                                <!-- Your button -->
+                                <% if session[:customer] != nil%>
+                                    <button class="popup-trigger px-3 py-1 transition ease-in duration-200 uppercase rounded-full hover:bg-gray-800 hover:text-white border-2 border-gray-900 focus:outline-none" data-popup-id="<%= id %>" style="font-size:14px">
+                                        <i class="fa fa-cart-plus" style="font-size:16px"></i>add to order
+                                    </button>
+                                <% else %>
+                                    <button class="px-3 py-1 transition ease-in duration-200 uppercase rounded-full hover:bg-gray-800 hover:text-white border-2 border-gray-900 focus:outline-none" data-popup-id="<%= id %>" style="font-size:14px">
+                                        <i class="fa fa-cart-plus" style="font-size:16px"></i><%= link_to "add to order", login_path, class: "btn btn-primary" %>
+                                    </button>
+                                <% end %>
+
+                                <!-- The popup overlay -->
+                                <div class="overlay overlay_<%= id %>">
+                                    <!-- The popup content -->
+                                    <div class="popup">
+                                        <button class="closePopup" style="padding-left:300px"><i class="fa fa-window-close" style="font-size: 24px;color:#F0512F;"></i></button>
+                                        <h3 style="margin-top:0px !important"><%= food.food_name %></h3>
+                                        <p>Are there any food modifications?</p>
+                                        <p>{modifications}</p>
+                                        <p>I will turn the modifications into buttons.</p>
+                                        
+                                        <div class="flex gap-6">
+                                            <button class="bg-gray-600 rounded-full w-32 h-11 text-white font-semibold cancel">
+                                                <div class="flex gap-4 justify-center items-center">
+                                                    <span>
+                                                        <i class="fa fa-close"></i>
+                                                    </span>
+                                                    <span>Cancel</span>
+                                                </div>
+                                            </button>
+                                            <div style="width: 10px;"></div>
+
+                                            <%= form_with(model: TempOrder.new, method: :post) do |form| %>
+                                                <button class="bg-green-600 rounded-full w-32 h-11 text-white font-semibold">
+                                                    <div class="flex gap-4 justify-center items-center">
+                                                        <span>
+                                                            <i class="fa fa-check"></i>
+                                                        </span>
+                                                        <% if session[:customer].present? %>
+                                                            <%= form.hidden_field :customer_id, value: session[:customer]['id'] %>
+                                                            <%= form.hidden_field :food_id, value: food.id %>
+                                                            <%= form.hidden_field :total_cost, value: food.inital_cost %>
+                                                            <span><%= form.submit "Confirm" %></span>
+                                                        <% end %>
+                                                    </div>
+                                                </button>
+                                            <% end %>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+
+                    <% breads_counter += 1 %>
+                    <% if breads_counter != breads_items_count %>
+                        <hr class="quick_options" style="border-color: #E2E0DF !important;">
+                    <% end %>
+
+                    <% elsif food.tag == "Sides" %>
+                                                                                  <li style="padding-bottom:10px !important">                            
+                            <div class="bg-white p-1">
+                                <span class="text-gray-600"><%= food.description %></span>
+                            </div>
+                            <div class="flex flex-col md:flex-row justify-between items-center text-gray-900">
+                                <p class="font-bold text-xl">$<%= number_with_precision(food.inital_cost, precision: 2) %></p>
+
+                                <!-- Your button -->
+                                <% if session[:customer] != nil%>
+                                    <button class="popup-trigger px-3 py-1 transition ease-in duration-200 uppercase rounded-full hover:bg-gray-800 hover:text-white border-2 border-gray-900 focus:outline-none" data-popup-id="<%= id %>" style="font-size:14px">
+                                        <i class="fa fa-cart-plus" style="font-size:16px"></i>add to order
+                                    </button>
+                                <% else %>
+                                    <button class="px-3 py-1 transition ease-in duration-200 uppercase rounded-full hover:bg-gray-800 hover:text-white border-2 border-gray-900 focus:outline-none" data-popup-id="<%= id %>" style="font-size:14px">
+                                        <i class="fa fa-cart-plus" style="font-size:16px"></i><%= link_to "add to order", login_path, class: "btn btn-primary" %>
+                                    </button>
+                                <% end %>
+
+                                <!-- The popup overlay -->
+                                <div class="overlay overlay_<%= id %>">
+                                    <!-- The popup content -->
+                                    <div class="popup">
+                                        <button class="closePopup" style="padding-left:300px"><i class="fa fa-window-close" style="font-size: 24px;color:#F0512F;"></i></button>
+                                        <h3 style="margin-top:0px !important"><%= food.food_name %></h3>
+                                        <p>Are there any food modifications?</p>
+                                        <p>{modifications}</p>
+                                        <p>I will turn the modifications into buttons.</p>
+                                        
+                                        <div class="flex gap-6">
+                                            <button class="bg-gray-600 rounded-full w-32 h-11 text-white font-semibold cancel">
+                                                <div class="flex gap-4 justify-center items-center">
+                                                    <span>
+                                                        <i class="fa fa-close"></i>
+                                                    </span>
+                                                    <span>Cancel</span>
+                                                </div>
+                                            </button>
+                                            <div style="width: 10px;"></div>
+
+                                            <%= form_with(model: TempOrder.new, method: :post) do |form| %>
+                                                <button class="bg-green-600 rounded-full w-32 h-11 text-white font-semibold">
+                                                    <div class="flex gap-4 justify-center items-center">
+                                                        <span>
+                                                            <i class="fa fa-check"></i>
+                                                        </span>
+                                                        <% if session[:customer].present? %>
+                                                            <%= form.hidden_field :customer_id, value: session[:customer]['id'] %>
+                                                            <%= form.hidden_field :food_id, value: food.id %>
+                                                            <%= form.hidden_field :total_cost, value: food.inital_cost %>
+                                                            <span><%= form.submit "Confirm" %></span>
+                                                        <% end %>
+                                                    </div>
+                                                </button>
+                                            <% end %>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+
+                    <% sides_counter += 1 %>
+                    <% if sides_counter != sides_items_count %>
+                        <hr class="quick_options" style="border-color: #E2E0DF !important;">
+                    <% end %>
+
+                    <% elsif food.tag == "Brunch" %>
+                        <li style="padding-bottom:10px !important">    
+                            <div>
+                                <p class="text-gray-600" style="color:black !important; font-size:18px !important; font-weight:bold !important"><%= food.food_name %></p>
+                            </div>                        
+                            <div class="bg-white" style="padding-top:5px;padding-bottom:5px;">
+                                <span class="text-gray-600"><%= food.description %></span>
+                            </div>
+                            <div class="flex flex-col md:flex-row justify-between items-center text-gray-900">
+                                <p class="font-bold text-xl">$<%= number_with_precision(food.inital_cost, precision: 2) %></p>
+
+                                <!-- Your button -->
+                                <% if session[:customer] != nil%>
+                                    <button class="popup-trigger px-3 py-1 transition ease-in duration-200 uppercase rounded-full hover:bg-gray-800 hover:text-white border-2 border-gray-900 focus:outline-none" data-popup-id="<%= id %>" style="font-size:14px">
+                                        <i class="fa fa-cart-plus" style="font-size:16px"></i>add to order
+                                    </button>
+                                <% else %>
+                                    <button class="px-3 py-1 transition ease-in duration-200 uppercase rounded-full hover:bg-gray-800 hover:text-white border-2 border-gray-900 focus:outline-none" data-popup-id="<%= id %>" style="font-size:14px">
+                                        <i class="fa fa-cart-plus" style="font-size:16px"></i><%= link_to "add to order", login_path, class: "btn btn-primary" %>
+                                    </button>
+                                <% end %>
+
+                                <!-- The popup overlay -->
+                                <div class="overlay overlay_<%= id %>">
+                                    <!-- The popup content -->
+                                    <div class="popup">
+                                        <button class="closePopup" style="padding-left:300px"><i class="fa fa-window-close" style="font-size: 24px;color:#F0512F;"></i></button>
+                                        <h3 style="margin-top:0px !important"><%= food.food_name %></h3>
+                                        <p>Are there any food modifications?</p>
+                                        <p>{modifications}</p>
+                                        <p>I will turn the modifications into buttons.</p>
+                                        
+                                        <div class="flex gap-6">
+                                            <button class="bg-gray-600 rounded-full w-32 h-11 text-white font-semibold cancel">
+                                                <div class="flex gap-4 justify-center items-center">
+                                                    <span>
+                                                        <i class="fa fa-close"></i>
+                                                    </span>
+                                                    <span>Cancel</span>
+                                                </div>
+                                            </button>
+                                            <div style="width: 10px;"></div>
+
+                                            <%= form_with(model: TempOrder.new, method: :post) do |form| %>
+                                                <button class="bg-green-600 rounded-full w-32 h-11 text-white font-semibold">
+                                                    <div class="flex gap-4 justify-center items-center">
+                                                        <span>
+                                                            <i class="fa fa-check"></i>
+                                                        </span>
+                                                        <% if session[:customer].present? %>
+                                                            <%= form.hidden_field :customer_id, value: session[:customer]['id'] %>
+                                                            <%= form.hidden_field :food_id, value: food.id %>
+                                                            <%= form.hidden_field :total_cost, value: food.inital_cost %>
+                                                            <span><%= form.submit "Confirm" %></span>
+                                                        <% end %>
+                                                    </div>
+                                                </button>
+                                            <% end %>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <% brunch_counter += 1 %>
+                        <% if brunch_counter != brunch_items_count %>
+                            <hr class="quick_options" style="border-color: #E2E0DF !important;">
+                        <% end %>
+                    <% else %>
+                                                              <li style="padding-bottom:10px !important">                            
+                            <div class="bg-white p-1">
+                                <span class="text-gray-600"><%= food.description %></span>
+                            </div>
+                            <div class="flex flex-col md:flex-row justify-between items-center text-gray-900">
+                                <p class="font-bold text-xl">$<%= number_with_precision(food.inital_cost, precision: 2) %></p>
+
+                                <!-- Your button -->
+                                <% if session[:customer] != nil%>
+                                    <button class="popup-trigger px-3 py-1 transition ease-in duration-200 uppercase rounded-full hover:bg-gray-800 hover:text-white border-2 border-gray-900 focus:outline-none" data-popup-id="<%= id %>" style="font-size:14px">
+                                        <i class="fa fa-cart-plus" style="font-size:16px"></i>add to order
+                                    </button>
+                                <% else %>
+                                    <button class="px-3 py-1 transition ease-in duration-200 uppercase rounded-full hover:bg-gray-800 hover:text-white border-2 border-gray-900 focus:outline-none" data-popup-id="<%= id %>" style="font-size:14px">
+                                        <i class="fa fa-cart-plus" style="font-size:16px"></i><%= link_to "add to order", login_path, class: "btn btn-primary" %>
+                                    </button>
+                                <% end %>
+
+                                <!-- The popup overlay -->
+                                <div class="overlay overlay_<%= id %>">
+                                    <!-- The popup content -->
+                                    <div class="popup">
+                                        <button class="closePopup" style="padding-left:300px"><i class="fa fa-window-close" style="font-size: 24px;color:#F0512F;"></i></button>
+                                        <h3 style="margin-top:0px !important"><%= food.food_name %></h3>
+                                        <p>Are there any food modifications?</p>
+                                        <p>{modifications}</p>
+                                        <p>I will turn the modifications into buttons.</p>
+                                        
+                                        <div class="flex gap-6">
+                                            <button class="bg-gray-600 rounded-full w-32 h-11 text-white font-semibold cancel">
+                                                <div class="flex gap-4 justify-center items-center">
+                                                    <span>
+                                                        <i class="fa fa-close"></i>
+                                                    </span>
+                                                    <span>Cancel</span>
+                                                </div>
+                                            </button>
+                                            <div style="width: 10px;"></div>
+
+                                            <%= form_with(model: TempOrder.new, method: :post) do |form| %>
+                                                <button class="bg-green-600 rounded-full w-32 h-11 text-white font-semibold">
+                                                    <div class="flex gap-4 justify-center items-center">
+                                                        <span>
+                                                            <i class="fa fa-check"></i>
+                                                        </span>
+                                                        <% if session[:customer].present? %>
+                                                            <%= form.hidden_field :customer_id, value: session[:customer]['id'] %>
+                                                            <%= form.hidden_field :food_id, value: food.id %>
+                                                            <%= form.hidden_field :total_cost, value: food.inital_cost %>
+                                                            <span><%= form.submit "Confirm" %></span>
+                                                        <% end %>
+                                                    </div>
+                                                </button>
+                                            <% end %>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+
+                    <% drinks_counter += 1 %>
+                    <% if drinks_counter != drinks_items_count %>
+                        <hr class="quick_options" style="border-color: #E2E0DF !important;">
+                    <% end %>
                     <% end %>
                 </ul>
                 </div>
@@ -721,7 +748,7 @@
             <% end %>
         <% end %>
 
-        <p>Total price: $<%= number_with_precision(@total, precision: 2) %></p>
+        <p style="padding-bottom:10px;"><span style="font-weight:bold">Total price:</span> $<%= number_with_precision(@total, precision: 2) %></p>
 
         <div class="flex gap-6">
         <button class="bg-gray-600 rounded-full w-32 h-11 text-white font-semibold" id="close_customer">
