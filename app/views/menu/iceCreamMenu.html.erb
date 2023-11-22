@@ -53,17 +53,7 @@
 
     <div class="p-4 max-w-lg mx-auto">
         <% id = -1 %>
-        <% Food.all.group_by(&:tag).each do |tag, foods| %>
-            <% lunchAndDinner = foods.select { |food| food.isBreakfast == false }%>
-            <% next unless lunchAndDinner.any? %>
-            <details class="mb-2">
-
-                <summary class="bg-gray-100 p-4 cursor-pointer shadow-md mb-6 mt-6 my-2 border-l-4 font-sans  dark:text-gray-800" style="border-color:#6b7280;">
-                    <span class="font-semibold"><%= tag %></span>
-                </summary>
-
-
-                <% lunchAndDinner.each do |food| %>
+                <% Food.where(tag: "Ice Cream").each do |food| %>
                     <% id += 1 %>
                     <div>
                         <!-- Additional details for "Eggs" go here -->
@@ -132,8 +122,6 @@
                         </ul>
                     </div>
                 <% end %>
-            </details>
-        <% end %>
     </div>
     <script>
         document.querySelectorAll('.popup-trigger').forEach(function (button) {

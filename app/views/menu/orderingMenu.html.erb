@@ -46,18 +46,17 @@
             </span>
         </h1>
     </div>
-
     <div class="p-4 max-w-lg mx-auto">
         <% id = -1 %>
         <% Food.all.group_by(&:tag).each do |tag, foods| %>
             <% lunchAndDinner = foods.select { |food| food.isBreakfast == false }%>
+            <% next unless !tag.blank? %>
             <% next unless lunchAndDinner.any? %>
             <details class="mb-2">
 
-                <summary class="p-4 cursor-pointer shadow-md mb-6 mt-6 my-2 border-l-4 font-sans dark:text-gray-800" style="border-color:#6b7280;background-color:white !important;">
+                <summary class="p-4 cursor-pointer shadow-md mb-6 mt-6 my-2 border-l-4 font-sans  dark:text-gray-800" style="border-color:#0CC0DF;background-color:white;">
                     <span class="font-semibold"><%= tag %></span>
                 </summary>
-
 
                 <% lunchAndDinner.each do |food| %>
                     <% id += 1 %>
@@ -92,10 +91,20 @@
                                         <div class="popup">
                                             <button class="closePopup" style="padding-left:300px"><i class="fa fa-window-close" style="font-size: 24px;color:#F0512F;"></i></button>
                                             <h3 style="margin-top:0px !important"><%= food.food_name %></h3>
-                                            <p>Are there any food modifications?</p>
-                                            <p>{modifications}</p>
-                                            <h3 style="margin-top:0px !important"><%= food.food_additions %></h3>
-                                            <p >I will turn the modifications into buttons.</p>
+                                            <% data = eval(food.food_additions) rescue [] %>
+                                            <% additions = data.is_a?(Array) ? data : [data] %>
+                                            <% if additions.any?%>
+                                                <% additions.each do |addition| %>
+                                                    <div id = "checkboxes">
+                                                        <h4 class="mt-4">
+                                                            <%= check_box_tag addition['addition_name'], addition['cost'] %>
+                                                            <%= label_tag addition['addition_name'] + " $" + addition['cost'].to_s %>
+                                                        </h4>
+                                                    </div>
+                                                <% end %>
+                                            <% else %>
+                                                <br>
+                                            <% end %>
                                             
                                             <div class="flex gap-6">
                                                 <button class="bg-gray-600 rounded-full w-32 h-11 text-white font-semibold cancel">
@@ -197,17 +206,6 @@
     <% end %>
     </table>
 <% else %>
-    <!--<div style="">
-        <h1 class="text-2xl md:text-3xl pl-2 my-2 border-l-4 font-sans font-bold dark:text-gray-800" style="border-color:#0CC0DF;">Breakfast Menu</h1>
-        <h2 class="flex flex-row flex-nowrap items-center">
-            <span class="flex-grow block border-t" style="border-color:black"></span>
-            <span class="flex-none block mx-4 px-4 py-2.5 text-xl rounded leading-none font-medium text-white" style="background-color:black;color:white">
-                    Breakfast Menu
-                </span>
-            <span class="flex-grow block border-t" style="border-color:black"></span>
-        </h2>
-    </div>-->
-
     <div class="flex flex-1 w-full flex-col items-center justify-center text-center" style="padding-top:25px !important">
         <h1 class="mx-auto max-w-4xl font-display text-3xl font-bold tracking-normal text-white-300 dark:text-gray-300 sm:text-4xl" style="color:black; margin-bottom:10px !important">
                 Our gourmet
@@ -238,6 +236,7 @@
         <% Food.all.group_by(&:tag).each do |tag, foods| %>
         <% breakfast = foods.select { |food| food.isBreakfast == true }%>
         <% next unless breakfast.any? %>
+        <% next unless !tag.blank? %>
         <details class="mb-2">
 
 
