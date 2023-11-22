@@ -19,5 +19,6 @@ development:
 # Do not set this db to the same as development or production.
 
 production:
+  <<: *default
   database: /home/deploy/production_demo/shared/db/production.sqlite3
 
