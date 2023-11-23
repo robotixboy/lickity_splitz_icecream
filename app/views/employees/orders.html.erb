@@ -1,80 +1,157 @@
-<% @include_prose_class = true %>
+<% @include_prose_class = false %>
 
-<%= form_tag adminKey_path, method: :post do %>
-    <%= text_field_tag :authorizationKey %>
-    <%= submit_tag "Log-In", class: "bg-blue-500 text-white p-2 rounded" %>
-<% end %>
-<div class="container">
-    <h1 class="text-2xl font-bold mb-4">Order</h1>
-    <div class="flex flex-wrap gap-4">
-        <% [0, 1, 2].each do |status| %>
-            <div >
-                <h2 class="text-lg font-bold mb-2">
-                    <%= case status
-                        when 0
-                            "Not Started"
-                        when 1
-                            "Started"
-                        when 2
-                            "Completed"
-                        else
-                            "Unknown"
-                    end
-                    %>
-                </h2>
-                <% @orders.select { |order| order.completed_order == status }.each do |order| %>
-                    <div class="border-t-2 mt-4 pt-4">
-                        <h3>Order ID: <%= order.order_id %></h3>
-                        <p>Customer Name: <%= Customer.find(order.customer_id).first_name %></p>
-                        <p>Customer Phone Number: <%= Customer.find(order.customer_id).phone_number %></p>
-                        <p>Total Cost: $<%= order.total_cost %></p>
-                        <!-- <% food_ids = order.list_food_id.split(',').map(&:to_i) %> -->
-                        <!-- <p>Food IDs: <%= food_ids.join(', ') %></p> -->
-                        <!-- <p>Food Modifications: <%= order.list_food_notes %></p> -->
+<style>
+    .quick_options{
+        margin-top: 0px !important;
+        margin-bottom: 55px !important;
+        margin-left: 40px !important;
+        margin-right: 40px !important;
+        border-color: gray;
+    }
+</style>
 
-
-                        <% contents = order.list_food_notes.gsub(/\[|\]|"/, '').split(',') %>
-
-                        <% joined_items = contents.join('') %>  <!-- Joining all items to process together -->
-                        <% split_items = joined_items.split(/(\\\\)|(\\.*?\\)/) %>  <!-- Split based on backslashes and captured content -->
-
-                        <% merged_items = [] %>
-                        <% current_group = [] %>
-                        <% split_items.each do |item| %>
-                            <% next if item.strip.empty? %>
-                            <% if item.start_with?('\\') && item.end_with?('\\') || item == "null" %>
-                                <% current_group.push(item) %>
-                                <% merged_items.push(current_group.join) %>
-                                <% current_group = [] %>
-                            <% else %>
-                                <% current_group.push(item) %>
-                            <% end %>
-                        <% end %>
-
-
-                        <% merged_items.each_with_index do |line, index| %>
-                            <div class="bg-blue-100 border border-black p-4 rounded-lg">
-                                <p><%= food_ids[index] == 0 ? Food.find(1).food_name : Food.find(food_ids[index]).food_name %></p>
-                                <% if line != "null" %>
-                                    <p>Mods: <%= line %></p>
-                                <% end %>
-                            </div>
-                        <% end %>
-
-
-
-                        <p>
-                            <%= form_tag completingOrder_path, method: :post do %>
-                                <%= hidden_field_tag :id, order.id %>
-                                <%= submit_tag order.completed_order == 1 ? "Complete Order" : (order.completed_order == 0 ? "Start Order" : "Restart Order"), class: "bg-blue-500 text-white p-2 rounded" %>
-                            <% end %>
-                        </p>
-                    </div>
-                <% end %>
-            </div>
-        <% end %>
-    </div>
+<div class="flex flex-1 w-full flex-col items-center justify-center text-center" style="padding-top:25px !important">
+    <h1 class="mx-auto max-w-4xl font-display text-3xl font-bold tracking-normal text-white-300 dark:text-gray-300 sm:text-4xl" style="color:black; margin-bottom:10px !important">
+            Order
+            <span class="relative whitespace-nowrap text-cyan-500 dark:text-cyan-300">
+            <svg aria-hidden="true" viewBox="0 0 418 42" class="absolute top-2/3 left-0 h-[0.58em] w-full fill-cyan-500 dark:fill-cyan-300/60" preserveAspectRatio="none">
+                <path d="M203.371.916c-26.013-2.078-76.686 1.963-124.73 9.946L67.3 12.749C35.421 18.062 18.2 21.766 6.004 25.934 1.244 27.561.828 27.778.874 28.61c.07 1.214.828 1.121 9.595-1.176 9.072-2.377 17.15-3.92 39.246-7.496C123.565 7.986 157.869 4.492 195.942 5.046c7.461.108 19.25 1.696 19.17 2.582-.107 1.183-7.874 4.31-25.75 10.366-21.992 7.45-35.43 12.534-36.701 13.884-2.173 2.308-.202 4.407 4.442 4.734 2.654.187 3.263.157 15.593-.780 35.401-2.686 57.944-3.488 88.365-3.143 46.327.526 75.721 2.23 130.788 7.584 19.787 1.924 20.814 1.98 24.557 1.332l.066-.011c1.201-.203 1.53-1.825.399-2.335-2.911-1.31-4.893-1.604-22.048-3.261-57.509-5.556-87.871-7.36-132.059-7.842-23.239-.254-33.617-.116-50.627.674-11.629.540-42.371 2.494-46.696 2.967-2.359.259 8.133-3.625 26.504-9.810 23.239-7.825 27.934-10.149 28.304-14.005 .417-4.348-3.529-6-16.878-7.066Z"></path>
+            </svg>
+            <span class="relative" style="font-family:Lilita One">Status</span>
+        </span>
+    </h1>
 </div>
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"/>
+
+<!--
+<section class="py-8">
+    <div class="container mx-auto text-center px-4">
+        <div class="flex flex-wrap -mx-4">
+            <div class="w-full md:w-1/3 px-4 mb-8">
+                <div class="bg-white p-8 shadow-md rounded-md">
+                    <i class="fas fa-exclamation-triangle text-4xl text-red-500 mb-4"></i>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">Not Started</h3>
+                </div>
+            </div>
+            <div class="w-full md:w-1/3 px-4 mb-8">
+                <div class="bg-white p-8 shadow-md rounded-md">
+                    <i class="fas fa-circle-notch fa-spin text-4xl text-yellow-500 mb-4"></i>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">Started</h3>
+                </div>
+            </div>
+            <div class="w-full md:w-1/3 px-4 mb-8">
+                <div class="bg-white p-8 shadow-md rounded-md">
+                    <i class="fas fa-check text-4xl text-green-500 mb-4"></i>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">Finished</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+-->
 
 
+<section class="mt-8">
+    <div class="container mx-auto text-center px-4">
+        <div class="flex flex-wrap -mx-4">
+            <% [0, 1, 2].each do |status| %>
+            <div class="w-full md:w-1/3 px-4 mb-8">
+                <div class="bg-white p-8 shadow-md rounded-md">
+                <% case status
+                    when 0 %>
+                    <i class="fas fa-exclamation-triangle text-4xl text-red-500 mb-4"></i>
+                <% when 1 %>
+                    <i class="fas fa-circle-notch fa-spin text-4xl text-yellow-500 mb-4"></i>
+                <% when 2 %>
+                    <i class="fas fa-check text-4xl text-green-500 mb-4"></i>
+                <% else %>
+                    <i class="fas fa-question text-gray-500 mb-4"></i>
+                <% end %>
+                <%= case status
+                    when 0
+                        "<h3 class='text-xl font-bold text-gray-800 mb-2'>Not Started</h3>"
+                    when 1
+                        "<h3 class='text-xl font-bold text-gray-800 mb-2'>Started</h3>"
+                    when 2
+                        "<h3 class='text-xl font-bold text-gray-800 mb-2'>Completed</h3>"
+                    else
+                        "<h3 class='text-xl font-bold text-gray-800 mb-2'>Unknown</h3>"
+                end.html_safe %>
+
+                        <% @orders.select { |order| order.completed_order == status }.each do |order| %>
+                            <div class="border-t-2 mt-4 pt-4 text-left">
+                                <h3>Order ID: <%= order.order_id %></h3>
+                                <p>Customer Name: <%= Customer.find(order.customer_id).first_name %></p>
+                                <p>Phone Number: <%= Customer.find(order.customer_id).phone_number %></p>
+                                <p>Total Cost: $<%= order.total_cost %></p>
+
+
+                                <% contents = order.list_food_notes.gsub(/\[|\]|"/, '').split(',') %>
+
+                                <% joined_items = contents.join('') %>  <!-- Joining all items to process together -->
+                                <% split_items = joined_items.split(/(\\\\)|(\\.*?\\)/) %>  <!-- Split based on backslashes and captured content -->
+
+                                <% merged_items = [] %>
+                                <% current_group = [] %>
+                                <% split_items.each do |item| %>
+                                    <% next if item.strip.empty? %>
+                                    <% if item.start_with?('\\') && item.end_with?('\\') || item == "null" %>
+                                        <% current_group.push(item) %>
+                                        <% merged_items.push(current_group.join) %>
+                                        <% current_group = [] %>
+                                    <% else %>
+                                        <% current_group.push(item) %>
+                                    <% end %>
+                                <% end %>
+
+
+                                <% merged_items.each_with_index do |line, index| %>
+                                    <div class="bg-blue-100 border border-black p-4 rounded-lg">
+                                        <p><%= food_ids[index] == 0 ? Food.find(1).food_name : Food.find(food_ids[index]).food_name %></p>
+                                        <% if line != "null" %>
+                                            <p>Mods: <%= line %></p>
+                                        <% end %>
+                                    </div>
+                                <% end %>
+
+
+
+                                <p>
+                                    <%= form_tag completingOrder_path, method: :post do %>
+                                        <%= hidden_field_tag :id, order.id %>
+                                        <%= submit_tag order.completed_order == 1 ? "Complete Order" : (order.completed_order == 0 ? "Start Order" : "Restart Order"), class: "bg-blue-500 text-white p-2 rounded" %>
+                                    <% end %>
+                                </p>
+                            </div>
+                        <% end %>
+                </div>
+            </div>
+            <% end %>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<div class="container mx-auto mt-2 border-t-2" style="padding-top:10px !important">
+  <%= form_tag adminKey_path, method: :post do %>
+    <div class="max-w-sm mx-auto mt-6 bg-white rounded-md shadow-md overflow-hidden">
+      <div class="px-6 py-4 bg-cyan-500 text-white">
+        <h1 class="text-lg font-bold" style="color:white">Admin Login</h1>
+      </div>
+      <div class="px-6 py-4">
+        <div class="mb-4">
+          <label class="block text-gray-700 font-bold mb-2">Admin Password</label>
+          <%= text_field_tag :authorizationKey %>
+        </div>
+
+        <div class="mt-2">
+          <%= button_tag(type: 'submit', class: 'bg-cyan-600 hover:bg-cyan-700 text-white font-bold py-2 px-4 rounded') do %>
+            <%= content_tag(:i, '', class: '', style: '') %> Login
+          <% end %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
