@@ -1,17 +1,151 @@
-<% @include_prose_class = true %>
+<% @include_prose_class = false %>
 
-  <%= form_for FoodTag.new, url: food_tags_url do |f| %>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-      <div class="mb-4">
-        <%= f.label :food_Tag_Name, "Food Tag Name", class: "block font-bold" %>
-        <%= f.text_field :food_Tag_Name, placeholder: "Enter the Food Tag Name", class: "border p-2 w-full" %>
+<div class="flex flex-1 w-full flex-col items-center justify-center text-center" style="padding-top:25px !important">
+    <h1 class="mx-auto max-w-4xl font-display text-3xl font-bold tracking-normal text-white-300 dark:text-gray-300 sm:text-4xl" style="color:black; margin-bottom:10px !important">
+            Menu
+            <span class="relative whitespace-nowrap text-cyan-500 dark:text-cyan-300">
+            <svg aria-hidden="true" viewBox="0 0 418 42" class="absolute top-2/3 left-0 h-[0.58em] w-full fill-cyan-500 dark:fill-cyan-300/60" preserveAspectRatio="none">
+                <path d="M203.371.916c-26.013-2.078-76.686 1.963-124.73 9.946L67.3 12.749C35.421 18.062 18.2 21.766 6.004 25.934 1.244 27.561.828 27.778.874 28.61c.07 1.214.828 1.121 9.595-1.176 9.072-2.377 17.15-3.92 39.246-7.496C123.565 7.986 157.869 4.492 195.942 5.046c7.461.108 19.25 1.696 19.17 2.582-.107 1.183-7.874 4.31-25.75 10.366-21.992 7.45-35.43 12.534-36.701 13.884-2.173 2.308-.202 4.407 4.442 4.734 2.654.187 3.263.157 15.593-.780 35.401-2.686 57.944-3.488 88.365-3.143 46.327.526 75.721 2.23 130.788 7.584 19.787 1.924 20.814 1.98 24.557 1.332l.066-.011c1.201-.203 1.53-1.825.399-2.335-2.911-1.31-4.893-1.604-22.048-3.261-57.509-5.556-87.871-7.36-132.059-7.842-23.239-.254-33.617-.116-50.627.674-11.629.540-42.371 2.494-46.696 2.967-2.359.259 8.133-3.625 26.504-9.810 23.239-7.825 27.934-10.149 28.304-14.005 .417-4.348-3.529-6-16.878-7.066Z"></path>
+            </svg>
+            <span class="relative" style="font-family:Lilita One">Additions</span>
+        </span>
+    </h1>
+</div>
+
+<div class="container mx-auto max-w-screen-lg mt-0">
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
+    <div class="col-span-1 md:col-span-1 lg:col-span-1">
+      <%= form_with(model: @food, url: addingNewFood_path, method: :post) do |form| %>
+        <div class="container mt-1">
+  <%= form_with(model: @food, url: addingNewFood_path, method: :post) do |form| %>
+    <div class="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-4">
+      <div class="col-span-3 md:col-span-2 lg:col-span-1">
+        <div class="max-w-sm mx-auto mt-6 bg-white rounded-md shadow-md overflow-hidden">
+          <div class="px-6 py-4 bg-cyan-500 text-white">
+            <h1 class="text-lg font-bold" style="color:white">Add a food to the menu!</h1>
+          </div>
+          <div class="px-6 py-4">
+            <div class="mb-4">
+              <%= form.label :food_name, "Food Name", class: "block text-gray-700 font-bold mb-2" %>
+              <%= form.text_field :food_name, class: "appearance-none border border-gray-400 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline", id: "card-number", placeholder: "" %>
+            </div>
+            <div class="mb-4">
+              <%= form.label :description, "Food Description", class: "block text-gray-700 font-bold mb-2" %>
+              <%= form.text_field :description, class: "appearance-none border border-gray-400 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline", id: "expiration-date", placeholder: "" %>
+            </div>
+            <div class="mb-4">
+              <%= form.label :inital_cost, "Food Cost", class: "block text-gray-700 font-bold mb-2" %>
+              <%= form.text_field :inital_cost, class: "appearance-none border border-gray-400 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline", id: "cvv", placeholder: "" %>
+            </div>
+            <div class="col-span-3 md:col-span-1">
+              <%= form.label :autolyse, "Breakfast", class: "block font-bold" %>
+              <%= form.radio_button :isBreakfast, true, class: "mr-2" %>
+              <%= form.label :autolyse, "Lunch/Dinner", class: "block font-bold" %>
+              <%= form.radio_button :isBreakfast, false, class: "mr-2" %>
+            </div>
+            <div class="mt-3 mb-3">
+              <%= select_tag :tag, options_for_select(@foodTags.map { |tag| [tag.food_Tag_Name] }), prompt: "Select a Food Tag" %>
+            </div>
+
+        <div class="col-span-3 md:col-span-1 mt-5">
+          <%= button_tag(type: 'submit', class: 'bg-cyan-600 hover:bg-cyan-700 text-white font-bold py-2 px-4 rounded') do %>
+            <%= content_tag(:i, '', class: 'fa fa-plus-square', style: 'padding-right:5px') %> Add Food
+          <% end %>
+        </div>
+
+          </div>
+        </div>
       </div>
-      <div class="mb-4">
-        <%= f.submit "Food Tag Add", class: "bg-blue-500 text-white p-2 rounded" %>
+      <div class="col-span-3 md:col-span-1">
       </div>
     </div>
   <% end %>
+</div>
+      <% end %>
+    </div>
+
+
+    <div class="col-span-1 md:col-span-1 lg:col-span-1 md:mt-0 lg:mt-0">
+     <div class="container mt-1">
+        <%= form_for FoodTag.new, url: food_tags_url do |f| %>
+          <div class="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-4">
+            <div class="col-span-3 md:col-span-2 lg:col-span-1">
+              <div class="max-w-sm mx-auto mt-6 bg-white rounded-md shadow-md overflow-hidden">
+                <div class="px-6 py-4 bg-cyan-500 text-white">
+                  <h1 class="text-lg font-bold" style="color:white">Add a new food tag!</h1>
+                </div>
+                <div class="px-6 py-4">
+                  <div class="mb-4">
+                    <%= f.label :food_Tag_Name, "Food Tag", class: "block text-gray-700 font-bold mb-2" %>
+                    <%= f.text_field :food_Tag_Name, class: "appearance-none border border-gray-400 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline", id: "card-number", placeholder: "" %>
+                  </div>
+
+                  <div class="col-span-3 md:col-span-1 mt-2">
+                    <%= button_tag(type: 'submit', class: 'bg-cyan-600 hover:bg-cyan-700 text-white font-bold py-2 px-4 rounded') do %>
+                      <%= content_tag(:i, '', class: 'fa fa-plus-square', style: 'padding-right:5px') %> Add Tag
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-span-3 md:col-span-1">
+            </div>
+          </div>
+          
+        <% end %>
+
+        <%= form_for Addition.new, url: additions_path do |f| %>
+          <div class="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-4">
+            <div class="col-span-3 md:col-span-2 lg:col-span-1">
+              <div class="max-w-sm mx-auto mt-6 bg-white rounded-md shadow-md overflow-hidden">
+                <div class="px-6 py-4 bg-cyan-500 text-white">
+                  <h1 class="text-lg font-bold" style="color:white">Add an Addition!</h1>
+                </div>
+                <div class="px-6 py-4">
+                  <div class="mb-4">
+                    <%= f.label :addition_name, "Addition Name", class: "block text-gray-700 font-bold mb-2" %>
+                    <%= f.text_field :addition_name, class: "appearance-none border border-gray-400 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline", id: "card-number", placeholder: "" %>
+                  </div>
+
+                  <div class="mb-4">
+                    <%= f.label :cost, "Addition Cost", class: "block text-gray-700 font-bold mb-2" %>
+                    <%= f.text_field :cost, class: "appearance-none border border-gray-400 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline", id: "card-number", placeholder: "" %>
+                  </div>
+
+                  <div class="col-span-3 md:col-span-1 mt-2">
+                    <%= button_tag(type: 'submit', class: 'bg-cyan-600 hover:bg-cyan-700 text-white font-bold py-2 px-4 rounded') do %>
+                      <%= content_tag(:i, '', class: 'fa fa-plus-square', style: 'padding-right:5px') %> Add Addition
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-span-3 md:col-span-1">
+            </div>
+          </div>
+        <% end %>
+
+        </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="flex flex-1 w-full flex-col items-center justify-center text-center" style="padding-top:25px !important">
+    <h1 class="mx-auto max-w-4xl font-display text-3xl font-bold tracking-normal text-white-300 dark:text-gray-300 sm:text-4xl" style="color:black; margin-bottom:10px !important">
+            Menu
+            <span class="relative whitespace-nowrap text-cyan-500 dark:text-cyan-300">
+            <svg aria-hidden="true" viewBox="0 0 418 42" class="absolute top-2/3 left-0 h-[0.58em] w-full fill-cyan-500 dark:fill-cyan-300/60" preserveAspectRatio="none">
+                <path d="M203.371.916c-26.013-2.078-76.686 1.963-124.73 9.946L67.3 12.749C35.421 18.062 18.2 21.766 6.004 25.934 1.244 27.561.828 27.778.874 28.61c.07 1.214.828 1.121 9.595-1.176 9.072-2.377 17.15-3.92 39.246-7.496C123.565 7.986 157.869 4.492 195.942 5.046c7.461.108 19.25 1.696 19.17 2.582-.107 1.183-7.874 4.31-25.75 10.366-21.992 7.45-35.43 12.534-36.701 13.884-2.173 2.308-.202 4.407 4.442 4.734 2.654.187 3.263.157 15.593-.780 35.401-2.686 57.944-3.488 88.365-3.143 46.327.526 75.721 2.23 130.788 7.584 19.787 1.924 20.814 1.98 24.557 1.332l.066-.011c1.201-.203 1.53-1.825.399-2.335-2.911-1.31-4.893-1.604-22.048-3.261-57.509-5.556-87.871-7.36-132.059-7.842-23.239-.254-33.617-.116-50.627.674-11.629.540-42.371 2.494-46.696 2.967-2.359.259 8.133-3.625 26.504-9.810 23.239-7.825 27.934-10.149 28.304-14.005 .417-4.348-3.529-6-16.878-7.066Z"></path>
+            </svg>
+            <span class="relative" style="font-family:Lilita One">Edits</span>
+        </span>
+    </h1>
+</div>
+
+<h2>Delete Tags [This action will delete all foods with this tag]</h2>
   
+  <!--
   <h3 class="col-span-3">Possible Food Tags.</h3>
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
     <% if @foodTags.any? %>
@@ -28,7 +162,9 @@
       <p class="col-span-3">No additions available.</p>
     <% end %>
   </div>
+-->
 
+<!--
   <%= form_for Addition.new, url: additions_path do |f| %>
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
       <div class="mb-4">
@@ -44,6 +180,9 @@
       </div>
     </div>
   <% end %>
+  -->
+
+  <!--
 
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
     <% if @additions.any? %>
@@ -63,43 +202,10 @@
       <p class="col-span-3">No additions available.</p>
     <% end %>
   </div>
+  -->
 
-  <div class="container mt-4">
-    <h1 class="text-2xl font-bold mb-4">Add Food</h1>
-    <%= form_with(model: @food, url: addingNewFood_path, method: :post) do |form| %>
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        <div class="col-span-3 md:col-span-1">
-          <%= form.label :food_name, "Food Name:" %>
-          <%= form.text_field :food_name, class: "border p-2 w-full" %>
-        </div>
-        <div class="col-span-3 md:col-span-1">
-          <%= form.label :description, "Food Description:" %>
-          <%= form.text_field :description, class: "border p-2 w-full" %>
-        </div>
-        <div class="col-span-3 md:col-span-1">
-          <%= form.hidden_field :food_additions, value: session[:addition] %>
-        </div>
-        <div class="col-span-3 md:col-span-1">
-          <%= form.hidden_field :food_modifiables, value: "" %>
-        </div>
-        <div class="col-span-3 md:col-span-1">
-          <%= form.label :inital_cost, "Food Cost:" %>
-          <%= form.number_field :inital_cost, step: 0.01, class: "border p-2 w-full" %>
-        </div>
-        <div class="col-span-3 md:col-span-1">
-          <%= form.label :autolyse, "Breakfast", class: "block font-bold" %>
-          <%= form.radio_button :isBreakfast, true, class: "mr-2" %>
-          <%= form.label :autolyse, "Lunch/Dinner", class: "block font-bold" %>
-          <%= form.radio_button :isBreakfast, false, class: "mr-2" %>
-        </div>
-        <%= select_tag :tag, options_for_select(@foodTags.map { |tag| [tag.food_Tag_Name] }), prompt: "Select a Food Tag" %>
-        <div class="col-span-3 md:col-span-1">
-          <%= form.submit "Add Food", class: "bg-blue-500 text-white p-2 rounded" %>
-        </div>
-      </div>
-    <% end %>
-  </div>
 
+<!--
 <div class="col-span-10 md:col-span-10">
   <div class="flex flex-wrap flex-col gap-5">
     <% if !@foods.blank? %>
@@ -134,10 +240,7 @@
   </div>
 </div>
 
-
-
-
-
+-->
 
 
 <%= link_to "View Orders", customer_orders_path, class: "btn btn-primary" %>
