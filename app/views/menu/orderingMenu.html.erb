@@ -302,46 +302,6 @@
         document.getElementById('customer_view_overlay').style.display = 'none';
     });
     </script>
-    
-
-    <h1>Lunch / Dinner Menu (LEGACY CODE)</h1>
-    <table>
-    <tr>
-        <th>Food Name</th>
-        <th>Food Mods</th>
-        <th>Total Cost</th>
-        <% if session[:customer] != nil%>
-            <th>Edit Item</th>
-            <th>Order Item</th>
-        <% end %>
-    </tr>
-    <% if !@lunchAndDinnerMenu.blank?%>
-        <% @lunchAndDinnerMenu.each  do |lunchItem| %>
-            <tr>
-                <th><%= lunchItem.food_name %></th>
-                <% data = eval(lunchItem.food_additions) rescue [] %>
-                <% additions = data.is_a?(Array) ? data : [data] %>
-                <th>
-                <% additions.each do |addition| %>
-                    <h4>ID: <%= addition['id'] %>, Name: <%= addition['addition_name'] %>, Cost: <%= addition['cost'] %></h4>
-                <% end %>
-                </th>
-                <th><%= lunchItem.inital_cost %></th>
-                <% if session[:customer] != nil%>
-                    <th><%= link_to "Edit Item", menu_show_path(lunchItem), class: "btn btn-primary" %></th>
-                    <th>
-                        <%= form_with(model: TempOrder.new, method: :post) do |form| %>
-                        <%= form.hidden_field :customer_id, value: session[:customer]['id'] %>
-                        <%= form.hidden_field :food_id, value: lunchItem.id %>
-                        <%= form.hidden_field :total_cost, value: lunchItem.inital_cost %>
-                        <%= form.submit "Add to Order"%>
-                        <% end %>
-                    </th>
-                <% end %>
-            <tr>
-        <% end%>
-    <% end %>
-    </table>
 <% else %>
     <div class="flex flex-1 w-full flex-col items-center justify-center text-center" style="padding-top:25px !important">
         <h1 class="mx-auto max-w-4xl font-display text-3xl font-bold tracking-normal text-white-300 dark:text-gray-300 sm:text-4xl" style="color:black; margin-bottom:10px !important">
