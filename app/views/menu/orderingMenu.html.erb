@@ -90,28 +90,25 @@
                                         <!-- The popup content -->
                                         <div class="popup">
                                             <button class="closePopup" style="padding-left:300px"><i class="fa fa-window-close" style="font-size: 24px;color:#F0512F;"></i></button>
-                                            <h3 style="margin-top:0px !important"><%= food.food_name %></h3>
+                                            <h3 style="margin-top:0px !important "><strong><%= food.food_name %></strong></h3>
                                             <% data = eval(food.food_additions) rescue [] %>
                                             <% additions = data.is_a?(Array) ? data : [data] %>
                                             <% if additions.any?%>
                                                 <% additions.each do |addition| %>
                                                     <div id = "checkboxes">
                                                         <h4 class="mt-4">
-                                                            <%= check_box_tag addition['addition_name'], addition['cost'] %>
+                                                            <%= check_box_tag addition['addition_name'], addition['cost'], false, class: 'food-addition-checkbox rounded-full h-8 w-8 cursor-pointer bg-black-100 border-black-200 text-blue-500 focus:ring-blue-200', data: { cost: addition['cost'] }%>
                                                             <%= label_tag addition['addition_name'] + " $" + addition['cost'].to_s %>
                                                         </h4>
                                                     </div>
                                                 <% end %>
-                                            <% else %>
-                                                <br>
                                             <% end %>
+                                                <br>
                                             
                                             <div class="flex gap-6">
                                                 <button class="bg-gray-600 rounded-full w-32 h-11 text-white font-semibold cancel">
                                                 <div class="flex gap-4 justify-center items-center">
-                                                    <span>
-                                                    <i class="fa fa-close"></i>
-                                                    </span>
+                                                    <span><i class="fa fa-close"></i></span>
                                                     <span>Cancel</span>
                                                 </div>
                                                 </button>
@@ -123,8 +120,9 @@
                                                             <span><i class="fa fa-check"></i></span>
                                                             <% if session[:customer].present? %>
                                                                 <%= form.hidden_field :customer_id, value: session[:customer]['id'] %>
+                                                                <%= form.hidden_field :food_modifications, value: "", id: "food_modifications_textbox_#{id}" %>
                                                                 <%= form.hidden_field :food_id, value: food.id %>
-                                                                <%= form.hidden_field :total_cost, value: food.inital_cost %>
+                                                                <%= form.hidden_field :total_cost, value: food.inital_cost, id: "food_total_cost_#{id}" %>
                                                                 <span><%= form.submit "Confirm" %></span>
                                                             <% end %>
                                                         </div>
@@ -142,69 +140,165 @@
         <% end %>
     </div>
     <script>
-        document.querySelectorAll('.popup-trigger').forEach(function (button) {
-            button.addEventListener('click', function () {
-            var popupId = this.dataset.popupId;
-            document.querySelector('.overlay.overlay_' + popupId).style.display = 'flex';
-            });
-        });
+        //var outputTextarea = document.getElementById("selected-additions-output-");
+        var label = document.getElementById("food_modifications_textbox_");
+        var totalCost = document.getElementById("food_total_cost_");
+        var cost = 0
+        additionsAdded = [];
+        document.addEventListener('DOMContentLoaded', function() {
 
-        document.querySelectorAll('.closePopup').forEach(function (closeButton) {
-            closeButton.addEventListener('click', function () {
-            document.querySelectorAll('.overlay').forEach(function (overlay) {
-                overlay.style.display = 'none';
+            document.querySelectorAll('.popup-trigger').forEach(function(button) {
+                button.addEventListener('click', function() {
+                    var popupId = this.dataset.popupId;
+                    document.querySelector('.overlay.overlay_' + popupId).style.display = 'flex';
+                    //outputTextarea = document.getElementById("selected-additions-output-" + popupId);
+                    label = document.getElementById("food_modifications_textbox_"  + popupId);
+                    totalCost = document.getElementById("food_total_cost_" + popupId);
+                    cost = Number(totalCost.value);
+                    additionsAdded = [];
+                });
             });
-            });
-        });
 
-        document.querySelectorAll('.cancel').forEach(function (cancelButton) {
-            cancelButton.addEventListener('click', function () {
-            document.querySelectorAll('.overlay').forEach(function (overlay) {
-                overlay.style.display = 'none';
+            document.querySelectorAll('.closePopup, .cancel').forEach(function(closeButton) {
+                closeButton.addEventListener('click', function() {
+                    document.querySelectorAll('.overlay').forEach(function(overlay) {
+                        overlay.style.display = 'none';
+                        additionsAdded = "";
+                    });
+                });
             });
+
+            //Adding and Removing CheckBoxes
+            document.querySelectorAll('.food-addition-checkbox').forEach(function(checkbox) {
+                checkbox.addEventListener('change', function() {
+                    if (this.checked) {
+                        additionsAdded.push(this.name);
+                        cost += Number(this.dataset.cost);
+                    }
+                    else{
+                        var index = additionsAdded.indexOf(this.name);
+                        if (index !== -1) {
+                            additionsAdded.splice(index, 1);
+                        }
+                        cost -= Number(this.dataset.cost);
+                    }
+                    totalCost.value = cost.toString();
+                    //outputTextarea.value = additionsAdded;
+                    label.value = additionsAdded;
+                });
             });
         });
     </script>
     
+    <style>
+    .overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        justify-content: center;
+        align-items: center;
+    }
 
-    <h1>Lunch / Dinner Menu (LEGACY CODE)</h1>
-    <table>
-    <tr>
-        <th>Food Name</th>
-        <th>Food Mods</th>
-        <th>Total Cost</th>
-        <% if session[:customer] != nil%>
-            <th>Edit Item</th>
-            <th>Order Item</th>
+    /* Styles for the scrollable popup content */
+    .popup-container {
+        max-height: 80vh;
+        overflow-y: auto;
+    }
+
+    .popup {
+        background-color: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    }
+    </style>
+    <!-- The popup overlay -->
+    <div id="customer_view_overlay" class="overlay">
+    <!-- The popup content -->
+     <div class="popup-container">
+    <div class="popup">
+        <button id="close_customer_view" style="padding-left:300px"><i class="fa fa-window-close" style="font-size: 24px;color:#F0512F;"></i></button>
+        <% if !session[:customer].blank? %>
+            <% foodIds = [] %>
+            <% foodNotes = [] %>
+
+            <h3 style="margin-top:0px !important">Hello, <%= session[:customer]["first_name"] %>.</h3>
+
+            <% if @customers_temp_orders.empty? %>
+                <p style="margin-top:0px !important">You have not ordered anything yet.</p>
+            <% else %>
+                <p>Below is your current order:</p>
+                <% @customers_temp_orders.each do |orderedItem| %>
+                    <% if orderedItem.total_cost != 0 %>
+                        <p style="margin: 0 !important;" class="font-semibold"><%= Food.find_by_id(orderedItem.food_id).food_name %></p>
+                        <p style="margin: 0 !important; padding: 0 !important;"><%= orderedItem.food_modifications %></p>
+                        <p style="margin: 0 !important;" class="text-green-600"><span style="color:black">+</span> $<%= number_with_precision(orderedItem.total_cost, precision: 2) %></p>
+                        <div style="padding-top:10px">
+                            <%= form_tag deleteTempOrderItem_path, method: :post do %>
+                                <%= hidden_field_tag :foodId, orderedItem.food_id %>
+                                <%= submit_tag "Remove", class: "bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-1 px-2 border border-red-500 hover:border-transparent rounded" %>
+                            <% end %>
+                        </div>
+                        <hr class="quick_options">
+                        <% foodIds.append(orderedItem.food_id) %>
+                        <% foodNotes.append(orderedItem.food_modifications) %>
+                    <% else %>
+                        <p style="margin: 0 !important;">Nothing ordered yet.</p>
+                    <% end %>
+                <% end %>
+            <% end %>
         <% end %>
-    </tr>
-    <% if !@lunchAndDinnerMenu.blank?%>
-        <% @lunchAndDinnerMenu.each  do |lunchItem| %>
-            <tr>
-                <th><%= lunchItem.food_name %></th>
-                <% data = eval(lunchItem.food_additions) rescue [] %>
-                <% additions = data.is_a?(Array) ? data : [data] %>
-                <th>
-                <% additions.each do |addition| %>
-                    <h4>ID: <%= addition['id'] %>, Name: <%= addition['addition_name'] %>, Cost: <%= addition['cost'] %></h4>
+
+        <p style="padding-bottom:10px;"><span style="font-weight:bold">Total price:</span> $<%= number_with_precision(@total, precision: 2) %></p>
+
+        <div class="flex gap-6">
+        <button class="bg-gray-600 rounded-full w-32 h-11 text-white font-semibold" id="close_customer">
+            <div class="flex gap-4 justify-center items-center">
+            <span>
+                <i class="fa fa-close"></i>
+            </span>
+            <span>Cancel</span>
+            </div>
+        </button>
+        <div style="width: 10px;"></div>
+        <button class="bg-green-600 rounded-full w-32 h-11 text-white font-semibold">
+            <div class="flex gap-4 justify-center items-center">
+            <span>
+                <i class="fa fa-check"></i>
+            </span>
+            <span>
+                <%= form_with(model: Order.new, method: :post) do |form| %>
+                <%= form.hidden_field :list_food_id, value: foodIds %>
+                <%= form.hidden_field :list_food_notes, value: foodNotes %>
+                <%= form.hidden_field :total_cost, value: @total %>
+                <%= form.submit "Submit", class: "btn btn-primary" %>
                 <% end %>
-                </th>
-                <th><%= lunchItem.inital_cost %></th>
-                <% if session[:customer] != nil%>
-                    <th><%= link_to "Edit Item", menu_show_path(lunchItem), class: "btn btn-primary" %></th>
-                    <th>
-                        <%= form_with(model: TempOrder.new, method: :post) do |form| %>
-                        <%= form.hidden_field :customer_id, value: session[:customer]['id'] %>
-                        <%= form.hidden_field :food_id, value: lunchItem.id %>
-                        <%= form.hidden_field :total_cost, value: lunchItem.inital_cost %>
-                        <%= form.submit "Add to Order"%>
-                        <% end %>
-                    </th>
-                <% end %>
-            <tr>
-        <% end%>
-    <% end %>
-    </table>
+            </span>
+            </div>
+        </button>
+        </div>
+        </div>
+
+    </div>
+    </div>
+
+    <script>
+    // JavaScript to handle the popup
+    document.getElementById('open_customer_view').addEventListener('click', function () {
+        document.getElementById('customer_view_overlay').style.display = 'flex';
+    });
+
+    document.getElementById('close_customer_view').addEventListener('click', function () {
+        document.getElementById('customer_view_overlay').style.display = 'none';
+    });
+    document.getElementById('close_customer').addEventListener('click', function () {
+        document.getElementById('customer_view_overlay').style.display = 'none';
+    });
+    </script>
 <% else %>
     <div class="flex flex-1 w-full flex-col items-center justify-center text-center" style="padding-top:25px !important">
         <h1 class="mx-auto max-w-4xl font-display text-3xl font-bold tracking-normal text-white-300 dark:text-gray-300 sm:text-4xl" style="color:black; margin-bottom:10px !important">
@@ -275,9 +369,21 @@
                                     <div class="popup">
                                         <button class="closePopup" style="padding-left:300px"><i class="fa fa-window-close" style="font-size: 24px;color:#F0512F;"></i></button>
                                         <h3 style="margin-top:0px !important"><%= food.food_name %></h3>
-                                        <p>Are there any food modifications?</p>
-                                        <p>{modifications}</p>
-                                        <p >I will turn the modifications into buttons.</p>
+                                        <% data = eval(food.food_additions) rescue [] %>
+                                        <% additions = data.is_a?(Array) ? data : [data] %>
+                                        <% if additions.any?%>
+                                            <% additions.each do |addition| %>
+                                                <div id = "checkboxes">
+                                                    <h4 class="mt-4">
+                                                        <%= check_box_tag addition['addition_name'], addition['cost'], false, class: 'food-addition-checkbox', data: { cost: addition['cost'] }%>
+                                                        <%= label_tag addition['addition_name'] + " $" + addition['cost'].to_s %>
+                                                    </h4>
+                                                </div>
+                                            <% end %>
+                                            <br>
+                                        <% else %>
+                                            <br>
+                                        <% end %>
                                         
                                         <div class="flex gap-6">
                                             <button class="bg-gray-600 rounded-full w-32 h-11 text-white font-semibold cancel">
@@ -341,9 +447,20 @@
                                     <div class="popup">
                                         <button class="closePopup" style="padding-left:300px"><i class="fa fa-window-close" style="font-size: 24px;color:#F0512F;"></i></button>
                                         <h3 style="margin-top:0px !important"><%= food.food_name %></h3>
-                                        <p>Are there any food modifications?</p>
-                                        <p>{modifications}</p>
-                                        <p>I will turn the modifications into buttons.</p>
+                                        <% data = eval(food.food_additions) rescue [] %>
+                                        <% additions = data.is_a?(Array) ? data : [data] %>
+                                        <% if additions.any?%>
+                                            <% additions.each do |addition| %>
+                                                <div id = "checkboxes">
+                                                    <h4 class="mt-4">
+                                                        <%= check_box_tag addition['addition_name'], addition['cost'], false, class: 'food-addition-checkbox', data: { cost: addition['cost'] }%>
+                                                        <%= label_tag addition['addition_name'] + " $" + addition['cost'].to_s %>
+                                                    </h4>
+                                                </div>
+                                            <% end %>
+                                        <% else %>
+                                            <br>
+                                        <% end %>
                                         
                                         <div class="flex gap-6">
                                             <button class="bg-gray-600 rounded-full w-32 h-11 text-white font-semibold cancel">
@@ -407,9 +524,21 @@
                                     <div class="popup">
                                         <button class="closePopup" style="padding-left:300px"><i class="fa fa-window-close" style="font-size: 24px;color:#F0512F;"></i></button>
                                         <h3 style="margin-top:0px !important"><%= food.food_name %></h3>
-                                        <p>Are there any food modifications?</p>
-                                        <p>{modifications}</p>
-                                        <p>I will turn the modifications into buttons.</p>
+                                        <% data = eval(food.food_additions) rescue [] %>
+                                        <% additions = data.is_a?(Array) ? data : [data] %>
+                                        <% if additions.any?%>
+                                            <% additions.each do |addition| %>
+                                                <div id = "checkboxes">
+                                                    <h4 class="mt-4">
+                                                        <%= check_box_tag addition['addition_name'], addition['cost'], false, class: 'food-addition-checkbox', data: { cost: addition['cost'] }%>
+                                                        <%= label_tag addition['addition_name'] + " $" + addition['cost'].to_s %>
+                                                    </h4>
+                                                </div>
+                                            <% end %>
+                                            <br>
+                                        <% else %>
+                                            <br>
+                                        <% end %>
                                         
                                         <div class="flex gap-6">
                                             <button class="bg-gray-600 rounded-full w-32 h-11 text-white font-semibold cancel">
@@ -473,9 +602,21 @@
                                     <div class="popup">
                                         <button class="closePopup" style="padding-left:300px"><i class="fa fa-window-close" style="font-size: 24px;color:#F0512F;"></i></button>
                                         <h3 style="margin-top:0px !important"><%= food.food_name %></h3>
-                                        <p>Are there any food modifications?</p>
-                                        <p>{modifications}</p>
-                                        <p>I will turn the modifications into buttons.</p>
+                                        <% data = eval(food.food_additions) rescue [] %>
+                                        <% additions = data.is_a?(Array) ? data : [data] %>
+                                        <% if additions.any?%>
+                                            <% additions.each do |addition| %>
+                                                <div id = "checkboxes">
+                                                    <h4 class="mt-4">
+                                                        <%= check_box_tag addition['addition_name'], addition['cost'], false, class: 'food-addition-checkbox', data: { cost: addition['cost'] }%>
+                                                        <%= label_tag addition['addition_name'] + " $" + addition['cost'].to_s %>
+                                                    </h4>
+                                                </div>
+                                            <% end %>
+                                            <br>
+                                        <% else %>
+                                            <br>
+                                        <% end %>
                                         
                                         <div class="flex gap-6">
                                             <button class="bg-gray-600 rounded-full w-32 h-11 text-white font-semibold cancel">
@@ -542,9 +683,21 @@
                                     <div class="popup">
                                         <button class="closePopup" style="padding-left:300px"><i class="fa fa-window-close" style="font-size: 24px;color:#F0512F;"></i></button>
                                         <h3 style="margin-top:0px !important"><%= food.food_name %></h3>
-                                        <p>Are there any food modifications?</p>
-                                        <p>{modifications}</p>
-                                        <p>I will turn the modifications into buttons.</p>
+                                        <% data = eval(food.food_additions) rescue [] %>
+                                        <% additions = data.is_a?(Array) ? data : [data] %>
+                                        <% if additions.any?%>
+                                            <% additions.each do |addition| %>
+                                                <div id = "checkboxes">
+                                                    <h4 class="mt-4">
+                                                        <%= check_box_tag addition['addition_name'], addition['cost'], false, class: 'food-addition-checkbox', data: { cost: addition['cost'] }%>
+                                                        <%= label_tag addition['addition_name'] + " $" + addition['cost'].to_s %>
+                                                    </h4>
+                                                </div>
+                                            <% end %>
+                                            <br>
+                                        <% else %>
+                                            <br>
+                                        <% end %>
                                         
                                         <div class="flex gap-6">
                                             <button class="bg-gray-600 rounded-full w-32 h-11 text-white font-semibold cancel">
@@ -606,9 +759,20 @@
                                     <div class="popup">
                                         <button class="closePopup" style="padding-left:300px"><i class="fa fa-window-close" style="font-size: 24px;color:#F0512F;"></i></button>
                                         <h3 style="margin-top:0px !important"><%= food.food_name %></h3>
-                                        <p>Are there any food modifications?</p>
-                                        <p>{modifications}</p>
-                                        <p>I will turn the modifications into buttons.</p>
+                                        <% data = eval(food.food_additions) rescue [] %>
+                                        <% additions = data.is_a?(Array) ? data : [data] %>
+                                        <% if additions.any?%>
+                                            <% additions.each do |addition| %>
+                                                <div id = "checkboxes">
+                                                    <h4 class="mt-4">
+                                                        <%= check_box_tag addition['addition_name'], addition['cost'], false, class: 'food-addition-checkbox', data: { cost: addition['cost'] }%>
+                                                        <%= label_tag addition['addition_name'] + " $" + addition['cost'].to_s %>
+                                                    </h4>
+                                                </div>
+                                            <% end %>
+                                        <% else %>
+                                            <br>
+                                        <% end %>
                                         
                                         <div class="flex gap-6">
                                             <button class="bg-gray-600 rounded-full w-32 h-11 text-white font-semibold cancel">
@@ -792,8 +956,6 @@
     document.getElementById('close_customer').addEventListener('click', function () {
         document.getElementById('customer_view_overlay').style.display = 'none';
     });
-
-
     // const refresh = async(id) => {
     //     const req = await fetch('http://localhost:5000/orders/:id/remove', {
     //         method: 'DELETE',

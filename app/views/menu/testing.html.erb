@@ -1,0 +1,171 @@
+<style>
+    ul {
+        list-style-type: none !important; 
+        margin-left: 0px !important;
+        margin-right: 10px !important;
+        padding-left: 0px !important;
+        padding-right: 0px !important;
+    }
+    .quick_options{
+        margin-top: 15px !important;
+        margin-bottom: 15px !important;
+    }
+    /* Styles for the popup overlay */
+    .overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    overflow-y: auto;
+    }
+
+    /* Styles for the popup content */
+    .popup {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    }
+</style>
+
+
+<% id = -1 %>
+<% @testingFoods.each do |food| %>
+    <% id += 1 %>
+    <div>
+        <!-- Additional details for "Eggs" go here -->
+        <ul class="" style="margin-bottom:0px !important;margin-top:0px !important;margin-top:0px !important;margin-bottom:0px !important">
+            <li>
+                <details class="mb-2">
+                    <summary class="bg-gray-50 p-3 cursor-pointer shadow-md mb-3 my-2 border-l-4 font-sans  dark:text-gray-800" style="border-color:#d1d5db;">
+                    <span class="font-semibold"><%= food.food_name %></span>
+                    </summary>
+                    <div class="bg-white p-1">
+                    <span class="text-gray-600"><%= food.description %></span>
+                    </div>
+                    <div class="flex flex-col md:flex-row justify-between items-center text-gray-900">
+                    <p class="font-bold text-xl">$<%= number_with_precision(food.inital_cost, precision: 2) %></p>
+
+                    <!-- Your button -->
+                    <% if session[:customer] != nil%>
+                        <button class="popup-trigger px-3 py-1 transition ease-in duration-200 uppercase rounded-full hover:bg-gray-800 hover:text-white border-2 border-gray-900 focus:outline-none" data-popup-id="<%= id %>" style="font-size:14px">
+                            <i class="fa fa-cart-plus" style="font-size:16px"></i>add to order
+                        </button>
+                    <% else %>
+                        <button class="px-3 py-1 transition ease-in duration-200 uppercase rounded-full hover:bg-gray-800 hover:text-white border-2 border-gray-900 focus:outline-none" data-popup-id="<%= id %>" style="font-size:14px">
+                            <i class="fa fa-cart-plus" style="font-size:16px"></i><%= link_to "add to order", login_path, class: "btn btn-primary" %>
+                        </button>
+                    <% end %>
+
+                    <!-- The popup overlay -->
+                    <div class="overlay overlay_<%= id %>">
+                        <!-- The popup content -->
+                        <div class="popup">
+                            <button class="closePopup" style="padding-left:300px"><i class="fa fa-window-close" style="font-size: 24px;color:#F0512F;"></i></button>
+                            <h3 style="margin-top:0px !important"><%= food.food_name %></h3>
+                            <% data = eval(food.food_additions) rescue [] %>
+                            <% additions = data.is_a?(Array) ? data : [data] %>
+                            <% if additions.any?%>
+                                <% additions.each do |addition| %>
+                                    <div id = "checkboxes">
+                                        <h4 class="mt-4">
+                                            <%= check_box_tag addition['addition_name'], addition['cost'], false, class: 'food-addition-checkbox', data: { cost: addition['cost'] }%>
+                                            <%= label_tag addition['addition_name'] + " $" + addition['cost'].to_s %>
+                                        </h4>
+                                    </div>
+                                <% end %>
+                            <% else %>
+                                <br>
+                            <% end %>
+                            
+                            <div class="flex gap-6">
+                                <button class="bg-gray-600 rounded-full w-32 h-11 text-white font-semibold cancel">
+                                <div class="flex gap-4 justify-center items-center">
+                                    <span>
+                                    <i class="fa fa-close"></i>
+                                    </span>
+                                    <span>Cancel</span>
+                                </div>
+                                </button>
+                                <div style="width: 10px;"></div>
+
+                                <!--- <textarea readonly rows="5" class="w-full bg-white border p-2 mt-4" id="selected-additions-output-<%=id%>"></textarea> --->
+                                <%= form_with(model: TempOrder.new, method: :post) do |form| %>
+                                    <button class="bg-green-600 rounded-full w-32 h-11 text-white font-semibold">
+                                        <div class="flex gap-4 justify-center items-center">
+                                            <span><i class="fa fa-check"></i></span>
+                                            <% if session[:customer].present? %>
+                                                <%= form.hidden_field :customer_id, value: session[:customer]['id'] %>
+                                                <%= form.hidden_field :food_modifications, value: "", id: "food_modifications_textbox_#{id}" %>
+                                                <%= form.hidden_field :food_id, value: food.id %>
+                                                <%= form.hidden_field :total_cost, value: food.inital_cost, id: "food_total_cost_#{id}" %>
+                                                <span><%= form.submit "Confirm" %></span>
+                                            <% end %>
+                                        </div>
+                                    </button>
+                                <% end %>
+                            </div>
+                        </div>
+                    </div>
+                </details>
+            </li>
+        </ul>
+    </div>
+<% end %>
+
+
+<script>
+    //var outputTextarea = document.getElementById("selected-additions-output-");
+    var label = document.getElementById("food_modifications_textbox_");
+    var totalCost = document.getElementById("food_total_cost_");
+    var cost = 0
+    additionsAdded = [];
+    document.addEventListener('DOMContentLoaded', function() {
+
+        document.querySelectorAll('.popup-trigger').forEach(function(button) {
+            button.addEventListener('click', function() {
+                var popupId = this.dataset.popupId;
+                document.querySelector('.overlay.overlay_' + popupId).style.display = 'flex';
+                //outputTextarea = document.getElementById("selected-additions-output-" + popupId);
+                label = document.getElementById("food_modifications_textbox_"  + popupId);
+                totalCost = document.getElementById("food_total_cost_" + popupId);
+                cost = Number(totalCost.value);
+                additionsAdded = [];
+            });
+        });
+
+        document.querySelectorAll('.closePopup, .cancel').forEach(function(closeButton) {
+            closeButton.addEventListener('click', function() {
+                document.querySelectorAll('.overlay').forEach(function(overlay) {
+                    overlay.style.display = 'none';
+                    additionsAdded = "";
+                });
+            });
+        });
+
+        //Adding and Removing CheckBoxes
+        document.querySelectorAll('.food-addition-checkbox').forEach(function(checkbox) {
+            checkbox.addEventListener('change', function() {
+                if (this.checked) {
+                    additionsAdded.push(this.name);
+                    cost += Number(this.dataset.cost);
+                }
+                else{
+                    var index = additionsAdded.indexOf(this.name);
+                    if (index !== -1) {
+                        additionsAdded.splice(index, 1);
+                    }
+                    cost -= Number(this.dataset.cost);
+                }
+                totalCost.value = cost.toString();
+                //outputTextarea.value = additionsAdded;
+                label.value = additionsAdded;
+            });
+        });
+    });
+</script>
