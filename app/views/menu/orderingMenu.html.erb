@@ -90,7 +90,7 @@
                                         <!-- The popup content -->
                                         <div class="popup">
                                             <button class="closePopup" style="padding-left:300px"><i class="fa fa-window-close" style="font-size: 24px;color:#F0512F;"></i></button>
-                                            <h3 style="margin-top:0px !important"><strong><%= food.food_name %></strong></h3>
+                                            <h3 style="margin-top:0px !important "><strong><%= food.food_name %></strong></h3>
                                             <% data = eval(food.food_additions) rescue [] %>
                                             <% additions = data.is_a?(Array) ? data : [data] %>
                                             <% if additions.any?%>
@@ -102,10 +102,8 @@
                                                         </h4>
                                                     </div>
                                                 <% end %>
-                                                <br>
-                                            <% else %>
-                                                <br>
                                             <% end %>
+                                                <br>
                                             
                                             <div class="flex gap-6">
                                                 <button class="bg-gray-600 rounded-full w-32 h-11 text-white font-semibold cancel">
