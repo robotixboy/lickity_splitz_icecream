@@ -13,6 +13,9 @@ Rails.application.routes.draw do
   #The Home Page of the website
   root 'pages#home'
   #addition !!
+  #This will be our testing file for things you would like to testout using the website: (Please Comment this route out when development is over)
+  get 'test', to: 'menu#testing', as: 'test'
+
   #Employee Routes 
   get 'n1e2w3E4m5p6l7o8y9e0R1e2g3i4s5t6e7r8', to: 'employees#admin', as: 'employees_login' #Adding New Employees
   get '1a2d3m4i5n6H7u8b', to: 'employees#home', as: 'employees_home' #Administration Hub :: if the Authorization Key inst correct will redirect you to login or to Non Admin Orders View

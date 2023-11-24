@@ -1,4 +1,26 @@
 class MenuController < ApplicationController
+
+    def testing
+        @temp_order = TempOrder.new
+        @temp_orders = TempOrder.all
+
+        @food = Food.find_by(id: 5)
+        @testingFoods = Food.where("id < ?", 3)
+        Time.zone = 'Eastern Time (US & Canada)'
+        session["Time"] = Time.zone.now
+        
+        @total = 0
+        if @customers_temp_orders
+          @customers_temp_orders.each do |foodItem|
+            @total += (foodItem.total_cost).to_f
+          end
+        end
+
+        @viewableMenu = params[:value]
+        @lunchAndDinnerMenu = Food.where(isBreakfast: false)
+        @breakfastMenu = Food.where(isBreakfast: true)
+    end
+
     def login
         session[:customer] = nil
     end
