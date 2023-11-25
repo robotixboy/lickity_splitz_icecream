@@ -91,7 +91,9 @@ class EmployeesController < ApplicationController
     def orders
         puts session[:isCompleted]
         @orders = Order.all
-        @order = Order.new
+        if session[:employee].blank? || session[:employee].nil?
+            redirect_to employees_admin_login_url
+        end
     end
 
     def changingTag

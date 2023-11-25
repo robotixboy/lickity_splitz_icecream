@@ -82,6 +82,12 @@ class MenuController < ApplicationController
         session[:customer] = Customer.find_by(first_name: session[:firstName],phone_number: session[:phoneNumber])
         if session[:customer] != nil
             @customers_temp_orders = TempOrder.where(customer_id: session[:customer].id)
+            @total = 0
+            if @customers_temp_orders
+                @customers_temp_orders.each do |foodItem|
+                    @total += (foodItem.total_cost).to_f
+                end
+            end
         end
     end
 
