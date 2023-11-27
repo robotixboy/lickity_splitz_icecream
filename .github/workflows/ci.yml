@@ -46,8 +46,7 @@ jobs:
               ForwardAgent yes
 
       - name: Adding Known Hosts
-        # run: ssh-keyscan -H ${{ secrets.SSH_HOST }}
-        run: ssh-keyscan 162.243.186.231
+        run: ssh-keyscan -H ${{ secrets.SSH_HOST }}
 
       - uses: actions/checkout@v2
       - name: Set up Ruby
