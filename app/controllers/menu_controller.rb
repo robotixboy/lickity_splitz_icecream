@@ -22,15 +22,21 @@ class MenuController < ApplicationController
     end
 
     def login
+        session[:employee] = nil
+        session[:authorization_key] = nil
         session[:customer] = nil
     end
 
     def show #shows the menu item clicked on
+        session[:employee] = nil
+        session[:authorization_key] = nil
         session[:customer]
         @food = Food.find(params[:id])
     end
 
     def iceCreamMenu #ice cream menu
+        session[:employee] = nil
+        session[:authorization_key] = nil
         session[:customer] = Customer.find_by(first_name: session[:firstName],phone_number: session[:phoneNumber]) || nil
         if !session[:customer].nil?
             @customers_temp_orders = TempOrder.where(customer_id: session[:customer]["id"])
@@ -48,6 +54,8 @@ class MenuController < ApplicationController
     end
 
     def orderingMenu #Grabs value from previous page and Adds logged in customer information to the session
+        session[:employee] = nil
+        session[:authorization_key] = nil
         session[:customer] = Customer.find_by(first_name: session[:firstName],phone_number: session[:phoneNumber]) || nil
         if !session[:customer].nil?
             @customers_temp_orders = TempOrder.where(customer_id: session[:customer]["id"])
@@ -73,6 +81,8 @@ class MenuController < ApplicationController
     end
 
     def order
+        session[:employee] = nil
+        session[:authorization_key] = nil
         Time.zone = 'Eastern Time (US & Canada)'
         session["Time"] = Time.zone.now
         @temp_order = TempOrder.new

@@ -12,9 +12,9 @@ class EmployeesController < ApplicationController
         puts "DEBUG END"
         if session[:authorization_key] == "80085"
         elsif session[:employee].blank? || session[:employee].nil?
-            redirect_to customer_orders_url
-        else
             redirect_to employees_admin_login_url
+        else
+            redirect_to customer_orders_url
         end
     end
 
