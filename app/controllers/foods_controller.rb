@@ -9,6 +9,10 @@ class FoodsController < ApplicationController
         end
     end
 
+    def delete
+        
+    end
+
     private
     def food_params
         params.require(:food).permit(:food_name, :food_additions, :food_modifiables, :inital_cost, :isBreakfast, :description)
