@@ -204,7 +204,11 @@
             <div class="text-xs">
               <p>Food Modifications:</p>
               <% additions.each do |addition| %>
+              <% if addition %>
                 <p>ID: <%= addition['id'] %>, Name: <%= addition['addition_name'] %>, Cost: <%= addition['cost'] %></p>
+              <% else %>
+                <p>Addition is nil - What to do ?</p>
+              <% end %>              
               <% end %>
               <%= link_to "Edit Item", employees_show_path(fooditem), class: "btn btn-primary" %>
             </div>
