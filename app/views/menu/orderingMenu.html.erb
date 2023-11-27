@@ -324,7 +324,7 @@
         <% omelette_counter = 0 %>
         <% sides_items_count = Food.where(tag: "Sides").count %>
         <% sides_counter = 0 %>
-        <% drinks_items_count = Food.where(tag: "Drinks").count %>
+        <% drinks_items_count = Food.where(tag: "Beverages").count %>
         <% drinks_counter = 0 %>
         <% breads_items_count = Food.where(tag: "Breads and Hotcakes").count %>
         <% breads_counter = 0 %>
@@ -736,7 +736,7 @@
                             <hr class="quick_options" style="border-color: #E2E0DF !important;">
                         <% end %>
                     <% else %>
-                        <li style="padding-bottom:10px !important">                            
+                    <li style="padding-bottom:10px !important">                            
                             <div class="bg-white p-1">
                                 <span class="text-gray-600"><%= food.description %></span>
                             </div>
