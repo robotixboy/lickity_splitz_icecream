@@ -128,6 +128,15 @@ class EmployeesController < ApplicationController
         end
     end
 
+    def deletingFoods
+        @food = Food.find(params[:id])
+        if @food.destroy
+          redirect_to employees_home_url
+        else
+          render 'home'
+        end
+    end
+
     def completingOrder
         @order = Order.find(params[:id])
       

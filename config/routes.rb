@@ -36,6 +36,7 @@ Rails.application.routes.draw do
   #Methods in the Employees Controller
   post 'storing_additions', to: 'employees#addition'
   post 'deletingAdditions', to: 'employees#deletingAdditions'
+  post 'deletingFoods', to: 'employees#deletingFoods'
   post 'addingNewFood', to: 'employees#addingFood'
   post 'completingOrder', to: 'employees#completingOrder'
   post 'changingTag', to: 'employees#changingTag'

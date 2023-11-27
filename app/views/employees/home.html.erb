@@ -218,6 +218,11 @@
               <%= select_tag :newTag, options_for_select(@foodTags.map { |tag| [tag.food_Tag_Name] }, fooditem.tag), prompt: "Select a Food Tag", class: "flex-grow py-1 px-2 text-sm" %>
               <%= submit_tag "Change", class: "bg-blue-500 text-white py-1 px-2 rounded text-sm" %>
             <% end %>
+
+            <%= form_tag deletingFoods_path, method: :post do %>
+                <%= hidden_field_tag :id, fooditem.id %>
+                <%= submit_tag "Delete", class: "bg-red-500 text-white p-2 rounded" %>
+            <% end %>
           </div>
         <% end %>
       </div>
