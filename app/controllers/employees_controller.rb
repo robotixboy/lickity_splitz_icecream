@@ -6,10 +6,6 @@ class EmployeesController < ApplicationController
         @orders = Order.all
         @foodTags = FoodTag.all
 
-        puts "==================== HOME DEBUGGING ======================"
-        puts session[:authorization_key]
-        puts session[:employee]
-        puts "DEBUG END"
         if session[:authorization_key] == "80085"
         elsif session[:employee].blank? || session[:employee].nil?
             redirect_to employees_admin_login_url
@@ -38,8 +34,6 @@ class EmployeesController < ApplicationController
 
     def adminKey
         session[:authorization_key] = params[:authorizationKey]
-        puts "---------------------"
-        puts session[:authorization_key]
         if session[:authorization_key] == "80085"
             redirect_to employees_home_url
         else
@@ -89,7 +83,6 @@ class EmployeesController < ApplicationController
     end
 
     def orders
-        puts session[:isCompleted]
         @orders = Order.all
         if session[:employee].blank? || session[:employee].nil?
             redirect_to employees_admin_login_url
