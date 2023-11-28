@@ -372,22 +372,70 @@
                                     <!-- The popup content -->
                                     <div class="popup">
                                         <button class="closePopup" style="padding-left:300px"><i class="fa fa-window-close" style="font-size: 24px;color:#F0512F;"></i></button>
-                                        <h3 style="margin-top:0px !important"><%= food.food_name %></h3>
+                                        <h3 style="margin-top:0px !important; font-weight:bold !important"><%= food.food_name %>  <span style="color:green; font-weight:normal !important"> $<span id="original-cost-value" style="color:green"><%= number_with_precision(food.inital_cost, precision: 2) %></span></span></h3>
+
                                         <% data = eval(food.food_additions) rescue [] %>
                                         <% additions = data.is_a?(Array) ? data : [data] %>
-                                        <% if additions.any?%>
+
+                                        <% if additions.any? %>
+                                        <p class="mt-2">Additions:</p>
+                                        <div id="checkboxes">
                                             <% additions.each do |addition| %>
-                                                <div id = "checkboxes">
-                                                    <h4 class="mt-4">
-                                                        <%= check_box_tag addition['addition_name'], addition['cost'], false, class: 'food-addition-checkbox', data: { cost: addition['cost'] }%>
-                                                        <%= label_tag addition['addition_name'] + " $" + addition['cost'].to_s %>
-                                                    </h4>
-                                                </div>
+                                            <h4 class="">
+                                                <%= check_box_tag addition['addition_name'], addition['cost'], false, class: 'food-addition-checkbox', data: { cost: addition['cost'] } %>
+                                                <%= label_tag addition['addition_name'] + " $" + sprintf('%.2f', addition['cost']) %>
+                                            </h4>
                                             <% end %>
-                                            <br>
+                                        </div>
+                                        <br>
+
+                                        <div id="total-cost">
+                                            <p><span style="font-weight:bold">Total Cost:</span> $0.00</p>
+                                        </div>
                                         <% else %>
-                                            <br>
+                                        <br>
+                                        <p>There are no additions for this order.</p>
+                                        <br>
                                         <% end %>
+
+                                        <script>
+                                        document.addEventListener('DOMContentLoaded', function() {
+                                            // Get all checkboxes with the class 'food-addition-checkbox'
+                                            var checkboxes = document.querySelectorAll('.food-addition-checkbox');
+
+                                            // Get the elements to display the original cost and total cost
+                                            var originalCostElement = document.getElementById('original-cost-value');
+                                            var totalCostElement = document.getElementById('total-cost');
+
+                                            // Initialize the original cost and total cost
+                                            var originalCost = parseFloat(originalCostElement.innerText);
+                                            var totalCost = originalCost;
+
+                                            // Function to update the total cost
+                                            function updateTotalCost() {
+                                            totalCost = originalCost;
+
+                                            checkboxes.forEach(function(checkbox) {
+                                                // If the checkbox is checked, add its cost to the total
+                                                if (checkbox.checked) {
+                                                totalCost += parseFloat(checkbox.dataset.cost);
+                                                }
+                                            });
+
+                                            // Update the total cost element
+                                            totalCostElement.innerHTML = '<p><span style="font-weight:bold">Total Cost:</span> $' + totalCost.toFixed(2) + '</p>';
+                                            }
+
+                                            // Calculate the total cost initially
+                                            updateTotalCost();
+
+                                            // Attach a change event listener to each checkbox
+                                            checkboxes.forEach(function(checkbox) {
+                                            checkbox.addEventListener('change', updateTotalCost);
+                                            });
+                                        });
+                                        </script>
+
                                         
                                         <div class="flex gap-6">
                                             <button class="bg-gray-600 rounded-full w-32 h-11 text-white font-semibold cancel">
@@ -949,7 +997,7 @@
                 <%= form.hidden_field :list_food_id, value: foodIds %>
                 <%= form.hidden_field :list_food_notes, value: foodNotes %>
                 <%= form.hidden_field :total_cost, value: @total %>
-                <%= form.submit "Submit hi", class: "btn btn-primary" %>
+                <%= form.submit "Submit", class: "btn btn-primary" %>
                 <% end %>
             </span>
             </div>

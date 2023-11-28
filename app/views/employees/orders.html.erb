@@ -10,6 +10,9 @@
     }
 </style>
 
+<script src="https://kit.fontawesome.com/yourcode.js" crossorigin="anonymous"></script>
+
+
 <div class="flex flex-1 w-full flex-col items-center justify-center text-center" style="padding-top:25px !important">
     <h1 class="mx-auto max-w-4xl font-display text-3xl font-bold tracking-normal text-white-300 dark:text-gray-300 sm:text-4xl" style="color:black; margin-bottom:10px !important">
             Order
@@ -80,12 +83,25 @@
                 end.html_safe %>
 
                         <% @orders.select { |order| order.completed_order == status }.each do |order| %>
-                            <div class="border-t-2 mt-4 pt-4 text-left">
-                                <h3>Order ID: <%= order.order_id %></h3>
-                                <p>Customer Name: <%= Customer.find(order.customer_id).first_name %></p>
-                                <p>Phone Number: <%= Customer.find(order.customer_id).phone_number %></p>
-                                <p>Total Cost: $<%= order.total_cost %></p>
+                            <div class="border-t-2 mt-4 pt-4 text-left border-gray-200">
+                                <div class="bg-gray-100 p-3 rounded-md shadow-md mb-4">
+                                    <!--<h3 class="text-xl font-semibold mb-2">Order ID: <%= order.order_id %></h3>-->
+                                    <h3 class="text-xl font-semibold mb-2"><i class='fas fa-user-circle'></i> Customer: <%= Customer.find(order.customer_id).first_name %></h3>
+                                    <p class="mb-1"> Phone-Number: <%= number_to_phone(Customer.find(order.customer_id).phone_number) %></p>
+                                    <!--<p class="mb-1">Items:</p>-->
+                                    <div class="bg-gray-200 p-2 rounded-md">
 
+                                        <!--<p class="mb-1">Dummy item</p>-->
+                                        <% amount_of_items = order.list_food_id.split(" ") %>
+                                        <% result_array = amount_of_items.map do |element| %>
+                                            <% int = element.gsub('"', '').to_i %>
+                                            <%=Food.find_by(id: int)&.food_name %><br>
+                                        <%end%>
+
+
+                                    </div>
+                                    <p class="font-semibold mt-2 mb-1">Total Cost: $<%= order.total_cost %></p>
+                                
 
                                 <% contents = order.list_food_notes.gsub(/\[|\]|"/, '').split(',') %>
 
@@ -120,9 +136,10 @@
                                 <p>
                                     <%= form_tag completingOrder_path, method: :post do %>
                                         <%= hidden_field_tag :id, order.id %>
-                                        <%= submit_tag order.completed_order == 1 ? "Complete Order" : (order.completed_order == 0 ? "Start Order" : "Restart Order"), class: "bg-blue-500 text-white p-2 rounded" %>
+                                        <%= submit_tag order.completed_order == 1 ? "Mark as Completed" : (order.completed_order == 0 ? "Mark as Started" : "Remove"), class: "bg-gray-500 text-white p-2 rounded" %>
                                     <% end %>
                                 </p>
+                                </div>
                             </div>
                         <% end %>
                 </div>
@@ -134,7 +151,7 @@
 </section>
 
 
-<div class="container mx-auto mt-2 border-t-2" style="padding-top:10px !important">
+<div class="container mx-auto mt-2 border-t-2 mb-6" style="padding-top:10px !important">
   <%= form_tag adminKey_path, method: :post do %>
     <div class="max-w-sm mx-auto mt-6 bg-white rounded-md shadow-md overflow-hidden">
       <div class="px-6 py-4 bg-cyan-500 text-white">

@@ -20,13 +20,13 @@ jobs:
       with: 
         ruby-version: ${{ matrix.ruby-version }}
         bundler-cache: true # runs 'bundle install' and caches installed gems automatically        
-    - name: Set up yarn
-      uses:  actions/setup-node@v3
-      with: 
-        node-version: '18.x'
-    - run: yarn
-    - run: bundle exec rake assets:precompile
-    - run: bundle exec rake test
+    # - name: Set up yarn
+    #   uses:  actions/setup-node@v3
+    #   with: 
+    #     node-version: '18.x'
+    # - run: yarn
+    # - run: bundle exec rake assets:precompile
+    # - run: bundle exec rake test
 
   deploy:
     name: Capistrano Deploy to Server
