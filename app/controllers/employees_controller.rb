@@ -18,6 +18,10 @@ class EmployeesController < ApplicationController
         @food = Food.find(params[:id])
         @additions = Addition.all
     end
+
+    def oldOrders
+        @oldOrders = Order.where(completed_order: 3)
+    end
     
     def checkCredentials
         username = params[:username]
@@ -137,7 +141,8 @@ class EmployeesController < ApplicationController
         @order.completed_order = case @order.completed_order
         when 0 then 1
         when 1 then 2
-        else 3
+        when 2 then 3
+        else 1
         end
       
         if @order.save
