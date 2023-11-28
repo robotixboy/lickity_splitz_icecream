@@ -51,7 +51,7 @@
       <div class="flex items-center space-x-1 hidden md:flex">
           <a href="https://www.google.com/maps/dir//231+Main+St,+Winchendon,+MA+01475/@42.6698047,-72.1603031,12z/data=!4m9!4m8!1m0!1m5!1m1!1s0x89e15d89409df463:0x913e4cc313dee698!2m2!1d-72.0779019!2d42.669708!3e0?entry=ttu" class="py-4 px-3 text-gray-700 hover:text-gray-900">Get Directions</a>
             <% if session[:customer].nil? %>
-              <%= link_to "Login", login_path, class: "py-2 px-3 text-gray-700 hover:text-gray-900 text-black rounded", style: "background-color: #0CC0DF" %>
+              <%= link_to "Login", login_path, class: "py-2 px-3 text-gray-700 hover:text-gray-900 text-white rounded", style: "background-color: #0CC0DF" %>
             <% else %>
               <button id="open_customer_view" type="button" class="relative inline-flex items-center px-5 py-2.5 text-sm font-medium text-center text-white rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" style="background-color:#0CC0DF">
                 <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 576 512" style="padding-right:5px;">
