@@ -95,13 +95,7 @@
                                         <% amount_of_items = order.list_food_id.split(" ") %>
                                         <% result_array = amount_of_items.map do |element| %>
                                             <% int = element.gsub('"', '').to_i %>
-                                            <%= int %>
-                                            <%
-=begin%>
- <%food_name = food_record.food_name%>
-                                            <%= food_name %> 
-<%
-=end%>
+                                            <%=Food.find_by(id: int)&.food_name %><br>
                                         <%end%>
 
 
