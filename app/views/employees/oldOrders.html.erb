@@ -10,7 +10,7 @@
                                     <h3 class="text-xl font-semibold mb-2"><i class='fas fa-user-circle'></i> Customer: <%= Customer.find(order.customer_id).first_name %></h3>
                                     <p class="mb-1"> Phone-Number: <%= number_to_phone(Customer.find(order.customer_id).phone_number) %></p>
                                     <p class="mb-1"> Date Created: <%= order.created_at%></p>
-                                    <p class="mb-1"> Date Since Created: About <%= distance_of_time_in_words(DateTime.now,order.created_at)  %> Ago </p>
+                                    <p class="mb-1"> Date Since Created: About <%= distance_of_time_in_words(DateTime.now,order.created_at)  %> ago </p>
                                     <!--<p class="mb-1">Items:</p>-->
                                     <div class="bg-gray-200 p-2 rounded-md">
 
