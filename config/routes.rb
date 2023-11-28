@@ -21,6 +21,7 @@ Rails.application.routes.draw do
   get '1a2d3m4i5n6H7u8b', to: 'employees#home', as: 'employees_home' #Administration Hub :: if the Authorization Key inst correct will redirect you to login or to Non Admin Orders View
   get '1c2u3s4t5o6m7e8r9O0r1d2e3r4s', to: 'employees#orders', as: 'customer_orders' #Customer's Order View :: Shows all non started orders
   get '1E2m3p4l5o6y7e8L9o0g1i2n', to: 'employees#login', as: 'employees_admin_login' #Employee Login
+  get 'o1l2d3O4r5d6e7r8s9', to: 'employees#oldOrders', as: 'employees_old_orders' #Employee Login
 
   #Routes for customers to order Items
   get 'confirmation', to: 'menu#confirmation', as: 'order_confirmation'
