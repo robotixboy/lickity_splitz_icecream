@@ -77,6 +77,8 @@ class MenuController < ApplicationController
     end
 
     def confirmation
+        session[:employee] = nil
+        session[:authorization_key] = nil
         if session[:customer].nil? || session[:customer].blank?
             redirect_to :root
         end
