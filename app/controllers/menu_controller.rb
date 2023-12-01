@@ -77,7 +77,12 @@ class MenuController < ApplicationController
     end
 
     def confirmation
-        @customers_temp_orders = TempOrder.where(customer_id: session[:customer]["id"])
+        session[:employee] = nil
+        session[:authorization_key] = nil
+        if session[:customer].nil? || session[:customer].blank?
+            redirect_to :root
+        end
+        @orders = Order.where(customer_id: session["customer"]["id"])
     end
 
     def order
