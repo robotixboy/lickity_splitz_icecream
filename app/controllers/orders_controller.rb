@@ -22,11 +22,11 @@ class OrdersController < ApplicationController
             puts "DELETED"
               @customersFoodItems.each(&:destroy)
           end
-          redirect_to root_url
+          redirect_to order_confirmation_url
         else
           render root_url # Render the 'home' template if saving fails
         end
-        reset_session
+        #reset_session
     end
     
     private
