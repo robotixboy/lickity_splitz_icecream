@@ -21,9 +21,11 @@
       <% @orders.each do |order| %>
         <% if !distance_of_time_in_words(DateTime.now,order.created_at).include?('day') %>
           <% if order.completed_order < 2 %>
+            <i class="fas fa-circle-notch fa-spin text-4xl text-yellow-500 mb-4"></i>
             <h1><strong>Still Working on your order</strong></h1>
             <h3>It shuodnt take too long</h3>
           <% else %>
+            <i class="fas fa-check text-4xl text-green-500 mb-4"></i>
             <h1><strong>Your order is done</strong></h1>
             <h3>You may come pick it up :I</h3>
           <% end %>
