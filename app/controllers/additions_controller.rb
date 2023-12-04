@@ -14,6 +14,6 @@ class AdditionsController < ApplicationController
 
     private
     def addition_params
-        params.require(:addition).permit(:addition_name, :cost)
+        params.require(:addition).permit(:addition_name, :cost, :isRadioButton)
     end
 end

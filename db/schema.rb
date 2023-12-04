@@ -10,12 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_11_13_153347) do
+ActiveRecord::Schema[7.0].define(version: 2023_12_01_161651) do
   create_table "additions", force: :cascade do |t|
     t.string "addition_name"
     t.float "cost"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "isRadioButton"
   end
 
   create_table "customers", force: :cascade do |t|
