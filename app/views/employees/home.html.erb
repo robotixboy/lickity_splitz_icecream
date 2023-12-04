@@ -112,6 +112,14 @@
                     <%= f.text_field :cost, class: "appearance-none border border-gray-400 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline", id: "card-number", placeholder: "" %>
                   </div>
 
+                  <div class="mb-4">
+                    <%= f.label :isRadioButton, "Addition Cost", class: "block text-gray-700 font-bold mb-2" %>
+                    <%= f.radio_button :isRadioButton, true %>
+                    <%= f.label :isRadioButton, "Descision" %>
+                    <%= f.radio_button :isRadioButton, false %>
+                    <%= f.label :isRadioButton, "Multiple Choice" %>
+                  </div>
+
                   <div class="col-span-3 md:col-span-1 mt-2">
                     <%= button_tag(type: 'submit', class: 'bg-cyan-600 hover:bg-cyan-700 text-white font-bold py-2 px-4 rounded') do %>
                       <%= content_tag(:i, '', class: 'fa fa-plus-square', style: 'padding-right:5px') %> Add Addition

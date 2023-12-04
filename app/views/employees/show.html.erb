@@ -23,7 +23,7 @@
         <div class="mt-4">
           <%= form_tag storing_additions_path, method: :post do %>
             <%= hidden_field_tag "selected_addition[#{addition.addition_name}_cost]", addition.cost %>
-            <%= check_box_tag "selected_addition[#{addition.addition_name}]", addition.id, nil, data: { cost: addition.cost, id: addition.id } %>
+            <%= check_box_tag "selected_addition[#{addition.addition_name}]", addition.id, nil, data: { cost: addition.cost, id: addition.id, isRadioButton: addition.isRadioButton } %>
           <% end %>
         </div>
       </div>
@@ -59,9 +59,10 @@
             var id = parseInt(cb.dataset.id);
             var name = cb.getAttribute('name').replace('selected_addition[', '').replace(']', '');
             var cost = parseFloat(cb.dataset.cost);
+            var radioButton = cb.dataset.isradiobutton;
             var created_at = cb.dataset.created_at;
             var updated_at = cb.dataset.updated_at; 
-            return `{"id"=>${id}, "addition_name"=>"${name}", "cost"=>${cost}, "created_at"=>"${created_at}", "updated_at"=>"${updated_at}"}`;
+            return `{"id"=>${id}, "addition_name"=>"${name}", "cost"=>${cost}, "isRadioButton"=>${radioButton}, "created_at"=>"${created_at}", "updated_at"=>"${updated_at}"}`;
           });
 
         outputTextarea.value = JSON.stringify(selectedAdditions);
