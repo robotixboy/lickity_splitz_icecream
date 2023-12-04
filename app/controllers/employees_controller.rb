@@ -6,7 +6,7 @@ class EmployeesController < ApplicationController
         @orders = Order.all
         @foodTags = FoodTag.all
 
-        if session[:authorization_key] == "80085"
+        if session[:authorization_key] == "54321"
         elsif session[:employee].blank? || session[:employee].nil?
             redirect_to employees_admin_login_url
         else
@@ -38,7 +38,7 @@ class EmployeesController < ApplicationController
 
     def adminKey
         session[:authorization_key] = params[:authorizationKey]
-        if session[:authorization_key] == "80085"
+        if session[:authorization_key] == "54321"
             redirect_to employees_home_url
         else
             redirect_to customer_orders_path
