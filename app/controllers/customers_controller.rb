@@ -5,7 +5,7 @@ class CustomersController < ApplicationController
     phoneNumber = params[:customer][:phone_number]
     customerFound = Customer.find_by(first_name: firstName, phone_number: phoneNumber)
 
-    if customerFound.blank?
+    if customerFound.blank? #TESTING
       if @customer.save
         redirect_to menu_order_path
       else
